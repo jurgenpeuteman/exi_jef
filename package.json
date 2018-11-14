@@ -1,0 +1,20 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "main": "script.js",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^3.0.9",
+    "johnny-five": "^1.0.0",
+    "osc": "^2.2.4",
+    "three": "^0.98.0"
+  },
+  "scripts": {
+    "dev": "electromon ./main.js",
+    "rebuild": "./node_modules/.bin/electron-rebuild"
+  },
+  "devDependencies": {
+    "electromon": "^1.0.10",
+    "electron-rebuild": "^1.8.2"
+  }
+}
