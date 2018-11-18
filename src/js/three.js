@@ -11,9 +11,7 @@
     HEIGHT,
     WIDTH,
     renderer,
-    container;
-
-  let v;
+    sphere;
 
   const createScene = () => {
     HEIGHT = window.innerHeight;
@@ -41,34 +39,30 @@
     });
     renderer.setSize(WIDTH, HEIGHT);
 
-    document.body.appendChild( renderer.domElement );
-    //container = document.getElementById(`canvas`);
-    //container.appendChild(renderer.domElement);
+    document.body.appendChild(renderer.domElement);
 
     window.addEventListener(`resize`, handleWindowResize, false);
     window.scene = scene;
   };
 
   const createSphere = () => {
-    let geometry = new THREE.SphereGeometry( 100, 200, 200 );
-		let material = new THREE.MeshBasicMaterial({color: 0xffff00});
-		sphere = new THREE.Mesh( geometry, material );
-		scene.add(sphere);
-  }
+    const geometry = new THREE.SphereGeometry(100, 200, 200);
+    const material = new THREE.MeshBasicMaterial({color: 0xffff00});
+    sphere = new THREE.Mesh(geometry, material);
+    scene.add(sphere);
+  };
 
-  const controlBal = v => {
-    let sx = sphere.position.x;
-    let sr = sphere.geometry.boundingSphere.radius*2;
+  const controlBall = v => {
+    const sx = sphere.position.x;
+    const sr = sphere.geometry.boundingSphere.radius * 2;
 
     //WIDTH / 2 omdat het null punt van three (voor een of andere reden) in het midden staat
     //dus vb: Width = 900  ->  0 + 450 is helemaal rechts van scherm / 0 - 450 is helemaal links het scherm
-    if (v > .5  && sx < WIDTH/2 - sr) {
+    if (v > .5  && sx < WIDTH / 2 - sr) {
       sphere.position.x += 10;
-    } else if (v < .5  && sx > -WIDTH/2 + sr) {
+    } else if (v < .5  && sx > - WIDTH / 2 + sr) {
       sphere.position.x -= 10;
     }
-
-
   };
 
   const handleWindowResize = () => {
@@ -88,9 +82,7 @@
     createScene();
     createSphere();
     loop();
-    BalanceBoardReader.on(`oscMessage`, controlBal);
-    BalanceBoardReader.setupOSC();
-
+    BalanceBoardReader.on(`oscMessage`, controlBall);
   };
 
   init();
