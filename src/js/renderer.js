@@ -3,13 +3,13 @@
   const Arduino = require(`./classes/Arduino.js`);
 
   const getBalanceValue = v => {
-    console.log(v);
+    console.log('balanceboard value ok!');
   };
 
   const getPressedButton = name => {
     console.log(name);
   };
-  
+
   const init = () => {
     BalanceBoardReader.setupOSC();
     Arduino.setupArduino();
