@@ -10,11 +10,15 @@
     "three": "^0.98.0"
   },
   "scripts": {
-    "dev": "electromon ./main.js",
+    "start": "electromon ./main.js",
+    "dev": "electron ./main.js",
     "rebuild": "./node_modules/.bin/electron-rebuild"
   },
   "devDependencies": {
     "electromon": "^1.0.10",
-    "electron-rebuild": "^1.8.2"
+    "electron-rebuild": "^1.8.2",
+    "eslint": "^5.9.0",
+    "eslint-config-devine": "^2.0.1",
+    "eventemitter2": "^5.0.1"
   }
 }
