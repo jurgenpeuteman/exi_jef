@@ -1,5 +1,6 @@
 {
   const BalanceBoardReader = require(`./classes/BalanceBoardReader.js`);
+  const Arduino = require(`./classes/Arduino.js`);
   const THREE = require(`three`);
 
   const loadingState = require(`./states/loadingState.js`);
@@ -16,8 +17,6 @@
     WIDTH,
     renderer,
     sphere;
-
-  
 
   const createScene = () => {
     HEIGHT = window.innerHeight;
@@ -53,23 +52,23 @@
 
   const createSphere = () => {
     const geometry = new THREE.SphereGeometry(100, 200, 200);
-    const material = new THREE.MeshBasicMaterial({color: 0xffff00});
+    const material = new THREE.MeshBasicMaterial({
+      color: 0xffff00
+    });
     sphere = new THREE.Mesh(geometry, material);
     scene.add(sphere);
   };
 
   const controlBall = v => {
-    
     console.log(v);
-    
     const sx = sphere.position.x;
     const sr = sphere.geometry.boundingSphere.radius * 2;
 
     //WIDTH / 2 omdat het null punt van three (voor een of andere reden) in het midden staat
     //dus vb: Width = 900  ->  0 + 450 is helemaal rechts van scherm / 0 - 450 is helemaal links het scherm
-    if (v > .5  && sx < WIDTH / 2 - sr) {
+    if (v > .5 && sx < WIDTH / 2 - sr) {
       sphere.position.x += 10;
-    } else if (v < .5  && sx > - WIDTH / 2 + sr) {
+    } else if (v < .5 && sx > - WIDTH / 2 + sr) {
       sphere.position.x -= 10;
     }
   };
@@ -100,7 +99,6 @@
     document.body.addEventListener(`keydown`, keyPressed, false);
   };
 
-
   const loadMenu = () => {
     menuState(true);
     const button = document.getElementById(`startButton`);
@@ -117,10 +115,30 @@
     gameState(true);
   };
 
+  const getPressedButton = name => {
+    switch (name) {
+    case `L`:
+      console.log(`Left`);
+      break;
+    case `SL`:
+      console.log(`Semi left`);
+      break;
+    case `R`:
+      console.log(`Right`);
+      break;
+    case `SR`:
+      console.log(`Semi right`);
+      break;
+    default:
+      console.log(`Left`);
+      break;
+    }
+  };
+
   const init = () => {
     loadMenu();
-    BalanceBoardReader.on(`oscMessage`, controlBall);
-    
+    BalanceBoardReader.on(`oscMessage`, controlBall); 
+    Arduino.on(`btnPressed`, getPressedButton);
   };
 
   init();
