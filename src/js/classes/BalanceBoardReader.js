@@ -12,7 +12,7 @@ class BalanceBoardReader extends EventEmitter2 {
       localPort: 8765
     });
 
-    udpPort.on(`ready`, () => console.log(`Listening for OSC over UDP.`));
+    udpPort.on(`ready`, () => this.emit(`boardReady`, true));
     udpPort.on(`message`, oscMessage => this.getWiiValue(oscMessage));
     udpPort.on(`error`, err => console.log(err));
     udpPort.open();

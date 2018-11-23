@@ -23,7 +23,6 @@ class Arduino extends EventEmitter2 {
     });
 
     board.on(`ready`, () => {
-      console.log(`Arduino ready`);
       const btnLeft = new five.Button(11);
       const btnSemiLeft = new five.Button(10);
       const btnSemiRight = new five.Button(9);
@@ -47,9 +46,9 @@ class Arduino extends EventEmitter2 {
       btnRight.on(`press`, () => this.getArduinoInput(btnRight.custom.name));
       btnSemiRight.on(`press`, () => this.getArduinoInput(btnSemiRight.custom.name));
 
+      this.emit(`arduinoReady`, true);
     });
   }
-
 
   getArduinoInput(name) {
     this.emit(`btnPressed`, name);
