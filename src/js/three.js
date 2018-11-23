@@ -2,6 +2,10 @@
   const BalanceBoardReader = require(`./classes/BalanceBoardReader.js`);
   const THREE = require(`three`);
 
+  const loadingState = require(`./states/loadingState.js`);
+  const menuState = require(`./states/menuState.js`);
+  const gameState = require(`./states/gameState.js`);
+
   let scene,
     camera,
     fieldOfView,
@@ -12,6 +16,8 @@
     WIDTH,
     renderer,
     sphere;
+
+  
 
   const createScene = () => {
     HEIGHT = window.innerHeight;
@@ -53,6 +59,9 @@
   };
 
   const controlBall = v => {
+    
+    console.log(v);
+    
     const sx = sphere.position.x;
     const sr = sphere.geometry.boundingSphere.radius * 2;
 
@@ -63,6 +72,18 @@
     } else if (v < .5  && sx > - WIDTH / 2 + sr) {
       sphere.position.x -= 10;
     }
+  };
+
+  const keyPressed = e => {
+    switch (e.key) {
+    case `ArrowLeft`:
+      sphere.position.x -= 10;
+      break;
+    case `ArrowRight`:
+      sphere.position.x += 10;
+      break;
+    }
+    e.preventDefault();
   };
 
   const handleWindowResize = () => {
@@ -76,13 +97,30 @@
   const loop = () => {
     requestAnimationFrame(loop);
     renderer.render(scene, camera);
+    document.body.addEventListener(`keydown`, keyPressed, false);
   };
 
-  const init = () => {
+
+  const loadMenu = () => {
+    menuState(true);
+    const button = document.getElementById(`startButton`);
+    button.addEventListener(`click`, loadGame);
+  };
+
+  const loadGame = () => {
+    loadingState(true);
+    menuState(false);
     createScene();
     createSphere();
     loop();
+    loadingState(false);
+    gameState(true);
+  };
+
+  const init = () => {
+    loadMenu();
     BalanceBoardReader.on(`oscMessage`, controlBall);
+    
   };
 
   init();

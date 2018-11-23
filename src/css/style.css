@@ -10,4 +10,24 @@ html {
 
 body {
   background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.hide {
+  display: none;
+}
+
+.menuContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.menuContainer h1 {
+  font-size: 5rem;
+}
+
+.menuContainer button {
 }
