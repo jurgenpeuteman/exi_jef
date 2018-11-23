@@ -1,26 +1,34 @@
-const loadingState = bool => {
+class loadingState {
 
-  const container = document.querySelector(`.loadingGameContainer`);
-
-  if (bool) {
-    if (!container) {
-      const loadingGameContainer = document.createElement(`div`);
-      loadingGameContainer.classList.add(`loadingGameContainer`);
-      document.body.appendChild(loadingGameContainer);
-
-      const loadingTitle = document.createElement(`h1`);
-      loadingTitle.innerHTML = `LOADING`;
-      loadingTitle.classList.add(`loadingTitle`);
-      loadingGameContainer.appendChild(loadingTitle);
-    } else {
-      container.classList.toggle(`hide`);
-    }
-    
-    console.log(`loading`);
-  } else {
-    console.log(`not loading`);
-    container.classList.toggle(`hide`);
+  constructor() {
+    this.name = `loadingState`;
   }
-};
+
+  setActive(bool) {
+    const container = document.querySelector(`.loadingGameContainer`);
+
+    if (bool) {
+      if (!container) {
+        const loadingGameContainer = document.createElement(`div`);
+        loadingGameContainer.classList.add(`loadingGameContainer`);
+        document.body.appendChild(loadingGameContainer);
+
+        const loadingTitle = document.createElement(`h1`);
+        loadingTitle.innerHTML = `LOADING`;
+        loadingTitle.classList.add(`loadingTitle`);
+        loadingGameContainer.appendChild(loadingTitle);
+      } else {
+        container.classList.toggle(`hide`);
+      }
+      console.log(`loading`);
+    } else {
+      if (container) {
+        console.log(`not loading`);
+        container.classList.toggle(`hide`);
+      }
+      
+    }
+  }
+}
   
-module.exports = loadingState;
+module.exports = new loadingState();

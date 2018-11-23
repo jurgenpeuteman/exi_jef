@@ -5,7 +5,11 @@
 
   const loadingState = require(`./states/loadingState.js`);
   const menuState = require(`./states/menuState.js`);
-  const gameState = require(`./states/gameState.js`);
+
+  const states = [
+    menuState,
+    loadingState
+  ];
 
   let scene,
     camera,
@@ -99,22 +103,24 @@
     document.body.addEventListener(`keydown`, keyPressed, false);
   };
 
-  const loadMenu = () => {
-    menuState(true);
+  const setState = name => {
+    // overloop alle states
+    states.forEach(state => {
+      if (state.name === name) {
+        state.setActive(true);
+      } else {
+        state.setActive(false);
+      }
+    });
+  };
+
+
+  const load = () => {
+    setState(`menuState`);
     const button = document.getElementById(`startButton`);
-    button.addEventListener(`click`, loadGame);
+    button.addEventListener(`click`, () => setState(`loadingState`));
   };
-
-  const loadGame = () => {
-    loadingState(true);
-    menuState(false);
-    createScene();
-    createSphere();
-    loop();
-    loadingState(false);
-    gameState(true);
-  };
-
+  
   const getPressedButton = name => {
     switch (name) {
     case `L`:
@@ -136,7 +142,7 @@
   };
 
   const init = () => {
-    loadMenu();
+    load();
     BalanceBoardReader.on(`oscMessage`, controlBall); 
     Arduino.on(`btnPressed`, getPressedButton);
   };
