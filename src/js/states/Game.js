@@ -1,5 +1,5 @@
 const Scene = require(`./../classes/Scene.js`);
-// const Mouse = require(`./../classes/Mouse.js`);
+//const Mouse = require(`./../classes/Mouse.js`);
 const Arduino = require(`./../classes/Arduino.js`);
 
 class Game {
@@ -16,14 +16,15 @@ class Game {
   init() {
     Scene.create();
     this.loop();
+    //Mouse.createMouse();
 
     Arduino.on(`btnPressed`, this.getPressedButton);
   }
 
   loop() {
-    console.log(`🤬 feking loop`);
+    console.log(`goed bezig loop ❤️!`);
     Scene.renderer.render(Scene.scene, Scene.camera);
-    requestAnimationFrame(this.loop);
+    requestAnimationFrame(() => this.loop());
 
     // Update mouse using the Mouse class' moveMouse method
   }

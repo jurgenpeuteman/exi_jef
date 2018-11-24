@@ -11,7 +11,7 @@
     gameState
   ];
 
-  let board = false,
+  let board = true,
     arduino = false;
 
   const setState = name => {
