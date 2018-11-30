@@ -17,6 +17,7 @@ class Mouse {
   }
 
   moveMouse(v, m) {
+    console.log(v);
     const sx = m.position.x;
     const sr = m.geometry.boundingSphere.radius * 2;
 

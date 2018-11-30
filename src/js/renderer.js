@@ -4,6 +4,8 @@
   const loadingState = require(`./states/Loading.js`);
   const menuState = require(`./states/Menu.js`);
   const gameState = require(`./states/Game.js`);
+  const data = require(`./objects/Data.js`);
+  const THREE = require(`three`);
 
   const states = [
     menuState,
@@ -11,39 +13,35 @@
     gameState
   ];
 
-  let board = true,
-    arduino = true;
-
   const setState = name => {
     states.forEach(state => {
       state.name === name ? state.setActive(true) : state.setActive(false);
     });
   };
 
-  const setupParts = () => {
-    setState(`loadingState`);
-    BalanceBoardReader.setupOSC();
-    Arduino.setupArduino();
-  }; 
-
-  const checkParts = () => {
-    if (arduino && board) {
-      setState(`menuState`);
-      document.querySelector(`.startButton`).addEventListener(`click`, () => setState(`gameState`));
-    }
+  const loadWithJSONLoader = url => {
+    const loader = new THREE.JSONLoader();
+    return new Promise(resolve => {
+      loader.load(url, geometry => {
+        resolve(geometry);
+      });
+    });
   };
 
   const init = () => {
-    setupParts();
+    setState(`loadingState`);
 
-    Arduino.on(`arduinoReady`, () => {
-      arduino = true;
-      checkParts();
-    });
-    BalanceBoardReader.on(`boardReady`, () => {
-      board = true;
-      checkParts();
-    });
+    loadWithJSONLoader(`./assets/models/foot.json`)
+      .then(geometry => {
+        geometry.name = `vans`;
+        data.footGeom = geometry;
+      })
+      .then(() => Arduino.setupArduino())
+      .then(() => BalanceBoardReader.setupOSC())
+      .then(() => {
+        setState(`menuState`);
+        document.querySelector(`.startButton`).addEventListener(`click`, () => setState(`gameState`));
+      });
   };
 
   init();

@@ -38,7 +38,7 @@ class Game {
 
   getMousePosition(v) {
     console.log(v);
-    this.mouse.moveMouse(v, this.mouse.mouse);
+    // this.mouse.moveMouse(v, this.mouse.mouse);
   }
 
   getPressedButton(name) {

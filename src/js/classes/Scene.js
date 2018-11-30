@@ -34,14 +34,17 @@ class Scene {
       antialias: false
     });
     this.renderer.setSize(this.WIDTH, this.HEIGHT);
+    
     document.querySelector(`.container`).appendChild(this.renderer.domElement);
     window.addEventListener(`resize`, this.handleWindowResize, false);
+
     window.scene = this.scene;
   }
 
   handleWindowResize() {
     this.HEIGHT = window.innerHeight;
     this.WIDTH = window.innerWidth;
+
     this.renderer.setSize(this.WIDTH, this.HEIGHT);
     this.camera.aspect = this.WIDTH / this.HEIGHT;
     this.camera.updateProjectionMatrix();
