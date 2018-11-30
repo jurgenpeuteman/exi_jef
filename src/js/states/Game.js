@@ -17,28 +17,20 @@ class Game {
     Scene.create();
     this.createMouse();
 
-    this.loop();
     Arduino.on(`btnPressed`, this.getPressedButton);
-    BalanceBoardReader.on(`oscMessage`, this.getMousePosition);
-    console.log(window);
+    BalanceBoardReader.on(`oscMessage`, v => this.mouse.moveMouse(v));
+
+    this.loop();
   }
 
   createMouse() {
     this.mouse = new Mouse();
-
-    console.log(this.mouse);
     Scene.scene.add(this.mouse.mesh);
   }
 
   loop() {
-    // console.log(`goed bezig loop ❤️!`);
     Scene.renderer.render(Scene.scene, Scene.camera);
     requestAnimationFrame(() => this.loop());
-  }
-
-  getMousePosition(v) {
-    console.log(v);
-    // this.mouse.moveMouse(v, this.mouse.mouse);
   }
 
   getPressedButton(name) {

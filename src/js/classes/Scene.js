@@ -36,7 +36,7 @@ class Scene {
     this.renderer.setSize(this.WIDTH, this.HEIGHT);
     
     document.querySelector(`.container`).appendChild(this.renderer.domElement);
-    window.addEventListener(`resize`, this.handleWindowResize, false);
+    window.addEventListener(`resize`, () => this.handleWindowResize(), false);
 
     window.scene = this.scene;
   }
