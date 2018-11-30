@@ -12,7 +12,7 @@
   ];
 
   let board = true,
-    arduino = false;
+    arduino = true;
 
   const setState = name => {
     states.forEach(state => {

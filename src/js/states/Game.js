@@ -1,5 +1,4 @@
-import Mouse from "./../classes/Mouse.js";
-// const Mouse = require(`./../classes/Mouse.js`);
+const Mouse = require(`./../classes/Mouse.js`);
 const Scene = require(`./../classes/Scene.js`);
 const Arduino = require(`./../classes/Arduino.js`);
 const BalanceBoardReader = require(`./../classes/BalanceBoardReader.js`);
@@ -7,7 +6,7 @@ const BalanceBoardReader = require(`./../classes/BalanceBoardReader.js`);
 class Game {
   constructor() {
     this.name = `gameState`;
-    this.mouse = new Mouse();
+    this.mouse;
   }
 
   setActive(bool) {
@@ -16,12 +15,19 @@ class Game {
 
   setup() {
     Scene.create();
-    this.mouse.createMouse(Scene.scene);
+    this.createMouse();
 
     this.loop();
     Arduino.on(`btnPressed`, this.getPressedButton);
     BalanceBoardReader.on(`oscMessage`, this.getMousePosition);
     console.log(window);
+  }
+
+  createMouse() {
+    this.mouse = new Mouse();
+
+    console.log(this.mouse);
+    Scene.scene.add(this.mouse.mesh);
   }
 
   loop() {

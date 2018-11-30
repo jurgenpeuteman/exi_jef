@@ -34,7 +34,7 @@ class Scene {
       antialias: false
     });
     this.renderer.setSize(this.WIDTH, this.HEIGHT);
-    document.body.appendChild(this.renderer.domElement);
+    document.querySelector(`.container`).appendChild(this.renderer.domElement);
     window.addEventListener(`resize`, this.handleWindowResize, false);
     window.scene = this.scene;
   }

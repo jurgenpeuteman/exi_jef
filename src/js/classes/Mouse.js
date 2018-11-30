@@ -1,27 +1,22 @@
 const THREE = require(`three`);
 
-export default class Mouse {
+class Mouse {
   constructor() {
     this.scene;
     this.x;
     this.mouse;
     this.lives = 3;
-  }
 
-  createMouse(scene) {
-    this.scene = scene;
-
-    const geometry = new THREE.SphereGeometry(100, 200, 200);
-    const material = new THREE.MeshBasicMaterial({
+    const geom = new THREE.SphereGeometry(100, 200, 200);
+    const mat = new THREE.MeshBasicMaterial({
       color: 0xffff00
     });
-    this.mouse = new THREE.Mesh(geometry, material);
-    this.scene.add(this.mouse);
+    
+    this.mesh = new THREE.Mesh(geom, mat);
+    this.mesh.receiveShadow = true;
   }
 
   moveMouse(v, m) {
-    // console.log(v);
-
     const sx = m.position.x;
     const sr = m.geometry.boundingSphere.radius * 2;
 
@@ -39,3 +34,5 @@ export default class Mouse {
     console.log(m.position.x);
   }
 }
+
+module.exports = Mouse;
