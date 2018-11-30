@@ -11,6 +11,9 @@ class Scene {
     this.nearPlane = 1;
     this.farPlane = 10000;
     this.renderer;
+    this.hemisphereLight;
+    this.shadowLight;
+    this.ambientLight;
   }
 
   create() {
@@ -39,6 +42,7 @@ class Scene {
     window.addEventListener(`resize`, () => this.handleWindowResize(), false);
 
     window.scene = this.scene;
+    window.camera = this.camera;
   }
 
   handleWindowResize() {

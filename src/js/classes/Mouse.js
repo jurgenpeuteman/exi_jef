@@ -3,17 +3,17 @@ const Lib = require(`./../functions/lib.js`);
 
 class Mouse {
   constructor() {
-    this.scene;
-    this.x;
     this.mouse;
     this.lives = 3;
+    this.score = 0;
 
     const geom = new THREE.SphereGeometry(100, 200, 200);
     const mat = new THREE.MeshBasicMaterial({
-      color: 0xffff00
+      color: 0xfa7374
     });
     
     this.mesh = new THREE.Mesh(geom, mat);
+    this.mesh.position.y = (- window.innerHeight / 2) + 400;
     this.mesh.receiveShadow = true;
 
     window.myMouse = this;
