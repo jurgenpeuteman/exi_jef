@@ -1,32 +1,38 @@
+import Mouse from "./../classes/Mouse.js";
+// const Mouse = require(`./../classes/Mouse.js`);
 const Scene = require(`./../classes/Scene.js`);
-//const Mouse = require(`./../classes/Mouse.js`);
 const Arduino = require(`./../classes/Arduino.js`);
+const BalanceBoardReader = require(`./../classes/BalanceBoardReader.js`);
 
 class Game {
-
   constructor() {
     this.name = `gameState`;
-    this.mouse;
+    this.mouse = new Mouse();
   }
 
   setActive(bool) {
-    bool ? this.init(this.container) : this.quit(this.container);
+    bool ? this.setup(this.container) : this.quit(this.container);
   }
 
-  init() {
+  setup() {
     Scene.create();
-    this.loop();
-    //Mouse.createMouse();
+    this.mouse.createMouse(Scene.scene);
 
+    this.loop();
     Arduino.on(`btnPressed`, this.getPressedButton);
+    BalanceBoardReader.on(`oscMessage`, this.getMousePosition);
+    console.log(window);
   }
 
   loop() {
-    console.log(`goed bezig loop ❤️!`);
+    // console.log(`goed bezig loop ❤️!`);
     Scene.renderer.render(Scene.scene, Scene.camera);
     requestAnimationFrame(() => this.loop());
+  }
 
-    // Update mouse using the Mouse class' moveMouse method
+  getMousePosition(v) {
+    console.log(v);
+    this.mouse.moveMouse(v, this.mouse.mouse);
   }
 
   getPressedButton(name) {
