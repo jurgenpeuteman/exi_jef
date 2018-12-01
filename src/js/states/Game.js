@@ -23,6 +23,7 @@ class Game {
     this.createMouse();
     this.mouseFootCollisionDetector = new CollisionDetector();
 
+
     Arduino.on(`btnPressed`, v => this.createFoot(this.checkedPressedButton(v)));
     BalanceBoardReader.on(`oscMessage`, v => this.mouse.moveMouse(v));
     this.mouseFootCollisionDetector.on(`collision`, this.handleCollisionMouseFoot);
@@ -77,6 +78,10 @@ class Game {
   }
 
   loop() {
+    console.log(Scene.scene.children[1]); 
+    Scene.scene.children[0].rotation.x += 2;
+    // this.mouse.mesh.rotation.x += .02;
+    // this.mouse.mesh.rotation.y += .02;
     feet.forEach(foot => foot.update());
     // alle voeten buiten beeld wissen uit de array (filter)
     // alle voeten die een collision hebben gehad moeten uit de array gewist worden -> filter op basis van hittarget
