@@ -36,8 +36,8 @@
         geometry.name = `vans`;
         data.footGeom = geometry;
       })
-      .then(() => Arduino.setupArduino())
-      .then(() => BalanceBoardReader.setupOSC())
+      //.then(() => Arduino.setupArduino())
+      //.then(() => BalanceBoardReader.setupOSC())
       .then(() => {
         setState(`menuState`);
         document.querySelector(`.startButton`).addEventListener(`click`, () => setState(`gameState`));
