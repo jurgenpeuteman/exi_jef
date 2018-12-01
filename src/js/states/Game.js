@@ -4,6 +4,7 @@ const Arduino = require(`./../classes/Arduino.js`);
 const BalanceBoardReader = require(`./../classes/BalanceBoardReader.js`);
 const CollisionDetector = require(`./../classes/CollisionDetector.js`);
 const Foot = require(`./../classes/Foot.js`);
+const Dancefloor = require(`./../classes/Dancefloor.js`);
 
 const feet = [];
 
@@ -20,6 +21,7 @@ class Game {
 
   setup() {
     Scene.create();
+    this.createDancefloor();
     this.createMouse();
     this.mouseFootCollisionDetector = new CollisionDetector();
 
@@ -29,6 +31,10 @@ class Game {
     this.mouseFootCollisionDetector.on(`collision`, this.handleCollisionMouseFoot);
 
     this.loop();
+  }
+
+  createDancefloor() {
+    Scene.scene.add(Dancefloor.mesh);
   }
 
   createMouse() {
@@ -54,6 +60,7 @@ class Game {
   }
 
   checkedPressedButton(name) {
+    console.log(name);
     switch (name) {
     case `L`:
       console.log(`Left`);
@@ -78,11 +85,8 @@ class Game {
   }
 
   loop() {
-    console.log(Scene.scene.children[1]); 
-    Scene.scene.children[0].rotation.x += 2;
-    // this.mouse.mesh.rotation.x += .02;
-    // this.mouse.mesh.rotation.y += .02;
     feet.forEach(foot => foot.update());
+    Dancefloor.update();
     // alle voeten buiten beeld wissen uit de array (filter)
     // alle voeten die een collision hebben gehad moeten uit de array gewist worden -> filter op basis van hittarget
 

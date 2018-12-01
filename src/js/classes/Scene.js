@@ -32,9 +32,6 @@ class Scene {
     );
     this.camera.position.set.x = - 100;
     this.camera.position.z = 4000;
-    console.log(this.camera);
-
-    
 
     this.renderer = new THREE.WebGLRenderer({
       alpha: true,
@@ -44,15 +41,6 @@ class Scene {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.BasicShadowMap;
     this.renderer.setSize(this.WIDTH, this.HEIGHT);
-    
-    const geometry = new THREE.SphereGeometry(4000, 100, 100, 1);
-    const material = new THREE.MeshPhongMaterial({color: 0xffffff, wireframe: true});
-    const floor = new THREE.Mesh(geometry, material);
-    floor.position.y = - 4000;
-    floor.position.z = 2000;
-    floor.name = `floor`;
-    this.scene.add(floor);
-
 
     const hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x7E0, .5);
     const ambientLight = new THREE.AmbientLight(0xdc8874, .5);
