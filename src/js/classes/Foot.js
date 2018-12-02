@@ -10,16 +10,17 @@ class Foot {
     const mat = new THREE.MeshBasicMaterial({
       color: 0xfa7374
     });
-
     this.mesh = new THREE.Mesh(data.footGeom, mat);
+    this.mesh.position.set(this.x, 990, 800);
     this.mesh.position.x = this.x;
-    this.mesh.position.y = (- window.innerHeight / 2) + 800;
+    this.mesh.name = `foot`;
     this.mesh.receiveShadow = true;
+    this.mesh.castShadow = true;
+    this.mesh.scale.set(.05, .05, .05);
   }
 
   update() {
-    console.log(`👟 Move forward`);
-    this.mesh.position.y -= 10;
+    this.mesh.position.z += 1;
   }
 }
 

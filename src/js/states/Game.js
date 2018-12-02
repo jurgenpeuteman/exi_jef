@@ -5,6 +5,7 @@ const BalanceBoardReader = require(`./../classes/BalanceBoardReader.js`);
 const CollisionDetector = require(`./../classes/CollisionDetector.js`);
 const Foot = require(`./../classes/Foot.js`);
 const Dancefloor = require(`./../classes/Dancefloor.js`);
+const THREE = require(`three`);
 
 const feet = [];
 
@@ -13,6 +14,7 @@ class Game {
     this.name = `gameState`;
     this.mouse;
     this.mouseFootCollisionDetector;
+    this.group = new THREE.Group();
   }
 
   setActive(bool) {
@@ -43,13 +45,13 @@ class Game {
   }
 
   createFoot(selectedBlock) {
-    const w = window.innerWidth;
-    const block = (w / 4);
+    const w = window.innerWidth / 40;
+    const block = w / 4;
     const blockHalf = block / 2;
 
-    feet.push(new Foot((block * selectedBlock) + blockHalf));
-    console.log(feet[feet.length - 1].mesh);
+    feet.push(new Foot(((block * selectedBlock) - blockHalf) - (w / 2)));
     Scene.scene.add(feet[feet.length - 1].mesh);
+    console.log(feet[feet.length - 1].mesh);
   }
   
   handleCollisionMouseFoot(m, f) {
@@ -60,22 +62,16 @@ class Game {
   }
 
   checkedPressedButton(name) {
-    console.log(name);
     switch (name) {
     case `L`:
-      console.log(`Left`);
       return 1;
     case `SL`:
-      console.log(`Semi left`);
       return 2;
     case `R`:
-      console.log(`Right`);
       return 4;
     case `SR`:
-      console.log(`Semi right`);
       return 3;
     default:
-      console.log(`Left`);
       return 1;
     }
   }
