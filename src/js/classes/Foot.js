@@ -1,5 +1,6 @@
 const THREE = require(`three`);
 const data = require(`./../objects/Data.js`);
+const Lib = require(`./../functions/lib.js`);
 
 class Foot {
   constructor(x) {
@@ -8,7 +9,8 @@ class Foot {
     this.hitTarget = false;
 
     const colors = [`Red`, `Blue`, `Pink`, `Black`, `Green`];
-    const color = colors[Math.floor(Math.random() * colors.length)];
+    const color = colors[Lib.random(0, colors.length)];
+
     const mat = new THREE.TextureLoader().load(`./assets/textures/vans${color}.png`);
     const material = new THREE.MeshStandardMaterial({
       color: 0xffffff,
@@ -18,8 +20,7 @@ class Foot {
       wireframe: false
     });
   
-    material.name = color;
-    this.mesh = new THREE.Mesh(data.footGeom, mat);
+    this.mesh = new THREE.Mesh(data.footGeom, material);
     this.mesh.position.set(this.x, 990, 800);
     this.mesh.position.x = this.x;
     this.mesh.name = `foot`;

@@ -1,5 +1,4 @@
 const THREE = require(`three`);
-const loader = new THREE.JSONLoader();
 
 class Scene {
   constructor() {
