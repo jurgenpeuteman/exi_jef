@@ -6,27 +6,16 @@ class Mouse {
     this.mouse;
     this.lives = 3;
     this.score = 0;
-
-    const cube = new THREE.CubeGeometry(100, 100, 100);
-    const mat = new THREE.MeshPhongMaterial({color: 0xffffff});
-    this.mesh = new THREE.Mesh(cube, mat);
-    this.mesh.position.y = - 200;
-    this.mesh.position.z = 3500;
+    const geom = new THREE.CubeGeometry(5, 5, 5);
+    const mat = new THREE.MeshPhongMaterial({
+      color: 0x0e2255,
+      flatShading: true
+    });
+    this.mesh = new THREE.Mesh(geom, mat);
+    this.mesh.name = `Mouse`;
     this.mesh.receiveShadow = true;
     this.mesh.castShadow = true;
-
-    /*
-    const geom = new THREE.SphereGeometry(100, 200, 200);
-    const mat = new THREE.MeshBasicMaterial({
-      color: 0xfa7374
-    });
-    
-    this.mesh = new THREE.Mesh(geom, mat);
-    this.mesh.position.y = (- window.innerHeight / 2) + 400;
-    this.mesh.receiveShadow = true;
-    */
-
-    window.myMouse = this;
+    this.mesh.position.set(0, 990, 980);
   }
 
   moveMouse(v) {

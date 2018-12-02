@@ -19,25 +19,17 @@ class Foot {
     });
   
     material.name = color;
-
-    /*
-    const mat = new THREE.MeshBasicMaterial({
-      color: 0xfa7374
-    });
-*/
-    this.mesh = new THREE.Mesh(data.footGeom, material);
+    this.mesh = new THREE.Mesh(data.footGeom, mat);
+    this.mesh.position.set(this.x, 990, 800);
     this.mesh.position.x = this.x;
-    this.mesh.position.z = 3500;
-    this.mesh.castShadow = true;
-    this.mesh.geometry.computeVertexNormals();
-    //this.mesh.scale.set(.1, .1, .1);
-    //this.mesh.position.y = (- window.innerHeight / 2) + 800;
+    this.mesh.name = `foot`;
     this.mesh.receiveShadow = true;
+    this.mesh.castShadow = true;
+    this.mesh.scale.set(.05, .05, .05);
   }
 
   update() {
-    console.log(`👟 Move forward`);
-    this.mesh.position.y -= 10;
+    this.mesh.position.z += 1;
   }
 }
 

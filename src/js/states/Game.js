@@ -4,6 +4,8 @@ const Arduino = require(`./../classes/Arduino.js`);
 const BalanceBoardReader = require(`./../classes/BalanceBoardReader.js`);
 const CollisionDetector = require(`./../classes/CollisionDetector.js`);
 const Foot = require(`./../classes/Foot.js`);
+const Dancefloor = require(`./../classes/Dancefloor.js`);
+const THREE = require(`three`);
 
 const feet = [];
 
@@ -12,6 +14,7 @@ class Game {
     this.name = `gameState`;
     this.mouse;
     this.mouseFootCollisionDetector;
+    this.group = new THREE.Group();
   }
 
   setActive(bool) {
@@ -20,6 +23,7 @@ class Game {
 
   setup() {
     Scene.create();
+    this.createDancefloor();
     this.createMouse();
     this.mouseFootCollisionDetector = new CollisionDetector();
     
@@ -30,19 +34,23 @@ class Game {
     this.loop();
   }
 
+  createDancefloor() {
+    Scene.scene.add(Dancefloor.mesh);
+  }
+
   createMouse() {
     this.mouse = new Mouse();
     Scene.scene.add(this.mouse.mesh);
   }
 
   createFoot(selectedBlock) {
-    const w = window.innerWidth;
-    const block = (w / 4);
+    const w = window.innerWidth / 40;
+    const block = w / 4;
     const blockHalf = block / 2;
 
-    feet.push(new Foot((block * selectedBlock) + blockHalf));
-    console.log(feet[feet.length - 1].mesh);
+    feet.push(new Foot(((block * selectedBlock) - blockHalf) - (w / 2)));
     Scene.scene.add(feet[feet.length - 1].mesh);
+    console.log(feet[feet.length - 1].mesh);
   }
   
   handleCollisionMouseFoot(m, f) {
@@ -55,19 +63,14 @@ class Game {
   checkedPressedButton(name) {
     switch (name) {
     case `L`:
-      console.log(`Left`);
       return 1;
     case `SL`:
-      console.log(`Semi left`);
       return 2;
     case `R`:
-      console.log(`Right`);
       return 4;
     case `SR`:
-      console.log(`Semi right`);
       return 3;
     default:
-      console.log(`Left`);
       return 1;
     }
   }
@@ -77,11 +80,8 @@ class Game {
   }
 
   loop() {
-    Scene.scene.children[0].rotation.x -= .001;
-    //Scene.camera.position.z += 10;
-    // this.mouse.mesh.rotation.x += .02;
-    // this.mouse.mesh.rotation.y += .02;
     feet.forEach(foot => foot.update());
+    Dancefloor.update();
     // alle voeten buiten beeld wissen uit de array (filter)
     // alle voeten die een collision hebben gehad moeten uit de array gewist worden -> filter op basis van hittarget
 
