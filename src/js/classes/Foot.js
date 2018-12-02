@@ -5,7 +5,6 @@ const Lib = require(`./../functions/lib.js`);
 class Foot {
   constructor(x) {
     this.x = x;
-    this.mouse;
     this.hitTarget = false;
 
     const colors = [`Red`, `Blue`, `Pink`, `Black`, `Green`];
@@ -15,22 +14,27 @@ class Foot {
     const material = new THREE.MeshStandardMaterial({
       color: 0xffffff,
       map: mat,
-      metalness: .3,
-      roughness: .5,
-      wireframe: false
+      metalness: .2,
+      roughness: 10,
+      wireframe: false,
+      flatShading: true
     });
   
     this.mesh = new THREE.Mesh(data.footGeom, material);
-    this.mesh.position.set(this.x, 990, 800);
-    this.mesh.position.x = this.x;
+    // this.mesh.position.set(this.x, 990, 800);
+    this.mesh.position.set(0, 990, 980);
     this.mesh.name = `foot`;
     this.mesh.receiveShadow = true;
     this.mesh.castShadow = true;
     this.mesh.scale.set(.05, .05, .05);
+
+    // collision box
+    this.feetBox = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+    this.feetBox.setFromObject(this.mesh);
   }
 
   update() {
-    this.mesh.position.z += 1;
+    // this.mesh.position.z += 1;
   }
 }
 

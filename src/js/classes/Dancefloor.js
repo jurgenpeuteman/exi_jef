@@ -7,12 +7,13 @@ class Dancefloor {
     geom.applyMatrix(new THREE.Matrix4().makeRotationX(- Math.PI / 2));
     geom.applyMatrix(new THREE.Matrix4().makeRotationY(- Math.PI / 2));
 
-    const mat = new THREE.MeshPhongMaterial({
+
+    const material = new THREE.MeshPhongMaterial({
       color: 0xff707a,
       flatShading: true,
     });
 
-    this.mesh = new THREE.Mesh(geom, mat);
+    this.mesh = new THREE.Mesh(geom, material);
     this.mesh.receiveShadow = true;
     this.mesh.castShadow = true;
   }

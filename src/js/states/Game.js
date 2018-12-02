@@ -2,19 +2,16 @@ const Mouse = require(`./../classes/Mouse.js`);
 const Scene = require(`./../classes/Scene.js`);
 const Arduino = require(`./../classes/Arduino.js`);
 const BalanceBoardReader = require(`./../classes/BalanceBoardReader.js`);
-const CollisionDetector = require(`./../classes/CollisionDetector.js`);
 const Foot = require(`./../classes/Foot.js`);
 const Dancefloor = require(`./../classes/Dancefloor.js`);
-const THREE = require(`three`);
 
 const feet = [];
+const footBoxes = [];
 
 class Game {
   constructor() {
     this.name = `gameState`;
     this.mouse;
-    this.mouseFootCollisionDetector;
-    this.group = new THREE.Group();
   }
 
   setActive(bool) {
@@ -25,11 +22,9 @@ class Game {
     Scene.create();
     this.createDancefloor();
     this.createMouse();
-    this.mouseFootCollisionDetector = new CollisionDetector();
     
     Arduino.on(`btnPressed`, v => this.createFoot(this.checkedPressedButton(v)));
     BalanceBoardReader.on(`oscMessage`, v => this.mouse.moveMouse(v));
-    this.mouseFootCollisionDetector.on(`collision`, this.handleCollisionMouseFoot);
 
     this.loop();
   }
@@ -44,17 +39,19 @@ class Game {
   }
 
   createFoot(selectedBlock) {
-    const w = window.innerWidth / 40;
+    const w = window.innerWidth / 50;
     const block = w / 4;
     const blockHalf = block / 2;
-
+    
     feet.push(new Foot(((block * selectedBlock) - blockHalf) - (w / 2)));
     Scene.scene.add(feet[feet.length - 1].mesh);
-    console.log(feet[feet.length - 1].mesh);
+
+    footBoxes.push(feet[feet.length - 1].feetBox);
   }
   
   handleCollisionMouseFoot(m, f) {
     console.log(m, f);
+    console.log(`hit`);
     // foot hitTarget = true
     // update score
     // mouse.lives -- 
@@ -75,15 +72,21 @@ class Game {
     }
   }
 
+  checkCollisions() {
+    footBoxes.forEach(box => box.intersectsBox(this.mouse.mouseBox) ? console.log(`hit`) : console.log(`no hit`));
+    // alle voeten die een collision hebben gehad moeten uit de array gewist worden -> filter op basis van hittarget
+  }
+
   quit() {
     if (document.querySelector(`canvas`)) document.querySelector(`canvas`).remove();
   }
 
   loop() {
-    feet.forEach(foot => foot.update());
     Dancefloor.update();
+    feet.forEach(foot => foot.update());
     // alle voeten buiten beeld wissen uit de array (filter)
-    // alle voeten die een collision hebben gehad moeten uit de array gewist worden -> filter op basis van hittarget
+    
+    this.checkCollisions();
 
     Scene.renderer.render(Scene.scene, Scene.camera);
     requestAnimationFrame(() => this.loop());

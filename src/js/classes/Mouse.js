@@ -6,7 +6,7 @@ class Mouse {
     this.mouse;
     this.lives = 3;
     this.score = 0;
-    const geom = new THREE.CubeGeometry(5, 5, 5);
+    const geom = new THREE.CubeGeometry(3, 3, 3);
     const mat = new THREE.MeshPhongMaterial({
       color: 0x0e2255,
       flatShading: true
@@ -16,6 +16,10 @@ class Mouse {
     this.mesh.receiveShadow = true;
     this.mesh.castShadow = true;
     this.mesh.position.set(0, 990, 980);
+
+    // collision box
+    this.mouseBox = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+    this.mouseBox.setFromObject(this.mesh);
   }
 
   moveMouse(v) {
