@@ -1,4 +1,5 @@
 const THREE = require(`three`);
+const loader = new THREE.JSONLoader();
 
 class Scene {
   constructor() {
@@ -32,36 +33,30 @@ class Scene {
     this.camera.position.set(0, 1000, 1000);
 
     this.renderer = new THREE.WebGLRenderer({
-      alpha: true,
-      antialias: false
+      alpha: false,
+      antialias: true
     });
 
     this.renderer.shadowMap.enabled = true;
     this.renderer.setSize(this.WIDTH, this.HEIGHT);
 
-    this.hemisphereLight = new THREE.HemisphereLight(0xaaaaaa, 0x000000, .9);
+    const hemisphereLight = new THREE.HemisphereLight(0xfffafa, 0x000000, .9);
+    this.scene.add(hemisphereLight);
+    const sun = new THREE.DirectionalLight(0xcdc1c5, 0.9);
+    sun.position.set(12, 6, - 7);
+    sun.castShadow = true;
+    this.scene.add(sun);
+    
+    //Set up shadow properties for the sun light
+    sun.shadow.mapSize.width = 256;
+    sun.shadow.mapSize.height = 256;
+    sun.shadow.camera.near = 0.5;
+    sun.shadow.camera.far = 50;
 
-    this.shadowLight = new THREE.DirectionalLight(0xffffff, .9);
-    this.shadowLight.position.set(150, 350, 350);
-
-    this.ambientLight = new THREE.AmbientLight(0xdc8874, .5);
-
-    this.shadowLight.castShadow = true;
-
-    this.shadowLight.shadow.camera.left = - 400;
-    this.shadowLight.shadow.camera.right = 400;
-    this.shadowLight.shadow.camera.top = 400;
-    this.shadowLight.shadow.camera.bottom = - 400;
-    this.shadowLight.shadow.camera.near = 1;
-    this.shadowLight.shadow.camera.far = 1000;
-
-    this.shadowLight.shadow.mapSize.width = 2048;
-    this.shadowLight.shadow.mapSize.height = 2048;
-
-    this.scene.add(this.hemisphereLight);
-    this.scene.add(this.shadowLight);
-    this.scene.add(this.ambientLight);
-
+    this.renderer.gammeFactor = 3;
+    this.renderer.gammaInput = true;
+    this.renderer.gammaOutput = true;
+   
     document.querySelector(`.container`).appendChild(this.renderer.domElement);
     window.addEventListener(`resize`, () => this.handleWindowResize(), false);
 

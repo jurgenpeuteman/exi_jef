@@ -7,9 +7,18 @@ class Foot {
     this.mouse;
     this.hitTarget = false;
 
-    const mat = new THREE.MeshBasicMaterial({
-      color: 0xfa7374
+    const colors = [`Red`, `Blue`, `Pink`, `Black`, `Green`];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const mat = new THREE.TextureLoader().load(`./assets/textures/vans${color}.png`);
+    const material = new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      map: mat,
+      metalness: .3,
+      roughness: .5,
+      wireframe: false
     });
+  
+    material.name = color;
     this.mesh = new THREE.Mesh(data.footGeom, mat);
     this.mesh.position.set(this.x, 990, 800);
     this.mesh.position.x = this.x;

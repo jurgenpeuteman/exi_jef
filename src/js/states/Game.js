@@ -26,8 +26,7 @@ class Game {
     this.createDancefloor();
     this.createMouse();
     this.mouseFootCollisionDetector = new CollisionDetector();
-
-
+    
     Arduino.on(`btnPressed`, v => this.createFoot(this.checkedPressedButton(v)));
     BalanceBoardReader.on(`oscMessage`, v => this.mouse.moveMouse(v));
     this.mouseFootCollisionDetector.on(`collision`, this.handleCollisionMouseFoot);
