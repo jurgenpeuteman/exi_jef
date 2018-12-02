@@ -31,7 +31,7 @@
   const init = () => {
     setState(`loadingState`);
 
-    loadWithJSONLoader(`./assets/models/foot.json`)
+    loadWithJSONLoader(`./assets/models/vansBlack.json`)
       .then(geometry => {
         geometry.name = `vans`;
         data.footGeom = geometry;

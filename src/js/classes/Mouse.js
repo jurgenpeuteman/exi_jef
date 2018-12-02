@@ -12,6 +12,8 @@ class Mouse {
     this.mesh = new THREE.Mesh(cube, mat);
     this.mesh.position.y = - 200;
     this.mesh.position.z = 3500;
+    this.mesh.receiveShadow = true;
+    this.mesh.castShadow = true;
 
     /*
     const geom = new THREE.SphereGeometry(100, 200, 200);

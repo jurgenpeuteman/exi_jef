@@ -22,8 +22,7 @@ class Game {
     Scene.create();
     this.createMouse();
     this.mouseFootCollisionDetector = new CollisionDetector();
-
-
+    
     Arduino.on(`btnPressed`, v => this.createFoot(this.checkedPressedButton(v)));
     BalanceBoardReader.on(`oscMessage`, v => this.mouse.moveMouse(v));
     this.mouseFootCollisionDetector.on(`collision`, this.handleCollisionMouseFoot);
@@ -78,8 +77,8 @@ class Game {
   }
 
   loop() {
-    console.log(Scene.scene.children[1]); 
-    Scene.scene.children[0].rotation.x += 2;
+    Scene.scene.children[0].rotation.x -= .001;
+    //Scene.camera.position.z += 10;
     // this.mouse.mesh.rotation.x += .02;
     // this.mouse.mesh.rotation.y += .02;
     feet.forEach(foot => foot.update());
