@@ -24,7 +24,7 @@ class Foot {
     });
   
     this.mesh = new THREE.Mesh(data.footGeom, material);
-    this.mesh.position.set(0, 990, 800);
+    this.mesh.position.set(this.x, 990, 800);
     this.mesh.name = this.id;
     this.mesh.receiveShadow = true;
     this.mesh.castShadow = true;

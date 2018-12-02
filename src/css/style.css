@@ -9,6 +9,7 @@ html {
 }
 
 body {
+  background-color: #ff6974;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 2rem;
 }
@@ -24,4 +25,38 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.shadow {
+  position: absolute;
+  top: 55vw;
+  z-index: -1;
+  animation: shadow .75s ease-in-out infinite alternate-reverse;
+}
+
+.loader {
+  animation: loader .75s ease-in-out infinite alternate-reverse;
+  position: absolute;
+}
+
+@keyframes loader {
+  from {
+    transform: rotate(2deg);
+    transform-origin: bottom right;
+  }
+
+  to {
+    transform: rotate(12deg);
+    transform-origin: bottom right;
+  }
+}
+
+@keyframes shadow {
+  from {
+    transform: scaleX(.8)
+  }
+
+  to {
+    transform: scaleX(1.2);
+  }
 }
