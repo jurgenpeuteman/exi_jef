@@ -71,6 +71,10 @@ class Scene {
     this.camera.aspect = this.WIDTH / this.HEIGHT;
     this.camera.updateProjectionMatrix();
   }
+
+  remove(id) {
+    this.scene.remove(this.scene.getObjectByName(id));
+  }
 }
 
 module.exports = new Scene();

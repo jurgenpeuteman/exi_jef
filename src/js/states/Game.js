@@ -5,7 +5,7 @@ const BalanceBoardReader = require(`./../classes/BalanceBoardReader.js`);
 const Foot = require(`./../classes/Foot.js`);
 const Dancefloor = require(`./../classes/Dancefloor.js`);
 
-const feet = [];
+let feet = [];
 const footBoxes = [];
 
 class Game {
@@ -48,14 +48,6 @@ class Game {
 
     footBoxes.push(feet[feet.length - 1].feetBox);
   }
-  
-  handleCollisionMouseFoot(m, f) {
-    console.log(m, f);
-    console.log(`hit`);
-    // foot hitTarget = true
-    // update score
-    // mouse.lives -- 
-  }
 
   checkedPressedButton(name) {
     switch (name) {
@@ -73,8 +65,10 @@ class Game {
   }
 
   checkCollisions() {
-    footBoxes.forEach(box => box.intersectsBox(this.mouse.mouseBox) ? console.log(`hit`) : console.log(`no hit`));
-    // alle voeten die een collision hebben gehad moeten uit de array gewist worden -> filter op basis van hittarget
+    // footBoxes.forEach(box => box.intersectsBox(this.mouse.mouseBox) ? console.log(`Hit ${box.id}`) : console.log(`no hit`));
+    // alle voeten die gebotst hebben met de muis wissen + levens muis verminderen
+    // hittarget = true -> adhv dit de objecten filteren/verwijderen uit de scene
+    // wissen uit array
   }
 
   quit() {
@@ -83,8 +77,14 @@ class Game {
 
   loop() {
     Dancefloor.update();
-    feet.forEach(foot => foot.update());
-    // alle voeten buiten beeld wissen uit de array (filter)
+
+    feet.forEach(f => {
+      f.update();
+      f.checkLocation();
+      if (f.outOfSight) Scene.remove(f.mesh.name);
+    });
+
+    feet = feet.filter(f => !f.outOfSight);
     
     this.checkCollisions();
 
