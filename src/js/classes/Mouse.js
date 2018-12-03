@@ -23,8 +23,7 @@ class Mouse {
   }
 
   moveMouse(v) {
-    const sr = this.mesh.geometry.boundingSphere.radius * 2;
-    this.mesh.position.x = Lib.map(v, 0.35, 0.65, (- window.innerWidth / 2) + sr, (window.innerWidth / 2) - sr);
+    this.mesh.position.x = Lib.map(v, 0.35, 0.65, - 10, 10);
   }
 }
 

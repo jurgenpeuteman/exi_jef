@@ -10,7 +10,7 @@ class Dancefloor {
 
     const material = new THREE.MeshPhongMaterial({
       color: 0xff707a,
-      flatShading: true,
+      flatShading: true
     });
 
     this.mesh = new THREE.Mesh(geom, material);
