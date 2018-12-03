@@ -41,7 +41,9 @@
       .then(() => {
         setState(`menuState`);
         document.querySelector(`.startButton`).addEventListener(`click`, () => setState(`gameState`));
-      });
+      })
+      .then(() => menuState.checkPlayers())
+      .then(() => setState(`gameState`));
   };
 
   init();

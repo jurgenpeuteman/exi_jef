@@ -39,6 +39,22 @@ body {
   position: absolute;
 }
 
+.player1, .player2 {
+  padding: 3rem;
+  text-align: center;
+  background-color: #fffbf2;
+  width: 30vw;
+  height: 50vw;
+}
+
+.menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 70vw;
+}
+
 @keyframes loader {
   from {
     transform: rotate(2deg);

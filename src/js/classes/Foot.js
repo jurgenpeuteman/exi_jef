@@ -29,11 +29,6 @@ class Foot {
     this.mesh.receiveShadow = true;
     this.mesh.castShadow = true;
     this.mesh.scale.set(.05, .05, .05);
-
-    // collision box
-    this.feetBox = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
-    this.feetBox.setFromObject(this.mesh);
-    this.feetBox.id = this.id;
   }
 
   update() {

@@ -20,11 +20,6 @@ class Mouse {
     this.mesh.receiveShadow = true;
     this.mesh.castShadow = true;
     this.mesh.position.set(0, 990, 980);
-
-    // collision box
-    this.mouseBox = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
-    this.mouseBox.setFromObject(this.mesh);
-    this.mouseBox.id = this.id;
   }
 
   moveMouse(v) {

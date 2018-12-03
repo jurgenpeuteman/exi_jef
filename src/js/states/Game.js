@@ -4,9 +4,10 @@ const Arduino = require(`./../classes/Arduino.js`);
 const BalanceBoardReader = require(`./../classes/BalanceBoardReader.js`);
 const Foot = require(`./../classes/Foot.js`);
 const Dancefloor = require(`./../classes/Dancefloor.js`);
+const THREE = require(`three`);
 
 let feet = [];
-const footBoxes = [];
+const collidableMeshList = [];
 
 class Game {
   constructor() {
@@ -22,7 +23,7 @@ class Game {
     Scene.create();
     this.createDancefloor();
     this.createMouse();
-    
+
     Arduino.on(`btnPressed`, v => this.createFoot(this.checkedPressedButton(v)));
     BalanceBoardReader.on(`oscMessage`, v => this.mouse.moveMouse(v));
 
@@ -42,11 +43,11 @@ class Game {
     const w = window.innerWidth / 50;
     const block = w / 4;
     const blockHalf = block / 2;
-    
+
     feet.push(new Foot(((block * selectedBlock) - blockHalf) - (w / 2)));
     Scene.scene.add(feet[feet.length - 1].mesh);
 
-    footBoxes.push(feet[feet.length - 1].feetBox);
+    collidableMeshList.push(feet[feet.length - 1].mesh);
   }
 
   checkedPressedButton(name) {
@@ -65,10 +66,18 @@ class Game {
   }
 
   checkCollisions() {
-    // footBoxes.forEach(box => box.intersectsBox(this.mouse.mouseBox) ? console.log(`Hit ${box.id}`) : console.log(`no hit`));
-    // alle voeten die gebotst hebben met de muis wissen + levens muis verminderen
-    // hittarget = true -> adhv dit de objecten filteren/verwijderen uit de scene
-    // wissen uit array
+    const originPoint = this.mouse.mesh.position.clone();
+
+    for (let i = 0;i < this.mouse.mesh.geometry.vertices.length;i ++) {
+      const localVertex = this.mouse.mesh.geometry.vertices[i].clone();
+      const globalVertex = localVertex.applyMatrix4(this.mouse.mesh.matrix);
+      const directionVector = globalVertex.sub(this.mouse.mesh.position);
+
+      const ray = new THREE.Raycaster(originPoint, directionVector.clone().normalize());
+      const collisionResults = ray.intersectObjects(collidableMeshList);
+      if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length())
+        console.log(`hit`);
+    }
   }
 
   quit() {
@@ -85,7 +94,7 @@ class Game {
     });
 
     feet = feet.filter(f => !f.outOfSight);
-    
+
     this.checkCollisions();
 
     Scene.renderer.render(Scene.scene, Scene.camera);

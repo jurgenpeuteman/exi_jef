@@ -42,6 +42,8 @@ class Arduino extends EventEmitter2 {
           name: `SR`
         },
 
+        // btnLeft.on(`press`, () => this.startGame(btnLeft));
+        
         btnLeft.on(`press`, () => this.getArduinoInput(btnLeft.custom.name));
         btnSemiLeft.on(`press`, () => this.getArduinoInput(btnSemiLeft.custom.name));
         btnRight.on(`press`, () => this.getArduinoInput(btnRight.custom.name));
@@ -50,6 +52,10 @@ class Arduino extends EventEmitter2 {
         resolve();
       });
     });
+  }
+
+  startGame(btn) {
+    this.emit(`start`, btn);
   }
 
   getArduinoInput(name) {
