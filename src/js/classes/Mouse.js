@@ -9,7 +9,7 @@ class Mouse {
     this.score = 0;
     this.id = uniqid();
 
-    const geom = new THREE.CubeGeometry(3, 3, 3);
+    const geom = new THREE.CubeGeometry(1, 1, 1);
     const mat = new THREE.MeshPhongMaterial({
       color: 0x0e2255,
       flatShading: true
@@ -19,7 +19,7 @@ class Mouse {
     this.mesh.name = this.id;
     this.mesh.receiveShadow = true;
     this.mesh.castShadow = true;
-    this.mesh.position.set(0, 990, 980);
+    this.mesh.position.set(0, 300.5, 0);
   }
 
   moveMouse(v) {

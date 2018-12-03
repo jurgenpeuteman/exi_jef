@@ -1,4 +1,5 @@
 const THREE = require(`three`);
+// const OrbitControls = require(`three-orbitcontrols`);
 
 class Scene {
   constructor() {
@@ -29,7 +30,7 @@ class Scene {
       this.near,
       this.far
     );
-    this.camera.position.set(0, 1000, 1000);
+    this.camera.position.set(0, 306.5, 10);
 
     this.renderer = new THREE.WebGLRenderer({
       alpha: false,
@@ -41,12 +42,12 @@ class Scene {
 
     const hemisphereLight = new THREE.HemisphereLight(0xfffafa, 0x000000, .9);
     this.scene.add(hemisphereLight);
+
     const sun = new THREE.DirectionalLight(0xcdc1c5, 0.9);
     sun.position.set(12, 6, - 7);
     sun.castShadow = true;
     this.scene.add(sun);
     
-    //Set up shadow properties for the sun light
     sun.shadow.mapSize.width = 256;
     sun.shadow.mapSize.height = 256;
     sun.shadow.camera.near = 0.5;
@@ -61,6 +62,11 @@ class Scene {
 
     window.scene = this.scene;
     window.camera = this.camera;
+
+    // const controls = new OrbitControls(this.camera, this.renderer.domElement);
+    // controls.enableDamping = true;
+    // controls.dampingFactor = 0.25;
+    // controls.enableZoom = false;
   }
 
   handleWindowResize() {

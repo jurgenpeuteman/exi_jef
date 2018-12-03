@@ -40,7 +40,7 @@ class Game {
   }
 
   createFoot(selectedBlock) {
-    const w = window.innerWidth / 50;
+    const w = 12;
     const block = w / 4;
     const blockHalf = block / 2;
 

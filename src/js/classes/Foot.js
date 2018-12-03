@@ -24,19 +24,20 @@ class Foot {
     });
   
     this.mesh = new THREE.Mesh(data.footGeom, material);
-    this.mesh.position.set(this.x, 990, 800);
+    this.mesh.position.set(this.x, 300.5, - 100);
     this.mesh.name = this.id;
     this.mesh.receiveShadow = true;
     this.mesh.castShadow = true;
-    this.mesh.scale.set(.05, .05, .05);
+    this.mesh.scale.set(.02, .02, .02);
   }
 
   update() {
-    this.mesh.position.z += 1;
+    this.mesh.position.z += .3;
+    this.mesh.position.y += Math.sin(Math.PI);
   }
 
   checkLocation() {
-    if (this.mesh.position.z >= 1100) this.outOfSight = true;
+    if (this.mesh.position.z >= 20) this.outOfSight = true;
   }
 }
 
