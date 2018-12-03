@@ -27,16 +27,20 @@ body {
   align-items: center;
 }
 
+.container-img {
+  position: relative;
+}
+
 .shadow {
   position: absolute;
-  top: 55vw;
+  top: 26rem;
+  left: -3.5rem;
   z-index: -1;
   animation: shadow .75s ease-in-out infinite alternate-reverse;
 }
 
 .loader {
   animation: loader .75s ease-in-out infinite alternate-reverse;
-  position: absolute;
 }
 
 .player1, .player2 {

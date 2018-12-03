@@ -35,15 +35,15 @@
       .then(geometry => {
         geometry.name = `vans`;
         data.footGeom = geometry;
-      })
-      .then(() => Arduino.setupArduino())
-      .then(() => BalanceBoardReader.setupOSC())
-      .then(() => {
-        setState(`menuState`);
-        document.querySelector(`.startButton`).addEventListener(`click`, () => setState(`gameState`));
-      })
-      .then(() => menuState.checkPlayers())
-      .then(() => setState(`gameState`));
+      });
+    // .then(() => Arduino.setupArduino())
+    // .then(() => BalanceBoardReader.setupOSC())
+    // .then(() => {
+    //   setState(`menuState`);
+    //   document.querySelector(`.startButton`).addEventListener(`click`, () => setState(`gameState`));
+    // })
+    // .then(() => menuState.checkPlayers())
+    // .then(() => setState(`gameState`));
   };
 
   init();

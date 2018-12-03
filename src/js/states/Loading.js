@@ -10,6 +10,9 @@ class Loading {
   }
 
   addContent(container) {
+    const $imgDiv = document.createElement(`div`);
+    $imgDiv.classList.add(`container-img`);
+
     const $img = document.createElement(`img`);
     $img.src = `assets/img/loader.png`;
     $img.width = `177`;
@@ -22,8 +25,9 @@ class Loading {
     $shadow.height = `47`;
     $shadow.classList.add(`shadow`);
 
-    container.appendChild($img);
-    container.appendChild($shadow);
+    container.appendChild($imgDiv);
+    $imgDiv.appendChild($img);
+    $imgDiv.appendChild($shadow);
   }
 
   removeContent(container) {

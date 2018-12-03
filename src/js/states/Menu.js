@@ -69,7 +69,6 @@ class Menu {
   danceBoothReady() {
     if (!this.dancebooth) this.styleActive(`.player1`);
     this.dancebooth = true;
-
     this.checkPlayers();
   }
 
@@ -78,7 +77,6 @@ class Menu {
       if (!this.board) this.styleActive(`.player2`);
       this.board = true;
     }
-    
     this.checkPlayers();
   }
 }
