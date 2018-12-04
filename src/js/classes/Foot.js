@@ -1,35 +1,43 @@
 const THREE = require(`three`);
 const data = require(`./../objects/Data.js`);
+const Lib = require(`./../functions/lib.js`);
+const uniqid = require(`uniqid`);
 
 class Foot {
   constructor(x) {
     this.x = x;
-    this.mouse;
     this.hitTarget = false;
+    this.id = uniqid();
+    this.outOfSight = false;
 
     const colors = [`Red`, `Blue`, `Pink`, `Black`, `Green`];
-    const color = colors[Math.floor(Math.random() * colors.length)];
+    const color = colors[Lib.random(0, colors.length)];
+
     const mat = new THREE.TextureLoader().load(`./assets/textures/vans${color}.png`);
     const material = new THREE.MeshStandardMaterial({
       color: 0xffffff,
       map: mat,
-      metalness: .3,
-      roughness: .5,
-      wireframe: false
+      metalness: .2,
+      roughness: 10,
+      wireframe: false,
+      flatShading: true
     });
   
-    material.name = color;
-    this.mesh = new THREE.Mesh(data.footGeom, mat);
-    this.mesh.position.set(this.x, 990, 800);
-    this.mesh.position.x = this.x;
-    this.mesh.name = `foot`;
+    this.mesh = new THREE.Mesh(data.footGeom, material);
+    this.mesh.position.set(this.x, 300.5, - 100);
+    this.mesh.name = this.id;
     this.mesh.receiveShadow = true;
     this.mesh.castShadow = true;
-    this.mesh.scale.set(.05, .05, .05);
+    this.mesh.scale.set(.02, .02, .02);
   }
 
   update() {
-    this.mesh.position.z += 1;
+    this.mesh.position.z += .3;
+    this.mesh.position.y += Math.sin(Math.PI);
+  }
+
+  checkLocation() {
+    if (this.mesh.position.z >= 20) this.outOfSight = true;
   }
 }
 

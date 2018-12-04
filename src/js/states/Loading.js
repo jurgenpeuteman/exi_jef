@@ -10,15 +10,31 @@ class Loading {
   }
 
   addContent(container) {
-    const loadingTitle = document.createElement(`h1`);
-    loadingTitle.textContent = `Loading`;
-    loadingTitle.classList.add(`loadingTitle`);
-    container.appendChild(loadingTitle);
+    const $imgDiv = document.createElement(`div`);
+    $imgDiv.classList.add(`container-img`);
+
+    const $img = document.createElement(`img`);
+    $img.src = `assets/img/loader.png`;
+    $img.width = `177`;
+    $img.height = `299`;
+    $img.classList.add(`loader`);
+
+    const $shadow = document.createElement(`img`);
+    $shadow.src = `assets/img/loader_shadow.svg`;
+    $shadow.width = `243`;
+    $shadow.height = `47`;
+    $shadow.classList.add(`shadow`);
+
+    container.appendChild($imgDiv);
+    $imgDiv.appendChild($img);
+    $imgDiv.appendChild($shadow);
   }
 
   removeContent(container) {
-    const title = container.querySelector(`.loadingTitle`);
-    if (title) title.remove();
+    const loader = container.querySelector(`.loader`);
+    if (loader) loader.remove();
+    const shadow = container.querySelector(`.shadow`);
+    if (shadow) shadow.remove();
   }
 }
   
