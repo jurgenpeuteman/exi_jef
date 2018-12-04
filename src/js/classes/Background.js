@@ -6,9 +6,9 @@ class Background {
   constructor() {
     this.particles = new THREE.Group();
     
-    const geom = new THREE.TetrahedronGeometry(Lib.random(0, 4), 0);
+    const geom = new THREE.TetrahedronGeometry(Lib.random(0, 3), 0);
 
-    for (let i = 0;i < 800;i ++) {
+    for (let i = 0;i < 400;i ++) {
       const material = new THREE.MeshPhongMaterial({
         color: Colors.blue,
         flatShading: true
@@ -25,7 +25,7 @@ class Background {
       this.particles.add(mesh);
     }
 
-    this.particles.position.set(0, 300, - 200);
+    this.particles.position.set(0, 300, - 250);
   }
 
   update() {
