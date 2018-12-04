@@ -33,7 +33,7 @@ class Scene {
     this.camera.position.set(0, 306.5, 10);
 
     this.renderer = new THREE.WebGLRenderer({
-      alpha: false,
+      alpha: true,
       antialias: true
     });
 
