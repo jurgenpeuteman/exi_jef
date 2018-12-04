@@ -19,7 +19,7 @@ class Dancefloor {
   }
 
   update() {
-    this.mesh.rotation.x += 0.0005;
+    this.mesh.rotation.x += 0.0008;
   }
 }
 

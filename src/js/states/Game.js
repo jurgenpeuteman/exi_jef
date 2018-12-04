@@ -4,6 +4,7 @@ const Arduino = require(`./../classes/Arduino.js`);
 const BalanceBoardReader = require(`./../classes/BalanceBoardReader.js`);
 const Foot = require(`./../classes/Foot.js`);
 const Dancefloor = require(`./../classes/Dancefloor.js`);
+const Background = require(`./../classes/Background.js`);
 const THREE = require(`three`);
 
 let feet = [];
@@ -21,6 +22,7 @@ class Game {
 
   setup() {
     Scene.create();
+    this.createBackground();
     this.createDancefloor();
     this.createMouse();
 
@@ -28,6 +30,10 @@ class Game {
     BalanceBoardReader.on(`oscMessage`, v => this.mouse.moveMouse(v));
 
     this.loop();
+  }
+
+  createBackground() {
+    Scene.scene.add(Background.particles);
   }
 
   createDancefloor() {
@@ -85,6 +91,7 @@ class Game {
   }
 
   loop() {
+    Background.update();
     Dancefloor.update();
 
     feet.forEach(f => {

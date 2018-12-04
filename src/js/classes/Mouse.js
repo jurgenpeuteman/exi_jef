@@ -19,7 +19,7 @@ class Mouse {
     this.mesh.name = this.id;
     this.mesh.receiveShadow = true;
     this.mesh.castShadow = true;
-    this.mesh.position.set(0, 300.5, 0);
+    this.mesh.position.set(0, 300.4, 0);
   }
 
   moveMouse(v) {
