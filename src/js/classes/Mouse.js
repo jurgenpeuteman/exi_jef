@@ -9,7 +9,7 @@ class Mouse {
     this.score = 0;
     this.id = uniqid();
 
-    const geom = new THREE.CubeGeometry(1, 1, 1);
+    const geom = new THREE.CubeGeometry(.8, .8, .8);
     const mat = new THREE.MeshPhongMaterial({
       color: 0x0e2255,
       flatShading: true
@@ -23,7 +23,7 @@ class Mouse {
   }
 
   moveMouse(v) {
-    this.mesh.position.x = Lib.map(v, 0.35, 0.65, - 10, 10);
+    this.mesh.position.x = Lib.map(v, 0.35, 0.65, - 8, 8);
   }
 }
 

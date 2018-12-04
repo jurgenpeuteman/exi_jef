@@ -22,7 +22,7 @@ class BalanceBoardReader extends EventEmitter2 {
   }
 
   getWiiValue(oscMessage) {
-    this.emit(`oscMessage`, oscMessage.args[0].toFixed(2));
+    this.emit(`oscMessage`, oscMessage.args[0]);
   }
 
   playerReady(oscMessage) {
