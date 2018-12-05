@@ -4,6 +4,7 @@ const Arduino = require(`./../classes/Arduino.js`);
 const BalanceBoardReader = require(`./../classes/BalanceBoardReader.js`);
 const Foot = require(`./../classes/Foot.js`);
 const Dancefloor = require(`./../classes/Dancefloor.js`);
+const Cassette = require(`./../classes/Cassette.js`);
 const THREE = require(`three`);
 
 let feet = [];
@@ -13,6 +14,7 @@ class Game {
   constructor() {
     this.name = `gameState`;
     this.mouse;
+    this.cassette;
   }
 
   setActive(bool) {
@@ -22,12 +24,19 @@ class Game {
   setup() {
     Scene.create();
     this.createDancefloor();
+    this.createBackground();
     this.createMouse();
 
     Arduino.on(`btnPressed`, v => this.createFoot(this.checkedPressedButton(v)));
     BalanceBoardReader.on(`oscMessage`, v => this.mouse.moveMouse(v));
 
     this.loop();
+  }
+
+  createBackground() {
+    this.cassette = new Cassette();
+    Scene.scene.add(this.cassette.cassetteGroup);
+    //this.cassette.cassetteGroup.position.x = 50;
   }
 
   createDancefloor() {
@@ -87,6 +96,7 @@ class Game {
   loop() {
     Dancefloor.update();
 
+
     feet.forEach(f => {
       f.update();
       f.checkLocation();
@@ -96,6 +106,9 @@ class Game {
     feet = feet.filter(f => !f.outOfSight);
 
     this.checkCollisions();
+    this.cassette.updateHoles();
+    //Scene.scene.remove(this.cassette.cassetteGroup.children[3]);
+    this.cassette.updateScore();
 
     Scene.renderer.render(Scene.scene, Scene.camera);
     requestAnimationFrame(() => this.loop());
