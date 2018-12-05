@@ -50,13 +50,11 @@
           geometry.name = `cassetteHole`;
           data.cassetteHoleGeom = geometry;
         }))
-    
       .then(fontLoader.load(`./assets/fonts/helvitker.json`, font => {
         data.font = font;
       }))
-      
-      //.then(() => Arduino.setupArduino())
-      //.then(() => BalanceBoardReader.setupOSC())
+      .then(() => Arduino.setupArduino())
+      .then(() => BalanceBoardReader.setupOSC())
       .then(() => {
         setState(`menuState`);
         document.querySelector(`.startButton`).addEventListener(`click`, () => setState(`gameState`));

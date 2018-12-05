@@ -1,5 +1,6 @@
 const THREE = require(`three`);
-//const OrbitControls = require(`three-orbitcontrols`);
+const Colors = require(`./../objects/Colors.js`);
+const OrbitControls = require(`three-orbitcontrols`);
 
 class Scene {
   constructor() {
@@ -37,6 +38,7 @@ class Scene {
       antialias: true
     });
 
+    this.renderer.setClearColor(Colors.black);
     this.renderer.shadowMap.enabled = true;
     this.renderer.setSize(this.WIDTH, this.HEIGHT);
 

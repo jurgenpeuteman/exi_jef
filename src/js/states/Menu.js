@@ -56,7 +56,7 @@ class Menu {
   checkPlayers() {
     return new Promise(resolve => {
       if (this.dancebooth && this.board) {
-        console.log(`resolve`);
+        // console.log(`resolve`);
         resolve();
       }
     });

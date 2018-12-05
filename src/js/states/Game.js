@@ -5,6 +5,7 @@ const BalanceBoardReader = require(`./../classes/BalanceBoardReader.js`);
 const Foot = require(`./../classes/Foot.js`);
 const Dancefloor = require(`./../classes/Dancefloor.js`);
 const Cassette = require(`./../classes/Cassette.js`);
+const Background = require(`./../classes/Background.js`);
 const THREE = require(`three`);
 
 let feet = [];
@@ -23,6 +24,7 @@ class Game {
 
   setup() {
     Scene.create();
+    this.createBackground();
     this.createDancefloor();
     this.createBackground();
     this.createMouse();
@@ -34,6 +36,7 @@ class Game {
   }
 
   createBackground() {
+    Scene.scene.add(Background.particles);
     this.cassette = new Cassette();
     Scene.scene.add(this.cassette.cassetteGroup);
     //this.cassette.cassetteGroup.position.x = 50;
@@ -94,13 +97,19 @@ class Game {
   }
 
   loop() {
+    Background.update();
     Dancefloor.update();
 
 
     feet.forEach(f => {
       f.update();
       f.checkLocation();
-      if (f.outOfSight) Scene.remove(f.mesh.name);
+      if (f.outOfSight) {
+        Scene.scene.remove(f.mesh);
+        f.mesh.geometry.dispose();
+        f.mesh.material.dispose();
+        f.mesh = undefined;
+      }
     });
 
     feet = feet.filter(f => !f.outOfSight);
