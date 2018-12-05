@@ -6,6 +6,9 @@
   const gameState = require(`./states/Game.js`);
   const data = require(`./objects/Data.js`);
   const THREE = require(`three`);
+  const fontLoader = new THREE.FontLoader();
+
+
 
   const states = [
     menuState,
@@ -29,6 +32,7 @@
   };
 
   const init = () => {
+    
     setState(`loadingState`);
 
     loadWithJSONLoader(`./assets/models/vansBlack.json`)
@@ -36,6 +40,19 @@
         geometry.name = `vans`;
         data.footGeom = geometry;
       })
+      .then(loadWithJSONLoader(`./assets/models/cassette4.json`)
+        .then(geometry => {
+          geometry.name = `cassette`;
+          data.cassetteGeom = geometry;
+        }))
+      .then(loadWithJSONLoader(`./assets/models/cassetteHole.json`)
+        .then(geometry => {
+          geometry.name = `cassetteHole`;
+          data.cassetteHoleGeom = geometry;
+        }))
+      .then(fontLoader.load(`./assets/fonts/helvitker.json`, font => {
+        data.font = font;
+      }))
       .then(() => Arduino.setupArduino())
       .then(() => BalanceBoardReader.setupOSC())
       .then(() => {
