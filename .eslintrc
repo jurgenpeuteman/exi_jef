@@ -1,0 +1,9 @@
+{
+  "extends": "devine",
+  "rules": {
+    "quotes": [
+      "error", 
+      "backtick"
+    ]
+  }
+}
