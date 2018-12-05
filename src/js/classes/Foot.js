@@ -9,7 +9,7 @@ class Foot {
     this.hitTarget = false;
     this.id = uniqid();
     this.outOfSight = false;
-    this.i = 0;
+    this.i = - Math.PI;
 
     const colors = [`Red`, `Blue`, `Pink`, `Black`, `Green`];
     const color = colors[Lib.random(0, colors.length)];
@@ -25,8 +25,7 @@ class Foot {
     });
   
     this.mesh = new THREE.Mesh(data.footGeom, material);
-    this.mesh.position.set(this.x, 300.4, - 100);
-    // this.mesh.position.set(this.x, 0, - 304);
+    this.mesh.position.set(this.x, 290, - 78);
     this.mesh.name = this.id;
     this.mesh.receiveShadow = true;
     this.mesh.castShadow = true;
@@ -34,19 +33,19 @@ class Foot {
   }
 
   update() {
-    this.mesh.position.z += 1;
-    // const r = 300;
-    // this.i += .005;
-    // this.mesh.position.z = Math.cos(this.i) * r;
-    // this.mesh.position.y = Math.sin(this.i) * r;
+    const r = 300.7;
+    const h = Math.atan(this.mesh.position.y / this.mesh.position.z);
+    this.mesh.position.z = Math.cos(h - this.i) * r;
+    this.mesh.position.y = Math.sin(h - this.i) * r;
+    // this.mesh.rotation.x = (Math.atan(this.mesh.position.y / this.mesh.position.z) + (Math.PI / 2));
 
-    console.log(this.mesh.position);
-
-    // this.mesh.rotation.x = this.i + Math.PI / 2;
+    this.i += 0.000001;
   }
 
   checkLocation() {
-    if (this.mesh.position.z >= 20) this.outOfSight = true;
+    if (this.mesh.position.z > 20) {
+      this.outOfSight = true;
+    }
   }
 }
 

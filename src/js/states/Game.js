@@ -97,7 +97,12 @@ class Game {
     feet.forEach(f => {
       f.update();
       f.checkLocation();
-      if (f.outOfSight) Scene.remove(f.mesh.name);
+      if (f.outOfSight) {
+        Scene.scene.remove(f.mesh);
+        f.mesh.geometry.dispose();
+        f.mesh.material.dispose();
+        f.mesh = undefined;
+      }
     });
 
     feet = feet.filter(f => !f.outOfSight);
