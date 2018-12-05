@@ -25,7 +25,7 @@ class Foot {
     });
   
     this.mesh = new THREE.Mesh(data.footGeom, material);
-    this.mesh.position.set(this.x, 290, - 78);
+    this.mesh.position.set(this.x, 296.3, - 46.9);
     this.mesh.name = this.id;
     this.mesh.receiveShadow = true;
     this.mesh.castShadow = true;
@@ -39,11 +39,11 @@ class Foot {
     this.mesh.position.y = Math.sin(h - this.i) * r;
     // this.mesh.rotation.x = (Math.atan(this.mesh.position.y / this.mesh.position.z) + (Math.PI / 2));
 
-    this.i += 0.000001;
+    this.i += 0.00001;
   }
 
   checkLocation() {
-    if (this.mesh.position.z > 20) {
+    if (this.mesh.position.z > 0) {
       this.outOfSight = true;
     }
   }

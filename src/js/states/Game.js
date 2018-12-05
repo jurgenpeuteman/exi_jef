@@ -26,7 +26,6 @@ class Game {
     Scene.create();
     this.createBackground();
     this.createDancefloor();
-    this.createBackground();
     this.createMouse();
 
     Arduino.on(`btnPressed`, v => this.createFoot(this.checkedPressedButton(v)));
@@ -36,8 +35,8 @@ class Game {
   }
 
   createBackground() {
-    Scene.scene.add(Background.particles);
     this.cassette = new Cassette();
+    Scene.scene.add(Background.particles);
     Scene.scene.add(this.cassette.cassetteGroup);
     //this.cassette.cassetteGroup.position.x = 50;
   }
