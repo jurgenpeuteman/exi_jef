@@ -7,19 +7,26 @@ class BalanceBoardReader extends EventEmitter2 {
   }
 
   setupOSC() {
-    const udpPort = new osc.UDPPort({
-      localAddress: `127.0.0.1`,
-      localPort: 8765
-    });
+    return new Promise(resolve => {
+      const udpPort = new osc.UDPPort({
+        localAddress: `127.0.0.1`,
+        localPort: 8765
+      });
+      udpPort.on(`ready`, () => resolve());
 
-    udpPort.on(`ready`, () => console.log(`Listening for OSC over UDP.`));
-    udpPort.on(`message`, oscMessage => this.getWiiValue(oscMessage));
-    udpPort.on(`error`, err => console.log(err));
-    udpPort.open();
+      udpPort.on(`message`, oscMessage => this.getWiiValue(oscMessage));
+      udpPort.on(`message`, oscMessage => this.playerReady(oscMessage));
+      udpPort.on(`error`, err => console.log(err));
+      udpPort.open();
+    });
   }
 
   getWiiValue(oscMessage) {
-    this.emit(`oscMessage`, oscMessage.args[0].toFixed(2));
+    this.emit(`oscMessage`, oscMessage.args[0]);
+  }
+
+  playerReady(oscMessage) {
+    this.emit(`start`, oscMessage.args[0].toFixed(2));
   }
 }
 
