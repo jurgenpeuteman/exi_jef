@@ -51,6 +51,7 @@ class Game {
   }
 
   createFoot(selectedBlock) {
+
     const w = 12;
     const block = w / 4;
     const blockHalf = block / 2;

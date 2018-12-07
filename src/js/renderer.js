@@ -8,8 +8,6 @@
   const THREE = require(`three`);
   const fontLoader = new THREE.FontLoader();
 
-
-
   const states = [
     menuState,
     loadingState,

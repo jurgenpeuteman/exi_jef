@@ -1,12 +1,13 @@
 const Arduino = require(`./../classes/Arduino.js`);
 const BalanceBoardReader = require(`./../classes/BalanceBoardReader.js`);
+const timeout = require(`../functions/lib.js`).timeout;
 
 class Menu {
 
   constructor() {
     this.name = `menuState`;
-    this.dancebooth = true;
-    this.board = true;
+    this.dancebooth = false;
+    this.board = false;
   }
 
   setActive(bool) {
@@ -56,8 +57,11 @@ class Menu {
   checkPlayers() {
     return new Promise(resolve => {
       if (this.dancebooth && this.board) {
-        // console.log(`resolve`);
         resolve();
+      } else {
+        timeout(500)
+          .then(() => this.checkPlayers())
+          .then(() => resolve());
       }
     });
   }
@@ -69,7 +73,6 @@ class Menu {
   danceBoothReady() {
     if (!this.dancebooth) this.styleActive(`.player1`);
     this.dancebooth = true;
-    this.checkPlayers();
   }
 
   boardReady(v) {
