@@ -60,8 +60,8 @@
           geometry.name = `mouseGeom`;
           data.mouseGeom = geometry;
         }))
-      //.then(() => Arduino.setupArduino())
-      //.then(() => BalanceBoardReader.setupOSC())
+      .then(() => Arduino.setupArduino())
+      .then(() => BalanceBoardReader.setupOSC())
       .then(() => {
         setState(`menuState`);
         document.querySelector(`.startButton`).addEventListener(`click`, () => setState(`gameState`));

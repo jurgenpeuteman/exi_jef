@@ -37,7 +37,7 @@ class Game {
   }
 
   createBackground() {
-    //Scene.scene.add(Background.particles);
+    Scene.scene.add(Background.particles);
     this.cassette = new Cassette();
     Scene.scene.add(this.cassette.cassetteGroup);
     //this.cassette.cassetteGroup.position.x = 50;
@@ -81,7 +81,7 @@ class Game {
   }
 
   checkCollisions() {
-    /*
+    
     const originPoint = this.mouse.mesh.position.clone();
     console.log(this.mouse);
     for (let i = 0;i < this.mouse.mesh.geometry.vertices.length;i ++) {
@@ -93,7 +93,7 @@ class Game {
       const collisionResults = ray.intersectObjects(collidableMeshList);
       if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length())
         console.log(`hit`);
-    }*/
+    }
   }
 
   quit() {

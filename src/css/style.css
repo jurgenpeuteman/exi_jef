@@ -44,11 +44,18 @@ body {
 }
 
 .player1, .player2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 3rem;
   text-align: center;
   background-color: #fffbf2;
   width: 30vw;
   height: 50vw;
+}
+
+.player1 img, .player2 img {
+  width: 80%;
 }
 
 .menu {
