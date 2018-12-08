@@ -33,17 +33,33 @@ class Menu {
     $div1.classList.add(`player1`);
     const $player1 = document.createElement(`h1`);
     $player1.textContent = `Player 1`;
+    const $p1Arrow = document.createElement(`img`);
+    $p1Arrow.src = `./assets/img/menu/arrow.svg`;
+    const $p1Image = document.createElement(`img`);
+    $p1Image.src = `./assets/img/menu/mouseplayer.png`;
+
 
     const $div2 = document.createElement(`div`);
     $div2.classList.add(`player2`);
+    const $p2TitleContainer = document.createElement(`div`);
+    $p2TitleContainer.classList.add(`player2TitleContainer`);
     const $player2 = document.createElement(`h1`);
     $player2.textContent = `Player 2`;
+    const $p2Arrow = document.createElement(`img`);
+    $p2Arrow.src = `./assets/img/menu/arrow.svg`;
+    const $p2Image = document.createElement(`img`);
+    $p2Image.src = `./assets/img/menu/arcadeButton.png`;
+
 
     container.appendChild($section);
     $section.appendChild($div1);
     $section.appendChild($div2);
     $div1.appendChild($player1);
+    $div1.appendChild($p1Arrow);
+    $div1.appendChild($p1Image);
     $div2.appendChild($player2);
+    $div2.appendChild($p2Arrow);
+    $div2.appendChild($p2Image);
   }
 
   removeContent(container) {

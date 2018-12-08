@@ -1,5 +1,6 @@
 const THREE = require(`three`);
 const Lib = require(`./../functions/lib.js`);
+const data = require(`./../objects/Data.js`);
 const uniqid = require(`uniqid`);
 
 class Mouse {
@@ -9,9 +10,11 @@ class Mouse {
     this.score = 0;
     this.id = uniqid();
 
-    const geom = new THREE.CubeGeometry(.8, .8, .8);
+    const geom = data.mouseGeom;
+    console.log(data);
+    
     const mat = new THREE.MeshPhongMaterial({
-      color: 0x0e2255,
+      color: 0xA9A9A9,
       flatShading: true
     });
 
@@ -19,7 +22,11 @@ class Mouse {
     this.mesh.name = this.id;
     this.mesh.receiveShadow = true;
     this.mesh.castShadow = true;
-    this.mesh.position.set(0, 300.4, 0);
+
+    this.mesh.position.set(0, 303, 5);
+    this.mesh.scale.set(.02, .02, .02);
+    this.mesh.rotation.y = 180 * Math.PI / 180;
+    
   }
 
   moveMouse(v) {
