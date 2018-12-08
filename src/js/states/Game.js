@@ -32,11 +32,13 @@ class Game {
     BalanceBoardReader.on(`oscMessage`, v => this.mouse.moveMouse(v));
 
     this.loop();
+    const axesHelper = new THREE.AxesHelper(300);
+    Scene.scene.add(axesHelper);
   }
 
   createBackground() {
+    //Scene.scene.add(Background.particles);
     this.cassette = new Cassette();
-    Scene.scene.add(Background.particles);
     Scene.scene.add(this.cassette.cassetteGroup);
     //this.cassette.cassetteGroup.position.x = 50;
   }
@@ -48,10 +50,11 @@ class Game {
   createMouse() {
     this.mouse = new Mouse();
     Scene.scene.add(this.mouse.mesh);
+    console.log(this.mouse);
+    
   }
 
   createFoot(selectedBlock) {
-
     const w = 12;
     const block = w / 4;
     const blockHalf = block / 2;
@@ -78,8 +81,9 @@ class Game {
   }
 
   checkCollisions() {
+    /*
     const originPoint = this.mouse.mesh.position.clone();
-
+    console.log(this.mouse);
     for (let i = 0;i < this.mouse.mesh.geometry.vertices.length;i ++) {
       const localVertex = this.mouse.mesh.geometry.vertices[i].clone();
       const globalVertex = localVertex.applyMatrix4(this.mouse.mesh.matrix);
@@ -89,7 +93,7 @@ class Game {
       const collisionResults = ray.intersectObjects(collidableMeshList);
       if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length())
         console.log(`hit`);
-    }
+    }*/
   }
 
   quit() {

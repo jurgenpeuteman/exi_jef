@@ -6,7 +6,11 @@
   const gameState = require(`./states/Game.js`);
   const data = require(`./objects/Data.js`);
   const THREE = require(`three`);
+  const threeFbxLoader = require(`three-fbx-loader`);
   const fontLoader = new THREE.FontLoader();
+
+  const FBXLoader = new threeFbxLoader();
+  
 
   const states = [
     menuState,
@@ -51,8 +55,13 @@
       .then(fontLoader.load(`./assets/fonts/helvitker.json`, font => {
         data.font = font;
       }))
-      .then(() => Arduino.setupArduino())
-      .then(() => BalanceBoardReader.setupOSC())
+      .then(loadWithJSONLoader(`./assets/models/mouse.json`)
+        .then(geometry => {
+          geometry.name = `mouseGeom`;
+          data.mouseGeom = geometry;
+        }))
+      //.then(() => Arduino.setupArduino())
+      //.then(() => BalanceBoardReader.setupOSC())
       .then(() => {
         setState(`menuState`);
         document.querySelector(`.startButton`).addEventListener(`click`, () => setState(`gameState`));
