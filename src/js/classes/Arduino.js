@@ -24,11 +24,15 @@ class Arduino extends EventEmitter2 {
   setupArduino() {
     return new Promise(resolve => {
       board.on(`ready`, () => {
-        const btnLeft = new five.Button(11);
-        const btnSemiLeft = new five.Button(10);
-        const btnSemiRight = new five.Button(9);
-        const btnRight = new five.Button(8);
-        const btnPower = new five.Button(12);
+        const btnRight = new five.Button(3);
+        const btnSemiRight = new five.Button(4);
+        const btnSemiLeft = new five.Button(5);
+        const btnLeft = new five.Button(6);
+        
+        const RGBLed = new five.Led.RGB([10, 9, 11]);
+
+        const ledPower = new five.Led(12);
+        const btnPower = new five.Button(2);
 
         btnLeft.custom = {
           name: `L`
@@ -44,15 +48,19 @@ class Arduino extends EventEmitter2 {
         },
         btnPower.custom = {
           name: `P`
-        },
+        };
 
-        btnLeft.on(`press`, () => this.playerReady(btnLeft));
-        
+        btnPower.on(`press`, () => this.playerReady(btnPower.name));
+        ledPower.on();
+
+        RGBLed.on();
+        RGBLed.color(`#ff6973`);
+    
         btnLeft.on(`press`, () => this.getArduinoInput(btnLeft.custom.name));
         btnSemiLeft.on(`press`, () => this.getArduinoInput(btnSemiLeft.custom.name));
         btnRight.on(`press`, () => this.getArduinoInput(btnRight.custom.name));
         btnSemiRight.on(`press`, () => this.getArduinoInput(btnSemiRight.custom.name));
-        btnLeft.on(`press`, () => this.getArduinoInput(btnPower.custom.name));
+        btnLeft.on(`press`, () => this.getArduinoInput(btnLeft.custom.name));
 
         resolve();
       });

@@ -11,8 +11,6 @@ class Cassette {
     this.id = uniqid();
     this.cassetteGroup = new THREE.Group();
     this.score = 20;
-    console.log(data.font);
-    
 
     // const colors = [`Red`, `Blue`, `Green`];
     // const color = colors[Lib.random(0, colors.length)];

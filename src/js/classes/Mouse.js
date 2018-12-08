@@ -23,7 +23,7 @@ class Mouse {
   }
 
   moveMouse(v) {
-    this.mesh.position.x = Lib.map(v, 0.35, 0.65, - 8, 8);
+    this.mesh.position.x = Lib.map(v, 0.35, 0.65, - 7.5, 7);
   }
 }
 
