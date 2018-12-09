@@ -32,15 +32,12 @@ class Game {
     BalanceBoardReader.on(`oscMessage`, v => this.mouse.moveMouse(v));
 
     this.loop();
-    const axesHelper = new THREE.AxesHelper(300);
-    Scene.scene.add(axesHelper);
   }
 
   createBackground() {
     Scene.scene.add(Background.particles);
     this.cassette = new Cassette();
     Scene.scene.add(this.cassette.cassetteGroup);
-    //this.cassette.cassetteGroup.position.x = 50;
   }
 
   createDancefloor() {
@@ -50,8 +47,6 @@ class Game {
   createMouse() {
     this.mouse = new Mouse();
     Scene.scene.add(this.mouse.mesh);
-    console.log(this.mouse);
-    
   }
 
   createFoot(selectedBlock) {
@@ -81,9 +76,7 @@ class Game {
   }
 
   checkCollisions() {
-    
     const originPoint = this.mouse.mesh.position.clone();
-    console.log(this.mouse);
     for (let i = 0;i < this.mouse.mesh.geometry.vertices.length;i ++) {
       const localVertex = this.mouse.mesh.geometry.vertices[i].clone();
       const globalVertex = localVertex.applyMatrix4(this.mouse.mesh.matrix);
@@ -103,7 +96,9 @@ class Game {
   loop() {
     Background.update();
     Dancefloor.update();
-
+    this.cassette.updateHoles();
+    this.mouse.increaseScore();
+    this.cassette.updateScoreText(this.mouse.score);
 
     feet.forEach(f => {
       f.update();
@@ -115,13 +110,9 @@ class Game {
         f.mesh = undefined;
       }
     });
-
-    feet = feet.filter(f => !f.outOfSight);
-
+    
     this.checkCollisions();
-    this.cassette.updateHoles();
-    //Scene.scene.remove(this.cassette.cassetteGroup.children[3]);
-    this.cassette.updateScore();
+    feet = feet.filter(f => !f.outOfSight);
 
     Scene.renderer.render(Scene.scene, Scene.camera);
     requestAnimationFrame(() => this.loop());

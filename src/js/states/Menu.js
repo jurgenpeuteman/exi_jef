@@ -87,13 +87,13 @@ class Menu {
   }
 
   danceBoothReady() {
-    if (!this.dancebooth) this.styleActive(`.player1`);
+    if (!this.dancebooth) this.styleActive(`.player2`);
     this.dancebooth = true;
   }
 
   boardReady(v) {
     if (v !== `0.50`) {
-      if (!this.board) this.styleActive(`.player2`);
+      if (!this.board) this.styleActive(`.player1`);
       this.board = true;
     }
     this.checkPlayers();

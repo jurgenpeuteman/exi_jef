@@ -65,6 +65,9 @@ class Scene {
     window.scene = this.scene;
     window.camera = this.camera;
 
+    const axesHelper = new THREE.AxesHelper(300);
+    this.scene.add(axesHelper);
+
     // const controls = new OrbitControls(this.camera, this.renderer.domElement);
     // controls.enableDamping = true;
     // controls.dampingFactor = 0.25;

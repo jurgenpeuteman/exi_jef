@@ -11,8 +11,6 @@ class Mouse {
     this.id = uniqid();
 
     const geom = data.mouseGeom;
-    console.log(data);
-    
     const mat = new THREE.MeshPhongMaterial({
       color: 0xA9A9A9,
       flatShading: true
@@ -30,7 +28,11 @@ class Mouse {
   }
 
   moveMouse(v) {
-    this.mesh.position.x = Lib.map(v, 0.35, 0.65, - 7.5, 7);
+    this.mesh.position.x = Lib.map(v, 0.35, 0.70, - 4.3, 4.3);
+  }
+  
+  increaseScore() {
+    this.score += .18;
   }
 }
 
