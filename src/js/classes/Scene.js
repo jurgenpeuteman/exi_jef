@@ -1,5 +1,4 @@
 const THREE = require(`three`);
-const Colors = require(`./../objects/Colors.js`);
 const OrbitControls = require(`three-orbitcontrols`);
 
 class Scene {
@@ -18,7 +17,7 @@ class Scene {
     this.ambientLight;
   }
 
-  create() {
+  create(container) {
     this.HEIGHT = window.innerHeight;
     this.WIDTH = window.innerWidth;
     this.aspectRatio = this.WIDTH / this.HEIGHT;
@@ -38,7 +37,6 @@ class Scene {
       antialias: true
     });
 
-    this.renderer.setClearColor(Colors.black);
     this.renderer.shadowMap.enabled = true;
     this.renderer.setSize(this.WIDTH, this.HEIGHT);
 
@@ -59,14 +57,11 @@ class Scene {
     this.renderer.gammaInput = true;
     this.renderer.gammaOutput = true;
    
-    document.querySelector(`.container`).appendChild(this.renderer.domElement);
+    document.querySelector(container).appendChild(this.renderer.domElement);
     window.addEventListener(`resize`, () => this.handleWindowResize(), false);
 
     window.scene = this.scene;
     window.camera = this.camera;
-
-    const axesHelper = new THREE.AxesHelper(300);
-    this.scene.add(axesHelper);
 
     // const controls = new OrbitControls(this.camera, this.renderer.domElement);
     // controls.enableDamping = true;

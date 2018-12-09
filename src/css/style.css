@@ -110,6 +110,9 @@ body {
   animation: arrow .75s ease-in-out infinite alternate-reverse;
 }
 
+.gameEndRenderContainer {
+}
+
 @keyframes loader {
   from {
     transform: rotate(2deg);

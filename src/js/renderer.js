@@ -39,6 +39,12 @@
         geometry.name = `vans`;
         data.footGeom = geometry;
       })
+      .then(loadWithJSONLoader(`./assets/models/trophy2.json`)
+        .then(geometry => {
+          console.log(geometry);
+          geometry.name = `trophy`;
+          data.trophyGeom = geometry;
+        }))
       .then(loadWithJSONLoader(`./assets/models/cassette4.json`)
         .then(geometry => {
           geometry.name = `cassette`;
@@ -49,11 +55,6 @@
           geometry.name = `cassetteHole`;
           data.cassetteHoleGeom = geometry;
         }))
-      .then(loadWithJSONLoader(`./assets/models/trophy.json`)
-        .then(geometry => {
-          geometry.name = `trophy`;
-          data.trophyGeom = geometry;
-        }))
       .then(fontLoader.load(`./assets/fonts/helvitker.json`, font => {
         data.font = font;
       }))
@@ -62,11 +63,13 @@
           geometry.name = `mouseGeom`;
           data.mouseGeom = geometry;
         }))
-      .then(() => Arduino.setupArduino())
-      .then(() => BalanceBoardReader.setupOSC())
-      .then(() => setState(`menuState`))
-      .then(() => menuState.checkPlayers())
-      .then(() => setState(`gameState`));
+      .then(() => setState(`gameEndState`));
+    //.then(() => Arduino.setupArduino())
+    //.then(() => BalanceBoardReader.setupOSC())
+    //.then(() => setState(`menuState`))
+    //.then(() => menuState.checkPlayers())
+    //.then(() => setState(`gameState`));
+      
 
   };
 
