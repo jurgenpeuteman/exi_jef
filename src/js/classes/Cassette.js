@@ -1,6 +1,5 @@
 const THREE = require(`three`);
 const data = require(`./../objects/Data.js`);
-const Lib = require(`./../functions/lib.js`);
 const Colors = require(`./../objects/Colors.js`);
 const uniqid = require(`uniqid`);
 

@@ -21,18 +21,28 @@ class Mouse {
     this.mesh.receiveShadow = true;
     this.mesh.castShadow = true;
 
-    this.mesh.position.set(0, 303, 5);
-    this.mesh.scale.set(.02, .02, .02);
+    this.mesh.position.set(0, 301, 1);
+    this.mesh.scale.set(.8, .8, .8);
     this.mesh.rotation.y = 180 * Math.PI / 180;
-    
+    this.mesh.geometry.mergeVertices();
+
+    // collision box
+    this.mouseBox = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+    this.mouseBox.setFromObject(this.mesh);
+    this.mouseBox.id = this.id;
   }
 
   moveMouse(v) {
     this.mesh.position.x = Lib.map(v, 0.35, 0.70, - 4.3, 4.3);
+    this.mouseBox.setFromObject(this.mesh);
   }
   
   increaseScore() {
     this.score += .18;
+  }
+
+  checkLives() {
+    if (this.lives === 0) return true;
   }
 }
 

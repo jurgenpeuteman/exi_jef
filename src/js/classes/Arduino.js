@@ -60,7 +60,6 @@ class Arduino extends EventEmitter2 {
         btnSemiLeft.on(`press`, () => this.getArduinoInput(btnSemiLeft.custom.name));
         btnRight.on(`press`, () => this.getArduinoInput(btnRight.custom.name));
         btnSemiRight.on(`press`, () => this.getArduinoInput(btnSemiRight.custom.name));
-        btnLeft.on(`press`, () => this.getArduinoInput(btnLeft.custom.name));
 
         resolve();
       });

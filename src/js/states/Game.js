@@ -6,13 +6,17 @@ const Foot = require(`./../classes/Foot.js`);
 const Dancefloor = require(`./../classes/Dancefloor.js`);
 const Cassette = require(`./../classes/Cassette.js`);
 const Background = require(`./../classes/Background.js`);
-const THREE = require(`three`);
+const Particle = require(`./../classes/Particle.js`);
+const EventEmitter2 = require(`eventemitter2`).EventEmitter2;
 
 let feet = [];
-const collidableMeshList = [];
+let footBoxes = [];
+const particles = [];
+const particleCount = 10;
 
-class Game {
+class Game extends EventEmitter2 {
   constructor() {
+    super({});
     this.name = `gameState`;
     this.mouse;
     this.cassette;
@@ -56,8 +60,6 @@ class Game {
 
     feet.push(new Foot(((block * selectedBlock) - blockHalf) - (w / 2)));
     Scene.scene.add(feet[feet.length - 1].mesh);
-
-    collidableMeshList.push(feet[feet.length - 1].mesh);
   }
 
   checkedPressedButton(name) {
@@ -75,17 +77,34 @@ class Game {
     }
   }
 
-  checkCollisions() {
-    const originPoint = this.mouse.mesh.position.clone();
-    for (let i = 0;i < this.mouse.mesh.geometry.vertices.length;i ++) {
-      const localVertex = this.mouse.mesh.geometry.vertices[i].clone();
-      const globalVertex = localVertex.applyMatrix4(this.mouse.mesh.matrix);
-      const directionVector = globalVertex.sub(this.mouse.mesh.position);
+  removeMesh(m) {
+    Scene.scene.remove(m.mesh);
+    m.mesh.geometry.dispose();
+    m.mesh.material.dispose();
+    m.mesh = undefined;
+  }
 
-      const ray = new THREE.Raycaster(originPoint, directionVector.clone().normalize());
-      const collisionResults = ray.intersectObjects(collidableMeshList);
-      if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length())
-        console.log(`hit`);
+  checkCollisions() {
+    footBoxes.forEach(box => {
+      if (box.intersectsBox(this.mouse.mouseBox)) {
+        feet.forEach(f => {
+          if (f.id === box.id) f.hitTarget = true;
+        });
+        this.mouse.lives --;
+        console.log(`Levens: ${this.mouse.lives}`);
+      }
+    });
+  }
+
+  updateFootBoxes() {
+    footBoxes = [];
+    feet.forEach(f => footBoxes.push(f.footBox));
+  }
+
+  createParticles(x) {
+    for (let i = 0;i < particleCount;i ++) {
+      particles.push(new Particle(x));
+      Scene.scene.add(particles[particles.length - 1].mesh);
     }
   }
 
@@ -99,20 +118,31 @@ class Game {
     this.cassette.updateHoles();
     this.mouse.increaseScore();
     this.cassette.updateScoreText(this.mouse.score);
+    this.checkCollisions();
+
+    if (this.mouse.checkLives()) {
+      footBoxes = [];
+      feet = [];
+      // eventemitter aanspreken om naar wissel state te gaan indien de data in local storage op 1 staat, op 2 = winner state + local storage wissen
+    }
 
     feet.forEach(f => {
       f.update();
       f.checkLocation();
-      if (f.outOfSight) {
-        Scene.scene.remove(f.mesh);
-        f.mesh.geometry.dispose();
-        f.mesh.material.dispose();
-        f.mesh = undefined;
+      if (f.outOfSight) this.removeMesh(f);
+
+      if (f.hitTarget) {
+        this.createParticles(this.mouse.mesh.position.x);
+        this.removeMesh(f);
       }
     });
-    
-    this.checkCollisions();
+
+    particles.forEach(p => console.log(p));
+    particles.forEach(p => p.moveParticle());
+
     feet = feet.filter(f => !f.outOfSight);
+    feet = feet.filter(f => !f.hitTarget);
+    this.updateFootBoxes();
 
     Scene.renderer.render(Scene.scene, Scene.camera);
     requestAnimationFrame(() => this.loop());
