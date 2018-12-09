@@ -40,6 +40,10 @@ class Mouse {
   increaseScore() {
     this.score += .18;
   }
+
+  checkLives() {
+    if (this.lives === 0) return true;
+  }
 }
 
 module.exports = Mouse;

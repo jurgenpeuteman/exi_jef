@@ -8,18 +8,19 @@ class Particle {
 
     const geom = new THREE.DodecahedronGeometry(Lib.random(0, 3));
     const mat = new THREE.MeshPhongMaterial({
-      color: 0xff6974,
+      color: 0xA9A9A9,
       flatShading: true
     });
 
     this.mesh = new THREE.Mesh(geom, mat);
     this.mesh.position.set(this.x, 301, 1);
+    this.mesh.scale.set(.1, .1, .1);
   }
 
   moveParticle() {
-    this.mesh.x = - 0.2 + Math.random() * 0.4;
-    this.mesh.y = - 0.2 + Math.random() * 0.4;
-    this.mesh.z = - 0.2 + Math.random() * 0.4;
+    this.mesh.position.x += Lib.random(- Lib.random(- .05, 0.4), Lib.random(- .05, 0.4));
+    this.mesh.position.y += Lib.random(- Lib.random(- .05, 0.4), Lib.random(- .05, 0.4));
+    this.mesh.position.z -= Lib.random(Lib.random(0, 0.4), Lib.random(0, 0.4));
   }
 }
 

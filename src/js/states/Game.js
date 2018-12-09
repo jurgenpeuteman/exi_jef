@@ -6,10 +6,13 @@ const Foot = require(`./../classes/Foot.js`);
 const Dancefloor = require(`./../classes/Dancefloor.js`);
 const Cassette = require(`./../classes/Cassette.js`);
 const Background = require(`./../classes/Background.js`);
+const Particle = require(`./../classes/Particle.js`);
 const EventEmitter2 = require(`eventemitter2`).EventEmitter2;
 
 let feet = [];
 let footBoxes = [];
+const particles = [];
+const particleCount = 10;
 
 class Game extends EventEmitter2 {
   constructor() {
@@ -17,8 +20,6 @@ class Game extends EventEmitter2 {
     this.name = `gameState`;
     this.mouse;
     this.cassette;
-    this.lastCheck = Date.now();
-    this.checkInterval = 200;
   }
 
   setActive(bool) {
@@ -100,6 +101,13 @@ class Game extends EventEmitter2 {
     feet.forEach(f => footBoxes.push(f.footBox));
   }
 
+  createParticles(x) {
+    for (let i = 0;i < particleCount;i ++) {
+      particles.push(new Particle(x));
+      Scene.scene.add(particles[particles.length - 1].mesh);
+    }
+  }
+
   quit() {
     if (document.querySelector(`canvas`)) document.querySelector(`canvas`).remove();
   }
@@ -112,18 +120,25 @@ class Game extends EventEmitter2 {
     this.cassette.updateScoreText(this.mouse.score);
     this.checkCollisions();
 
+    if (this.mouse.checkLives()) {
+      footBoxes = [];
+      feet = [];
+      // eventemitter aanspreken om naar wissel state te gaan indien de data in local storage op 1 staat, op 2 = winner state + local storage wissen
+    }
+
     feet.forEach(f => {
       f.update();
       f.checkLocation();
-      if (f.outOfSight) {
-        this.removeMesh(f);
-      }
+      if (f.outOfSight) this.removeMesh(f);
 
       if (f.hitTarget) {
-        console.log(`explode`);
+        this.createParticles(this.mouse.mesh.position.x);
         this.removeMesh(f);
       }
     });
+
+    particles.forEach(p => console.log(p));
+    particles.forEach(p => p.moveParticle());
 
     feet = feet.filter(f => !f.outOfSight);
     feet = feet.filter(f => !f.hitTarget);
