@@ -19,54 +19,67 @@ class Menu {
   }
 
   addContent(container) {
-    const $btn = document.createElement(`button`);
-    $btn.textContent = `start`;
-    $btn.id = `startButton`;
-    $btn.value = `start`;
-    $btn.classList.add(`startButton`);
-    container.appendChild($btn);
-
     const $section = document.createElement(`section`);
     $section.classList.add(`menu`);
 
     const $div1 = document.createElement(`div`);
-    $div1.classList.add(`player1`);
     const $player1 = document.createElement(`h1`);
-    $player1.textContent = `Player 1`;
-    const $p1Arrow = document.createElement(`img`);
-    $p1Arrow.src = `./assets/img/menu/arrow.svg`;
+    const $function1 = document.createElement(`h2`);
     const $p1Image = document.createElement(`img`);
-    $p1Image.src = `./assets/img/menu/mouseplayer.png`;
+    const $p1Arrow = document.createElement(`img`);
+    $div1.classList.add(`player-container`);
+    $player1.textContent = `Player 1`;
+    $player1.classList.add(`player-title`);
+    $p1Image.src = `./assets/img/balanceboard.png`;
+    $p1Image.width = `620`;
+    $p1Image.height = `151`;
+    $p1Image.classList.add(`balanceboard`);
+    $p1Arrow.src = `./assets/img/arrow.svg`;
+    $p1Arrow.width = `35`;
+    $p1Arrow.height = `35`;
+    $p1Arrow.classList.add(`arrow`);
+    $function1.classList.add(`function`);
+    $function1.textContent = `Balanceboard`;
 
+    const $vs = document.createElement(`p`);
+    $vs.textContent = `vs`;
+    $vs.classList.add(`vs`);
 
     const $div2 = document.createElement(`div`);
-    $div2.classList.add(`player2`);
-    const $p2TitleContainer = document.createElement(`div`);
-    $p2TitleContainer.classList.add(`player2TitleContainer`);
     const $player2 = document.createElement(`h1`);
-    $player2.textContent = `Player 2`;
-    const $p2Arrow = document.createElement(`img`);
-    $p2Arrow.src = `./assets/img/menu/arrow.svg`;
+    const $function2 = document.createElement(`h2`);
     const $p2Image = document.createElement(`img`);
-    $p2Image.src = `./assets/img/menu/arcadeButton.png`;
-
+    const $p2Arrow = document.createElement(`img`);
+    $div2.classList.add(`player-container`);
+    $player2.textContent = `Player 2`;
+    $player2.classList.add(`player-title`);
+    $p2Image.src = `./assets/img/button.png`;
+    $p2Image.width = `472`;
+    $p2Image.height = `327`;
+    $p2Image.classList.add(`button`);
+    $p2Arrow.src = `./assets/img/arrow.svg`;
+    $p2Arrow.width = `35`;
+    $p2Arrow.height = `35`;
+    $p2Arrow.classList.add(`arrow`);
+    $function2.classList.add(`function`);
+    $function2.textContent = `Dancebooth`;
 
     container.appendChild($section);
     $section.appendChild($div1);
+    $section.appendChild($vs);
     $section.appendChild($div2);
     $div1.appendChild($player1);
+    $div1.appendChild($function1);
     $div1.appendChild($p1Arrow);
     $div1.appendChild($p1Image);
     $div2.appendChild($player2);
+    $div2.appendChild($function2);
     $div2.appendChild($p2Arrow);
     $div2.appendChild($p2Image);
   }
 
   removeContent(container) {
-    const $btn = container.querySelector(`.startButton`);
     const $section = container.querySelector(`.menu`);
-
-    if ($btn) $btn.remove();
     if ($section) $section.remove();
   }
 
@@ -83,17 +96,19 @@ class Menu {
   }
 
   styleActive(player) {
-    document.querySelector(player).style.backgroundColor = `#b2f7d9`;
+    const $playerContainer = document.querySelectorAll(`.player-container`)[player];
+    $playerContainer.style.backgroundColor = `#b2f7d9`;
+    $playerContainer.querySelector(`.arrow`).style.opacity = `0`;
   }
 
   danceBoothReady() {
-    if (!this.dancebooth) this.styleActive(`.player2`);
+    if (!this.dancebooth) this.styleActive(1);
     this.dancebooth = true;
   }
 
   boardReady(v) {
     if (v !== `0.50`) {
-      if (!this.board) this.styleActive(`.player1`);
+      if (!this.board) this.styleActive(0);
       this.board = true;
     }
     this.checkPlayers();

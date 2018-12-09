@@ -33,8 +33,12 @@ class Loading {
   removeContent(container) {
     const loader = container.querySelector(`.loader`);
     if (loader) loader.remove();
+
     const shadow = container.querySelector(`.shadow`);
     if (shadow) shadow.remove();
+
+    const imgDiv = container.querySelector(`.container-img`);
+    if (imgDiv) imgDiv.remove();
   }
 }
   
