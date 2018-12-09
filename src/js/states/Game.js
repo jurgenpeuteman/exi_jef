@@ -6,13 +6,14 @@ const Foot = require(`./../classes/Foot.js`);
 const Dancefloor = require(`./../classes/Dancefloor.js`);
 const Cassette = require(`./../classes/Cassette.js`);
 const Background = require(`./../classes/Background.js`);
-const THREE = require(`three`);
+const EventEmitter2 = require(`eventemitter2`).EventEmitter2;
 
 let feet = [];
-const footBoxes = [];
+let footBoxes = [];
 
-class Game {
+class Game extends EventEmitter2 {
   constructor() {
+    super({});
     this.name = `gameState`;
     this.mouse;
     this.cassette;
@@ -58,8 +59,6 @@ class Game {
 
     feet.push(new Foot(((block * selectedBlock) - blockHalf) - (w / 2)));
     Scene.scene.add(feet[feet.length - 1].mesh);
-
-    footBoxes.push(feet[feet.length - 1].footBox);
   }
 
   checkedPressedButton(name) {
@@ -87,9 +86,18 @@ class Game {
   checkCollisions() {
     footBoxes.forEach(box => {
       if (box.intersectsBox(this.mouse.mouseBox)) {
-        console.log(`hit`);
+        feet.forEach(f => {
+          if (f.id === box.id) f.hitTarget = true;
+        });
+        this.mouse.lives --;
+        console.log(`Levens: ${this.mouse.lives}`);
       }
     });
+  }
+
+  updateFootBoxes() {
+    footBoxes = [];
+    feet.forEach(f => footBoxes.push(f.footBox));
   }
 
   quit() {
@@ -110,9 +118,16 @@ class Game {
       if (f.outOfSight) {
         this.removeMesh(f);
       }
+
+      if (f.hitTarget) {
+        console.log(`explode`);
+        this.removeMesh(f);
+      }
     });
-    
+
     feet = feet.filter(f => !f.outOfSight);
+    feet = feet.filter(f => !f.hitTarget);
+    this.updateFootBoxes();
 
     Scene.renderer.render(Scene.scene, Scene.camera);
     requestAnimationFrame(() => this.loop());
