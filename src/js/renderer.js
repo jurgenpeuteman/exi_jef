@@ -4,18 +4,16 @@
   const loadingState = require(`./states/Loading.js`);
   const menuState = require(`./states/Menu.js`);
   const gameState = require(`./states/Game.js`);
+  const gameEndState = require(`./states/GameEnd.js`);
   const data = require(`./objects/Data.js`);
   const THREE = require(`three`);
-  const threeFbxLoader = require(`three-fbx-loader`);
   const fontLoader = new THREE.FontLoader();
-
-  const FBXLoader = new threeFbxLoader();
   
-
   const states = [
     menuState,
     loadingState,
-    gameState
+    gameState,
+    gameEndState
   ];
 
   const setState = name => {
@@ -52,6 +50,11 @@
           geometry.name = `cassetteHole`;
           data.cassetteHoleGeom = geometry;
         }))
+      .then(loadWithJSONLoader(`./assets/models/trophy.json`)
+        .then(geometry => {
+          geometry.name = `trophy`;
+          data.trophyGeom = geometry;
+        }))
       .then(fontLoader.load(`./assets/fonts/helvitker.json`, font => {
         data.font = font;
       }))
@@ -60,10 +63,10 @@
           geometry.name = `mouseGeom`;
           data.mouseGeom = geometry;
         }))
-      .then(() => Arduino.setupArduino())
-      .then(() => BalanceBoardReader.setupOSC())
-      .then(() => setState(`menuState`))
-      .then(() => menuState.checkPlayers());
+      //.then(() => Arduino.setupArduino())
+      //.then(() => BalanceBoardReader.setupOSC())
+      .then(() => setState(`gameEndState`));
+    //.then(() => menuState.checkPlayers());
     // .then(() => setState(`gameState`));
   };
 
