@@ -14,7 +14,7 @@ class Foot {
     const colors = [`Red`, `Blue`, `Pink`, `Black`, `Green`];
     const color = colors[Lib.random(0, colors.length)];
 
-    const mat = new THREE.TextureLoader().load(`./assets/textures/vans${color}.png`);
+    const mat = new THREE.TextureLoader().load(`./assets/textures/lowpolyVans${color}.png`);
     const material = new THREE.MeshStandardMaterial({
       color: 0xffffff,
       map: mat,
@@ -30,6 +30,11 @@ class Foot {
     this.mesh.receiveShadow = true;
     this.mesh.castShadow = true;
     this.mesh.scale.set(.02, .02, .02);
+
+    // collision box
+    this.footBox = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+    this.footBox.setFromObject(this.mesh);
+    this.footBox.id = this.id;
   }
 
   update() {
@@ -40,12 +45,12 @@ class Foot {
     // this.mesh.rotation.x = (Math.atan(this.mesh.position.y / this.mesh.position.z) + (Math.PI / 2));
 
     this.i += 0.00001;
+
+    this.footBox.setFromObject(this.mesh);
   }
 
   checkLocation() {
-    if (this.mesh.position.z > 0) {
-      this.outOfSight = true;
-    }
+    if (this.mesh.position.z > 0) this.outOfSight = true;
   }
 }
 

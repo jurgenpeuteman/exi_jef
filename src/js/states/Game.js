@@ -9,13 +9,15 @@ const Background = require(`./../classes/Background.js`);
 const THREE = require(`three`);
 
 let feet = [];
-const collidableMeshList = [];
+const footBoxes = [];
 
 class Game {
   constructor() {
     this.name = `gameState`;
     this.mouse;
     this.cassette;
+    this.lastCheck = Date.now();
+    this.checkInterval = 200;
   }
 
   setActive(bool) {
@@ -57,7 +59,7 @@ class Game {
     feet.push(new Foot(((block * selectedBlock) - blockHalf) - (w / 2)));
     Scene.scene.add(feet[feet.length - 1].mesh);
 
-    collidableMeshList.push(feet[feet.length - 1].mesh);
+    footBoxes.push(feet[feet.length - 1].footBox);
   }
 
   checkedPressedButton(name) {
@@ -75,18 +77,19 @@ class Game {
     }
   }
 
-  checkCollisions() {
-    const originPoint = this.mouse.mesh.position.clone();
-    for (let i = 0;i < this.mouse.mesh.geometry.vertices.length;i ++) {
-      const localVertex = this.mouse.mesh.geometry.vertices[i].clone();
-      const globalVertex = localVertex.applyMatrix4(this.mouse.mesh.matrix);
-      const directionVector = globalVertex.sub(this.mouse.mesh.position);
+  removeMesh(m) {
+    Scene.scene.remove(m.mesh);
+    m.mesh.geometry.dispose();
+    m.mesh.material.dispose();
+    m.mesh = undefined;
+  }
 
-      const ray = new THREE.Raycaster(originPoint, directionVector.clone().normalize());
-      const collisionResults = ray.intersectObjects(collidableMeshList);
-      if (collisionResults.length > 0 && collisionResults[0].distance < directionVector.length())
+  checkCollisions() {
+    footBoxes.forEach(box => {
+      if (box.intersectsBox(this.mouse.mouseBox)) {
         console.log(`hit`);
-    }
+      }
+    });
   }
 
   quit() {
@@ -99,19 +102,16 @@ class Game {
     this.cassette.updateHoles();
     this.mouse.increaseScore();
     this.cassette.updateScoreText(this.mouse.score);
+    this.checkCollisions();
 
     feet.forEach(f => {
       f.update();
       f.checkLocation();
       if (f.outOfSight) {
-        Scene.scene.remove(f.mesh);
-        f.mesh.geometry.dispose();
-        f.mesh.material.dispose();
-        f.mesh = undefined;
+        this.removeMesh(f);
       }
     });
     
-    this.checkCollisions();
     feet = feet.filter(f => !f.outOfSight);
 
     Scene.renderer.render(Scene.scene, Scene.camera);

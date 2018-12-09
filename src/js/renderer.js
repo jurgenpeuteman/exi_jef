@@ -6,11 +6,7 @@
   const gameState = require(`./states/Game.js`);
   const data = require(`./objects/Data.js`);
   const THREE = require(`three`);
-  const threeFbxLoader = require(`three-fbx-loader`);
   const fontLoader = new THREE.FontLoader();
-
-  const FBXLoader = new threeFbxLoader();
-  
 
   const states = [
     menuState,
@@ -34,10 +30,9 @@
   };
 
   const init = () => {
-    
     setState(`loadingState`);
 
-    loadWithJSONLoader(`./assets/models/vansBlack.json`)
+    loadWithJSONLoader(`./assets/models/lowpolyVans.json`)
       .then(geometry => {
         geometry.name = `vans`;
         data.footGeom = geometry;
@@ -55,7 +50,7 @@
       .then(fontLoader.load(`./assets/fonts/helvitker.json`, font => {
         data.font = font;
       }))
-      .then(loadWithJSONLoader(`./assets/models/mouse.json`)
+      .then(loadWithJSONLoader(`./assets/models/lowpolyMouse.json`)
         .then(geometry => {
           geometry.name = `mouseGeom`;
           data.mouseGeom = geometry;
@@ -63,8 +58,8 @@
       .then(() => Arduino.setupArduino())
       .then(() => BalanceBoardReader.setupOSC())
       .then(() => setState(`menuState`))
-      .then(() => menuState.checkPlayers());
-    // .then(() => setState(`gameState`));
+      .then(() => menuState.checkPlayers())
+      .then(() => setState(`gameState`));
   };
 
   init();

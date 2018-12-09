@@ -4,11 +4,9 @@
   "main": "script.js",
   "license": "MIT",
   "dependencies": {
-    "electron": "^3.0.9",
     "johnny-five": "^1.0.0",
     "osc": "^2.2.4",
     "three": "^0.98.0",
-    "three-fbx-loader": "^1.0.3",
     "three-orbitcontrols": "^2.96.3",
     "uniqid": "^5.0.3"
   },
@@ -18,7 +16,7 @@
     "rebuild": "./node_modules/.bin/electron-rebuild"
   },
   "devDependencies": {
-    "electromon": "^1.0.10",
+    "electron": "^3.0.9",
     "electron-rebuild": "^1.8.2",
     "eslint": "^5.9.0",
     "eslint-config-devine": "^2.0.1",
