@@ -19,9 +19,9 @@ class Foot {
       color: 0xffffff,
       map: mat,
       metalness: .2,
-      roughness: 10,
+      roughness: .2,
       wireframe: false,
-      flatShading: true
+      flatShading: false
     });
   
     this.mesh = new THREE.Mesh(data.footGeom, material);

@@ -7,6 +7,7 @@
     "johnny-five": "^1.0.0",
     "osc": "^2.2.4",
     "three": "^0.98.0",
+    "three-fbxloader-offical": "^1.0.0",
     "three-orbitcontrols": "^2.96.3",
     "uniqid": "^5.0.3"
   },

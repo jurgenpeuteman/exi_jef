@@ -9,6 +9,9 @@
   const data = require(`./objects/Data.js`);
   const THREE = require(`three`);
   const fontLoader = new THREE.FontLoader();
+  const FBXL = require(`three-fbxloader-offical`);
+  const fbxLoader = new FBXL();
+
 
   const states = [
     loadingState,
@@ -58,6 +61,10 @@
         }))
       .then(fontLoader.load(`./assets/fonts/helvitker.json`, font => {
         data.font = font;
+      }))
+      .then(fbxLoader.load(`./assets/models/Running4.fbx`, geometry => {
+        geometry.name = `runningMouse`;
+        data.runningMouse = geometry;
       }))
       .then(loadWithJSONLoader(`./assets/models/lowpolyMouse.json`)
         .then(geometry => {

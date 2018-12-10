@@ -51,6 +51,7 @@ class Game extends EventEmitter2 {
   createMouse() {
     this.mouse = new Mouse();
     Scene.scene.add(this.mouse.mesh);
+    //Scene.scene.add(this.mouse.geom);
   }
 
   createFoot(selectedBlock) {
@@ -91,6 +92,11 @@ class Game extends EventEmitter2 {
           if (f.id === box.id) f.hitTarget = true;
         });
         this.mouse.lives --;
+        
+        //this.cassette.cassetteGroup.remove(`${this.heart}${this.mouse.lives}`);
+        //this.cassette.cassetteGroup.heartGroup.remove(this.cassette.cassetteGroup.heartGroup.children.splice(- 1, 2));
+        this.cassette.heartGroup.remove(this.cassette.heartGroup.children.splice(- 1, 1));
+        console.log(this.cassette.heartGroup);
         console.log(`Levens: ${this.mouse.lives}`);
       }
     });
@@ -118,6 +124,7 @@ class Game extends EventEmitter2 {
     Dancefloor.update();
     this.cassette.updateHoles();
     this.mouse.increaseScore();
+    //this.mouse.updateRunning();
     this.cassette.updateScoreText(this.mouse.score);
     this.checkCollisions();
 
@@ -138,7 +145,7 @@ class Game extends EventEmitter2 {
       }
     });
 
-    particles.forEach(p => console.log(p));
+    //particles.forEach(p => console.log(p));
     particles.forEach(p => p.moveParticle());
 
     feet = feet.filter(f => !f.outOfSight);
