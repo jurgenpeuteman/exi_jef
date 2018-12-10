@@ -7,7 +7,6 @@ const Dancefloor = require(`./../classes/Dancefloor.js`);
 const Cassette = require(`./../classes/Cassette.js`);
 const Background = require(`./../classes/Background.js`);
 const Particle = require(`./../classes/Particle.js`);
-const Colors = require(`./../objects/Colors.js`);
 const EventEmitter2 = require(`eventemitter2`).EventEmitter2;
 
 let feet = [];
@@ -28,7 +27,7 @@ class Game extends EventEmitter2 {
   }
 
   setup() {
-    Scene.create(`.container`);
+    Scene.create(`game-canvas`);
     this.createBackground();
     this.createDancefloor();
     this.createMouse();
@@ -41,7 +40,6 @@ class Game extends EventEmitter2 {
 
   createBackground() {
     Scene.scene.add(Background.particles);
-    Scene.renderer.setClearColor(Colors.black);
     this.cassette = new Cassette();
     Scene.scene.add(this.cassette.cassetteGroup);
   }
@@ -111,7 +109,8 @@ class Game extends EventEmitter2 {
   }
 
   quit() {
-    if (document.querySelector(`canvas`)) document.querySelector(`canvas`).remove();
+    const $canvas = document.querySelector(`.game-canvas`);
+    if ($canvas) $canvas.remove();
   }
 
   loop() {

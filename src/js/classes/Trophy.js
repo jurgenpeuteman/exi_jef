@@ -3,7 +3,6 @@ const data = require(`../objects/Data.js`);
 
 class Trophy {
   constructor() {
-    console.log(data.trophyGeom);
     const material = new THREE.MeshStandardMaterial({
       color: 0xffd700,
       metalness: .7,
@@ -16,11 +15,11 @@ class Trophy {
     this.mesh.name = `trophy`;
     this.mesh.receiveShadow = true;
     this.mesh.castShadow = true;
-    this.mesh.scale.set(.05, .05, .05);
+    this.mesh.scale.set(.04, .04, .04);
   }
 
-  updateTrophy() {
-    this.mesh.rotation.y += .02;
+  update() {
+    this.mesh.rotation.y += .002;
   }
 }
 

@@ -26,6 +26,7 @@ body {
   width: 100%;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -76,16 +77,21 @@ body {
   height: auto;
 }
 
-.balanceboard, .button {
+.balanceboard,
+.button {
   justify-self: flex-end;
 }
 
+.menu-change, .menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 70vw;
+    max-width: 100rem;
+}
+
 .menu {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 70vw;
+flex-direction: row;
 }
 
 .player-title {
@@ -110,7 +116,22 @@ body {
   animation: arrow .75s ease-in-out infinite alternate-reverse;
 }
 
-.gameEndRenderContainer {
+.winner {
+  position: absolute;
+  left: 50vw;
+  top: 0;
+}
+
+.switch-container {
+  margin-bottom: 5rem;
+}
+
+.menu-change {
+  flex-direction: row-reverse;
+}
+
+.switch {
+  transform: scaleX(-1);
 }
 
 @keyframes loader {

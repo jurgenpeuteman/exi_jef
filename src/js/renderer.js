@@ -4,16 +4,18 @@
   const loadingState = require(`./states/Loading.js`);
   const menuState = require(`./states/Menu.js`);
   const gameState = require(`./states/Game.js`);
-  const gameEndState = require(`./states/GameEnd.js`);
+  const endState = require(`./states/End.js`);
+  const changeState = require(`./states/Change.js`);
   const data = require(`./objects/Data.js`);
   const THREE = require(`three`);
   const fontLoader = new THREE.FontLoader();
-  
+
   const states = [
-    menuState,
     loadingState,
+    menuState,
+    endState,
     gameState,
-    gameEndState
+    changeState
   ];
 
   const setState = name => {
@@ -39,9 +41,8 @@
         geometry.name = `vans`;
         data.footGeom = geometry;
       })
-      .then(loadWithJSONLoader(`./assets/models/trophy2.json`)
+      .then(loadWithJSONLoader(`./assets/models/trophy.json`)
         .then(geometry => {
-          console.log(geometry);
           geometry.name = `trophy`;
           data.trophyGeom = geometry;
         }))
@@ -63,14 +64,11 @@
           geometry.name = `mouseGeom`;
           data.mouseGeom = geometry;
         }))
-      .then(() => setState(`gameEndState`));
-    //.then(() => Arduino.setupArduino())
-    //.then(() => BalanceBoardReader.setupOSC())
-    //.then(() => setState(`menuState`))
-    //.then(() => menuState.checkPlayers())
-    //.then(() => setState(`gameState`));
-      
-
+      .then(() => Arduino.setupArduino())
+      .then(() => BalanceBoardReader.setupOSC())
+      .then(() => setState(`menuState`))
+      .then(() => menuState.checkPlayers())
+      .then(() => setState(`gameState`));
   };
 
   init();

@@ -31,8 +31,8 @@ class Arduino extends EventEmitter2 {
         
         const RGBLed = new five.Led.RGB([10, 9, 11]);
 
-        const ledPower = new five.Led(12);
-        const btnPower = new five.Button(2);
+        const ledPower = new five.Led(11);
+        const btnPower = new five.Button(12);
 
         btnLeft.custom = {
           name: `L`
