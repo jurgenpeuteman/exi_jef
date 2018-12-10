@@ -75,7 +75,9 @@
       .then(() => BalanceBoardReader.setupOSC())
       .then(() => setState(`menuState`))
       .then(() => menuState.checkPlayers())
-      .then(() => setState(`gameState`));
+      .then(() => setState(`gameState`))
+      .then(() => gameState.checkGameOver())
+      .then(() => setState(`endState`));
   };
 
   init();

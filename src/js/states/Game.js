@@ -7,16 +7,15 @@ const Dancefloor = require(`./../classes/Dancefloor.js`);
 const Cassette = require(`./../classes/Cassette.js`);
 const Background = require(`./../classes/Background.js`);
 const Particle = require(`./../classes/Particle.js`);
-const EventEmitter2 = require(`eventemitter2`).EventEmitter2;
+const timeout = require(`../functions/lib.js`).timeout;
 
 let feet = [];
 let footBoxes = [];
 const particles = [];
 const particleCount = 10;
 
-class Game extends EventEmitter2 {
+class Game {
   constructor() {
-    super({});
     this.name = `gameState`;
     this.mouse;
     this.cassette;
@@ -35,6 +34,7 @@ class Game extends EventEmitter2 {
     Arduino.on(`btnPressed`, v => this.createFoot(this.checkedPressedButton(v)));
     BalanceBoardReader.on(`oscMessage`, v => this.mouse.moveMouse(v));
 
+    this.checkGameOver();
     this.loop();
   }
 
@@ -102,6 +102,18 @@ class Game extends EventEmitter2 {
     });
   }
 
+  checkGameOver() {
+    return new Promise(resolve => {
+      if (this.mouse.checkLives()) {
+        resolve();
+      } else {
+        timeout(500)
+          .then(() => this.checkGameOver())
+          .then(() => resolve());
+      }
+    });
+  }
+
   updateFootBoxes() {
     footBoxes = [];
     feet.forEach(f => footBoxes.push(f.footBox));
@@ -128,11 +140,13 @@ class Game extends EventEmitter2 {
     this.cassette.updateScoreText(this.mouse.score);
     this.checkCollisions();
 
-    if (this.mouse.checkLives()) {
-      footBoxes = [];
-      feet = [];
-      // eventemitter aanspreken om naar wissel state te gaan indien de data in local storage op 1 staat, op 2 = winner state + local storage wissen
-    }
+    // if (this.mouse.checkLives()) {
+    //   // footBoxes = [];
+    //   // feet = [];
+
+
+    //   // eventemitter aanspreken om naar wissel state te gaan indien de data in local storage op 1 staat, op 2 = winner state + local storage wissen
+    // }
 
     feet.forEach(f => {
       f.update();
@@ -140,7 +154,7 @@ class Game extends EventEmitter2 {
       if (f.outOfSight) this.removeMesh(f);
 
       if (f.hitTarget) {
-        this.createParticles(this.mouse.mesh.position.x);
+        // this.createParticles(this.mouse.mesh.position.x);
         this.removeMesh(f);
       }
     });
