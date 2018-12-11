@@ -102,12 +102,14 @@ class Game {
         feet.forEach(f => {
           if (f.id === box.id) f.hitTarget = true;
         });
-        this.mouse.lives --;
-        
-        this.cassette.heartGroup.remove(this.cassette.heartGroup.children.splice(- 1, 1));
-        console.log(`Levens: ${this.mouse.lives}`);
+        this.decreaseLives();
       }
     });
+  }
+
+  decreaseLives() {
+    this.mouse.lives --;
+    this.cassette.heartGroup.remove(this.cassette.heartGroup.children.splice(- 1, 1));
   }
 
   saveScore() {

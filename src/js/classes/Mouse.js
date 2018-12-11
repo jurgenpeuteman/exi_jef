@@ -3,9 +3,6 @@ const Lib = require(`./../functions/lib.js`);
 const data = require(`./../objects/Data.js`);
 const uniqid = require(`uniqid`);
 
-const mixers = [];
-const clock = new THREE.Clock();
-
 class Mouse {
   constructor() {
     this.mouse;
@@ -14,6 +11,8 @@ class Mouse {
     this.score = 0;
     this.id = uniqid();
     this.mouseGroup = new THREE.Group();
+    this.clock = new THREE.Clock();
+    this.mixers  = [];
     
     const Mgeom = data.mouseGeom;
     const mat = new THREE.MeshPhongMaterial({
@@ -35,7 +34,7 @@ class Mouse {
     // Animation Running
     this.geom = data.runningMouse;
     this.geom.mixer = new THREE.AnimationMixer(this.geom);
-    mixers.push(this.geom.mixer);
+    this.mixers.push(this.geom.mixer);
     const action = this.geom.mixer.clipAction(this.geom.animations[0]);
     action.play();
     this.geom.traverse(child => {
@@ -58,9 +57,9 @@ class Mouse {
   }
 
   updateRunning() {
-    if (mixers.length > 0) {
-      for (let i = 0;i < mixers.length;i ++) {
-        mixers[i].update(clock.getDelta());
+    if (this.mixers.length > 0) {
+      for (let i = 0;i < this.mixers.length;i ++) {
+        this.mixers[i].update(this.clock.getDelta());
       }
     }
   }

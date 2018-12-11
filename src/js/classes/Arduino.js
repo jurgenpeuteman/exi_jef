@@ -1,7 +1,7 @@
 const EventEmitter2 = require(`eventemitter2`).EventEmitter2;
 const Readable = require(`stream`).Readable;
 const five = require(`johnny-five`);
-const board = new five.Board();
+const board = new five.Board(); 
 
 class MyStream extends Readable {
   constructor(opts) {
@@ -19,6 +19,8 @@ process.__defineGetter__(`stdin`, () => {
 class Arduino extends EventEmitter2 {
   constructor() {
     super({});
+    this.RGBLed;
+    this.ledPower;
   }
 
   setupArduino() {
@@ -29,9 +31,9 @@ class Arduino extends EventEmitter2 {
         const btnSemiLeft = new five.Button(5);
         const btnLeft = new five.Button(6);
         
-        const RGBLed = new five.Led.RGB([10, 9, 11]);
+        this.RGBLed = new five.Led.RGB([10, 9, 11]);
 
-        const ledPower = new five.Led(11);
+        this.ledPower = new five.Led(11);
         const btnPower = new five.Button(12);
 
         btnLeft.custom = {
@@ -52,10 +54,9 @@ class Arduino extends EventEmitter2 {
 
         btnPower.on(`press`, () => this.playerReady(btnPower.name));
         btnPower.on(`press`, () => this.playerChangeReady(btnPower.name));
-        ledPower.on();
 
-        RGBLed.on();
-        RGBLed.color(`#ff6973`);
+        this.RGBLed.on();
+        this.RGBLed.color(`#ff6973`);
     
         btnLeft.on(`press`, () => this.getArduinoInput(btnLeft.custom.name));
         btnSemiLeft.on(`press`, () => this.getArduinoInput(btnSemiLeft.custom.name));

@@ -27,6 +27,8 @@ class Change {
   addContent(container) {
     this.addEvents();
 
+    Arduino.ledPower.blink(500);
+
     const $section = document.createElement(`section`);
     $section.classList.add(`menu-change`);
 
@@ -125,6 +127,7 @@ class Change {
   danceBoothChangeReady() {
     if (!this.danceboothChange) this.styleChangeActive(1);
     this.danceboothChange = true;
+    Arduino.ledPower.stop().off();
   }
 
   boardChangeReady(v) {
