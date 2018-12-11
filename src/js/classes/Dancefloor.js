@@ -6,12 +6,17 @@ class Dancefloor {
 
     geom.applyMatrix(new THREE.Matrix4().makeRotationX(- Math.PI / 2));
     geom.applyMatrix(new THREE.Matrix4().makeRotationY(- Math.PI / 2));
+    const mat = new THREE.TextureLoader().load(`./assets/textures/danceFloor.jpg`);
+    mat.wrapS = THREE.RepeatWrapping;
+    mat.wrapT = THREE.RepeatWrapping;
 
     const material = new THREE.MeshPhongMaterial({
       color: 0xfffbf0,
-      flatShading: true,
+      map: mat,
+      flatShading: false,
       visible: true
     });
+    
 
     this.mesh = new THREE.Mesh(geom, material);
     this.mesh.receiveShadow = true;

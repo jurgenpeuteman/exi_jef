@@ -11,6 +11,7 @@
   const fontLoader = new THREE.FontLoader();
   const FBXL = require(`three-fbxloader-offical`);
   const fbxLoader = new FBXL();
+  const audioLoader = new THREE.AudioLoader();
 
   const gameState1 = new Game(`gameState1`, `game-canvas1`);
   const gameState2 = new Game(`gameState2`, `game-canvas2`);
@@ -65,6 +66,11 @@
           geometry.name = `cassetteHole`;
           data.cassetteHoleGeom = geometry;
         }))
+      .then(loadWithJSONLoader(`./assets/models/lowpolyMouse.json`)
+        .then(geometry => {
+          geometry.name = `mouseGeom`;
+          data.mouseGeom = geometry;
+        }))
       .then(fontLoader.load(`./assets/fonts/helvitker.json`, font => {
         data.font = font;
       }))
@@ -72,11 +78,10 @@
         geometry.name = `runningMouse`;
         data.runningMouse = geometry;
       }))
-      .then(loadWithJSONLoader(`./assets/models/lowpolyMouse.json`)
-        .then(geometry => {
-          geometry.name = `mouseGeom`;
-          data.mouseGeom = geometry;
-        }))
+      .then(audioLoader.load(`./assets/audio/themesong.mp3`, audio => {
+        audio.name = `song`;
+        data.song = audio;
+      }))
       .then(() => Arduino.setupArduino())
       .then(() => BalanceBoardReader.setupOSC())
       .then(() => setState(`menuState`))
