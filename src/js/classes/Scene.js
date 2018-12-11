@@ -45,7 +45,6 @@ class Scene {
     this.scene.add(new THREE.AxesHelper(310));
 
     this.addLights();
-    this.addFog();
 
     document.querySelector(`canvas`).classList.add(className);
   }
