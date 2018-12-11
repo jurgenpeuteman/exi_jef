@@ -30,7 +30,7 @@ class Menu {
   addContent(container) {
     this.addEvents();
 
-    Arduino.ledPower.blink(500);
+    Arduino.ledPower.blink(200);
 
     const $section = document.createElement(`section`);
     $section.classList.add(`menu`);

@@ -54,6 +54,7 @@ class Arduino extends EventEmitter2 {
 
         btnPower.on(`press`, () => this.playerReady(btnPower.name));
         btnPower.on(`press`, () => this.playerChangeReady(btnPower.name));
+        btnPower.on(`press`, () => this.powerUp(btnPower.name));
 
         this.RGBLed.on();
         this.RGBLed.color(`#ff6973`);
@@ -74,6 +75,10 @@ class Arduino extends EventEmitter2 {
 
   playerChangeReady(btn) {
     this.emit(`changeStart`, btn);
+  }
+
+  powerUp(btn) {
+    this.emit(`powerup`, btn);
   }
 
   getArduinoInput(name) {

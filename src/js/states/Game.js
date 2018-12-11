@@ -9,6 +9,7 @@ const Background = require(`./../classes/Background.js`);
 const Audio = require(`./../classes/Audio.js`);
 const Particle = require(`./../classes/Particle.js`);
 const timeout = require(`../functions/lib.js`).timeout;
+const random = require(`../functions/lib.js`).random;
 
 let feet = [];
 let footBoxes = [];
@@ -23,6 +24,7 @@ class Game {
     this.mouse;
     this.cassette;
     this.events = false;
+    this.activatePowerUp = false;
   }
 
   setActive(bool) {
@@ -34,8 +36,10 @@ class Game {
     this.events = true;
     this.onButtonPressed = v => this.createFoot(this.checkButtonPressed(v));
     this.onMove = v => this.mouse.moveMouse(v);
+    this.onPowerUp = v => this.activatePower(v);
 
     Arduino.on(`btnPressed`, this.onButtonPressed);
+    Arduino.on(`powerup`, this.onPowerUp);
     BalanceBoardReader.on(`oscMessage`, this.onMove);
   } 
 
@@ -47,6 +51,7 @@ class Game {
     this.createDancefloor();
     this.createMouse();
     this.setupAudio();
+    this.setupPowerUp();
 
     this.checkGameOver();
     this.loop();
@@ -74,6 +79,8 @@ class Game {
   }
 
   createFoot(selectedBlock) {
+    this.powerUpCounter ++;
+  
     const w = 12;
     const block = w / 4;
     const blockHalf = block / 2;
@@ -149,9 +156,39 @@ class Game {
     }
   }
 
+  setupPowerUp() {
+    this.powerUp = random(5, 13);
+    this.powerUpCounter = 0;
+  }
+
+  checkPowerUp() {
+    if (this.powerUpCounter === this.powerUp) {
+      this.activatePowerUp = true;
+      Arduino.ledPower.blink(200);
+    }
+  }
+
+  activatePower() {
+    if (this.activatePowerUp) {
+      Arduino.ledPower.stop().off();
+      this.activatePowerUp = false;
+
+      console.log(`add fogg`);
+      Scene.addFog();
+      setTimeout(() => this.deactivatePowerUp(), 4000);
+    }
+  }
+
+  deactivatePowerUp() {
+    Scene.removeFog();
+    console.log(`remove fog`);
+    this.setupPowerUp();
+  }
+
   quit() {
     if (this.events) {
       Arduino.off(`btnPressed`, this.onButtonPressed);
+      Arduino.off(`powerUp`, this.activatePower);
       BalanceBoardReader.off(`oscMessage`, this.onMove);
     }
 
@@ -173,6 +210,7 @@ class Game {
     this.mouse.updateRunning();
     this.cassette.updateScoreText(this.mouse.score);
     this.checkCollisions();
+    this.checkPowerUp();
 
     feet.forEach(f => {
       f.update();

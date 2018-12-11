@@ -68,6 +68,9 @@ class Scene {
     this.shadowLight.shadow.mapSize.width = 2048;
     this.shadowLight.shadow.mapSize.height = 2048;
 
+    this.renderer.gammaInput = true;
+    this.renderer.gammaOutput = true;
+
     this.scene.add(this.hemisphereLight);
     this.scene.add(this.shadowLight);
     this.scene.add(this.ambientLight);
@@ -75,6 +78,10 @@ class Scene {
 
   addFog() {
     this.scene.fog = new THREE.Fog(0x1d1d1d, 10, 5);
+  }
+
+  removeFog() {
+    this.scene.fog.intensity = 0;
   }
 
   handleWindowResize() {

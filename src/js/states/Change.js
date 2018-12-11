@@ -25,9 +25,9 @@ class Change {
   }
 
   addContent(container) {
-    setTimeout(() => this.addEvents(), 3500);
+    setTimeout(() => this.addEvents(), 3000);
     
-    Arduino.ledPower.blink(500);
+    Arduino.ledPower.blink(200);
 
     const $section = document.createElement(`section`);
     $section.classList.add(`menu-change`);
