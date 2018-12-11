@@ -6,7 +6,7 @@ class Change {
   constructor() {
     this.name = `changeState`;
     this.danceboothChange = false;
-    this.boardChange = false;
+    this.boardChange = true;
   }
 
   setActive(bool) {

@@ -1,6 +1,5 @@
 const THREE = require(`three`);
 const Colors = require(`./../objects/Colors.js`);
-const OrbitControls = require(`three-orbitcontrols`);
 
 class Scene {
   constructor() {
@@ -69,11 +68,6 @@ class Scene {
     this.scene.add(axesHelper);
 
     document.querySelector(`canvas`).classList.add(className);
-
-    // const controls = new OrbitControls(this.camera, this.renderer.domElement);
-    // controls.enableDamping = true;
-    // controls.dampingFactor = 0.25;
-    // controls.enableZoom = true;
   }
 
   handleWindowResize() {

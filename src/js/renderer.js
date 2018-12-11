@@ -3,18 +3,22 @@
   const Arduino = require(`./classes/Arduino.js`);
   const loadingState = require(`./states/Loading.js`);
   const menuState = require(`./states/Menu.js`);
-  const gameState = require(`./states/Game.js`);
+  const Game = require(`./states/Game.js`);
   const endState = require(`./states/End.js`);
   const changeState = require(`./states/Change.js`);
   const data = require(`./objects/Data.js`);
   const THREE = require(`three`);
   const fontLoader = new THREE.FontLoader();
 
+  const gameState1 = new Game(`gameState1`, `game-canvas1`);
+  const gameState2 = new Game(`gameState2`, `game-canvas2`);
+
   const states = [
     loadingState,
+    gameState1,
+    gameState2,
     menuState,
     endState,
-    gameState,
     changeState
   ];
 
@@ -34,6 +38,9 @@
   };
 
   const init = () => {
+    localStorage.removeItem(`player1`);
+    localStorage.removeItem(`player2`);
+
     setState(`loadingState`);
 
     loadWithJSONLoader(`./assets/models/lowpolyVans.json`)
@@ -68,8 +75,12 @@
       .then(() => BalanceBoardReader.setupOSC())
       .then(() => setState(`menuState`))
       .then(() => menuState.checkPlayers())
-      .then(() => setState(`gameState`))
-      .then(() => gameState.checkGameOver())
+      .then(() => setState(`gameState1`))
+      .then(() => gameState1.checkGameOver())
+      // .then(() => setState(`changeState`))
+      // .then(() => changeState.checkPlayers())
+      .then(() => setState(`gameState2`))
+      .then(() => gameState2.checkGameOver())
       .then(() => setState(`endState`));
   };
 

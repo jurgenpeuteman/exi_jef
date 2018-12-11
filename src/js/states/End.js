@@ -8,8 +8,7 @@ class End {
   }
 
   setActive(bool) {
-    this.container = document.querySelector(`.container`);
-    bool ? this.setup() : this.removeContent(this.container);
+    bool ? this.setup() : this.quit();
   }
 
   setup() {
@@ -36,8 +35,8 @@ class End {
     requestAnimationFrame(() => this.loop());
   }
 
-  removeContent(container) {
-    const $canvas = container.querySelector(`.end-canvas`);
+  quit() {
+    const $canvas = document.querySelector(`.end-canvas`);
     if ($canvas) $canvas.remove();
   }
 }

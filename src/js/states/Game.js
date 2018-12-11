@@ -15,23 +15,25 @@ const particles = [];
 const particleCount = 10;
 
 class Game {
-  constructor() {
-    this.name = `gameState`;
+  constructor(name, cn) {
+    this.name = name;
+    this.cn = cn;
+    this.savedScore = false;
     this.mouse;
     this.cassette;
   }
 
   setActive(bool) {
-    bool ? this.setup(this.container) : this.quit(this.container);
+    bool ? this.setup() : this.quit();
   }
 
   setup() {
-    Scene.create(`game-canvas`);
+    Scene.create(this.cn);
     this.createBackground();
     this.createDancefloor();
     this.createMouse();
 
-    Arduino.on(`btnPressed`, v => this.createFoot(this.checkedPressedButton(v)));
+    Arduino.on(`btnPressed`, v => this.createFoot(this.checkButtonPressed(v)));
     BalanceBoardReader.on(`oscMessage`, v => this.mouse.moveMouse(v));
 
     this.checkGameOver();
@@ -62,7 +64,7 @@ class Game {
     Scene.scene.add(feet[feet.length - 1].mesh);
   }
 
-  checkedPressedButton(name) {
+  checkButtonPressed(name) {
     switch (name) {
     case `L`:
       return 1;
@@ -91,9 +93,14 @@ class Game {
           if (f.id === box.id) f.hitTarget = true;
         });
         this.mouse.lives --;
-        console.log(`Levens: ${this.mouse.lives}`);
+        console.log(`Levens: ${this.name} ${this.mouse.lives}`);
       }
     });
+  }
+
+  saveScore() {
+    (localStorage.length === 0) ? localStorage.setItem(`player1`, Math.floor(this.mouse.score)) : localStorage.setItem(`player2`, Math.floor(this.mouse.score));
+    console.log(localStorage);
   }
 
   checkGameOver() {
@@ -121,7 +128,7 @@ class Game {
   }
 
   quit() {
-    const $canvas = document.querySelector(`.game-canvas`);
+    const $canvas = document.querySelector(`.${this.cn}`);
     if ($canvas) $canvas.remove();
   }
 
@@ -133,14 +140,6 @@ class Game {
     this.cassette.updateScoreText(this.mouse.score);
     this.checkCollisions();
 
-    // if (this.mouse.checkLives()) {
-    //   // footBoxes = [];
-    //   // feet = [];
-
-
-    //   // eventemitter aanspreken om naar wissel state te gaan indien de data in local storage op 1 staat, op 2 = winner state + local storage wissen
-    // }
-
     feet.forEach(f => {
       f.update();
       f.checkLocation();
@@ -151,6 +150,15 @@ class Game {
         this.removeMesh(f);
       }
     });
+
+    if (!this.savedScore) {
+      if (this.mouse.checkLives()) {
+        feet = [];
+        footBoxes = [];
+        this.saveScore();
+        this.savedScore = true;
+      }
+    }
 
     particles.forEach(p => console.log(p));
     particles.forEach(p => p.moveParticle());
@@ -164,4 +172,5 @@ class Game {
   }
 }
 
-module.exports = new Game();
+// module.exports = new Game();
+module.exports = Game;

@@ -7,7 +7,7 @@ class Menu {
   constructor() {
     this.name = `menuState`;
     this.dancebooth = false;
-    this.board = false;
+    this.board = true;
   }
 
   setActive(bool) {
