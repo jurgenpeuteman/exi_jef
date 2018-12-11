@@ -18,7 +18,7 @@ body {
 }
 
 canvas {
-  background: linear-gradient(to bottom, #000000 0%, #5b6566 99%);
+  background: linear-gradient(to bottom, #fabfad 0%, #f2d2c5 100%);
   width: 100%;
   height: 100%;
 }

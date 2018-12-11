@@ -2,16 +2,11 @@ const THREE = require(`three`);
 const data = require(`../objects/Data.js`);
 const audioLoader = new THREE.AudioLoader();
 
-
-
 class Audio {
   constructor() {
     this.listener = new THREE.AudioListener();
     this.listener2 = new THREE.AudioListener();
     
-    //camera.add(listener);
-
-    // create a global audio source
     this.themeSong = new THREE.Audio(this.listener);
     
     audioLoader.load(`./assets/audio/themesong.mp3`, audio => {
@@ -21,6 +16,7 @@ class Audio {
       this.themeSong.play();
     });
     this.hitSound = new THREE.Audio(this.listener2);
+
     audioLoader.load(`./assets/audio/hit.wav`, audio => {
       this.hitSound.setBuffer(audio);
       this.hitSound.setLoop(false);
@@ -28,7 +24,6 @@ class Audio {
     });
   
     this.buffer = data.song;
-    
   }
    
 }

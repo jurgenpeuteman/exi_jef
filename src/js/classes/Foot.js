@@ -42,7 +42,7 @@ class Foot {
     const h = Math.atan(this.mesh.position.y / this.mesh.position.z);
     this.mesh.position.z = Math.cos(h - this.i) * r;
     this.mesh.position.y = Math.sin(h - this.i) * r;
-    // this.mesh.rotation.x = (Math.atan(this.mesh.position.y / this.mesh.position.z) + (Math.PI / 2));
+    this.mesh.rotation.x = - (Math.atan(this.mesh.position.y / this.mesh.position.z) + (Math.PI / 2));
 
     this.i += 0.00001;
 

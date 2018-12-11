@@ -3,15 +3,6 @@
   "version": "1.0.0",
   "main": "main.js",
   "license": "MIT",
-  "dependencies": {
-    "johnny-five": "^1.0.0",
-    "osc": "^2.2.4",
-    "three": "^0.98.0",
-    "three-fbxloader-offical": "^1.0.0",
-    "three-orbitcontrols": "^2.96.3",
-    "uniqid": "^5.0.3",
-    "eventemitter2": "^5.0.1"
-  },
   "build": {
     "appId": "dancefloorrun.exi.devine.be",
     "mac": {
@@ -26,6 +17,14 @@
     "dist": "electron-builder",
     "dist-win": "electron-builder -w",
     "postinstall": "electron-builder install-app-deps"
+  },
+  "dependencies": {
+    "eventemitter2": "^5.0.1",
+    "johnny-five": "^1.0.0",
+    "osc": "^2.2.4",
+    "three": "^0.98.0",
+    "three-fbxloader-offical": "^1.0.0",
+    "uniqid": "^5.0.3"
   },
   "devDependencies": {
     "electron": "^3.0.9",

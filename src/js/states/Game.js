@@ -48,8 +48,6 @@ class Game {
     this.createMouse();
     this.setupAudio();
 
-    this.createFoot(3);
-
     this.checkGameOver();
     this.loop();
   }
@@ -113,7 +111,6 @@ class Game {
           if (f.id === box.id) f.hitTarget = true;
         });
         this.audio.hitSound.play();
-        console.log(`hit`);
         this.decreaseLives();
       }
     });
@@ -172,7 +169,6 @@ class Game {
     Background.update();
     Dancefloor.update();
     this.cassette.updateHoles();
-    //Scene.updateSpotLights();
     this.mouse.increaseScore();
     this.mouse.updateRunning();
     this.cassette.updateScoreText(this.mouse.score);
