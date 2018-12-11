@@ -50,7 +50,6 @@ class Scene {
   }
 
   addLights() {
-    // gradient colored light
     this.hemisphereLight = new THREE.HemisphereLight(0x9dfad7, 0x000000, .9);
     
     this.shadowLight = new THREE.DirectionalLight(0xffffff, .9);
@@ -59,8 +58,6 @@ class Scene {
     this.ambientLight = new THREE.AmbientLight(0xdc8874, .5);
 
     this.shadowLight.castShadow = true;
-
-    // zichtbare area voor de schaduw definieren
     this.shadowLight.shadow.camera.left = - 400;
     this.shadowLight.shadow.camera.right = 400;
     this.shadowLight.shadow.camera.top = 400;

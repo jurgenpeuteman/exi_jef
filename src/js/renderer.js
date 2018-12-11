@@ -91,7 +91,7 @@
       .then(() => setState(`changeState`))
       .then(() => changeState.checkPlayers())
       .then(() => setState(`gameState2`))
-      .then(() => gameState2.checkGameOver())
+      .then(() => gameState2.checkGameOver()) 
       .then(() => setState(`endState`));
   };
 

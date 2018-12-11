@@ -25,7 +25,7 @@ class Change {
   }
 
   addContent(container) {
-    setTimeout(() => this.addEvents(), 5000);
+    setTimeout(() => this.addEvents(), 3500);
     
     Arduino.ledPower.blink(500);
 
