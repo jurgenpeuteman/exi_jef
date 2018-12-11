@@ -6,19 +6,32 @@ class Menu {
 
   constructor() {
     this.name = `menuState`;
-    this.dancebooth = true;
-    this.board = true;
+    this.dancebooth = false;
+    this.board = false;
+    this.events = false;
   }
 
   setActive(bool) {
+    this.isActive = bool;
+
     this.container = document.querySelector(`.container`);
     bool ? this.addContent(this.container) : this.removeContent(this.container);
+  }
 
-    Arduino.on(`start`, v => this.danceBoothReady(v));
-    BalanceBoardReader.on(`start`, v => this.boardReady(v));
+  addEvents() {
+    this.events = true;
+    this.onBoothReady = v => this.danceBoothReady(v);
+    this.onBalanceReady = v => this.boardReady(v);
+
+    Arduino.on(`start`, this.onBoothReady);
+    BalanceBoardReader.on(`start`, this.onBalanceReady);
   }
 
   addContent(container) {
+    this.addEvents();
+
+    Arduino.ledPower.blink(500);
+    
     const $section = document.createElement(`section`);
     $section.classList.add(`menu`);
 
@@ -79,6 +92,11 @@ class Menu {
   }
 
   removeContent(container) {
+    if (this.events) {
+      Arduino.off(`start`, this.onBoothReady);
+      BalanceBoardReader.off(`start`, this.onBalanceReady);
+    }
+    
     const $section = container.querySelector(`.menu`);
     if ($section) $section.remove();
   }
@@ -104,6 +122,7 @@ class Menu {
   danceBoothReady() {
     if (!this.dancebooth) this.styleActive(1);
     this.dancebooth = true;
+    Arduino.ledPower.stop().off();
   }
 
   boardReady(v) {

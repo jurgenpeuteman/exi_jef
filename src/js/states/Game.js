@@ -16,27 +16,39 @@ const particles = [];
 const particleCount = 10;
 
 class Game {
-  constructor() {
-    this.name = `gameState`;
+  constructor(name, cn) {
+    this.name = name;
+    this.cn = cn;
+    this.savedScore = false;
     this.mouse;
     this.cassette;
+    this.events = false;
   }
 
   setActive(bool) {
-    bool ? this.setup(this.container) : this.quit(this.container);
+    this.isActive = bool;
+    bool ? this.setup() : this.quit();
   }
 
+  addEvents() {
+    this.events = true;
+    this.onButtonPressed = v => this.createFoot(this.checkButtonPressed(v));
+    this.onMove = v => this.mouse.moveMouse(v);
+
+    Arduino.on(`btnPressed`, this.onButtonPressed);
+    BalanceBoardReader.on(`oscMessage`, this.onMove);
+  } 
+
   setup() {
-    Scene.create(`game-canvas`);
+    this.addEvents();
+
+    Scene.create(this.cn);
     this.createBackground();
     this.createDancefloor();
     this.createMouse();
     this.setupAudio();
 
     this.createFoot(3);
-
-    Arduino.on(`btnPressed`, v => this.createFoot(this.checkedPressedButton(v)));
-    BalanceBoardReader.on(`oscMessage`, v => this.mouse.moveMouse(v));
 
     this.checkGameOver();
     this.loop();
@@ -54,8 +66,7 @@ class Game {
 
   createMouse() {
     this.mouse = new Mouse();
-    Scene.scene.add(this.mouse.mesh);
-    //Scene.scene.add(this.mouse.geom);
+    Scene.scene.add(this.mouse.mouseGroup);
   }
   
   setupAudio() {
@@ -75,7 +86,7 @@ class Game {
     Scene.scene.add(feet[feet.length - 1].mesh);
   }
 
-  checkedPressedButton(name) {
+  checkButtonPressed(name) {
     switch (name) {
     case `L`:
       return 1;
@@ -103,16 +114,20 @@ class Game {
         feet.forEach(f => {
           if (f.id === box.id) f.hitTarget = true;
         });
-        this.mouse.lives --;
-        
-        //this.cassette.cassetteGroup.remove(`${this.heart}${this.mouse.lives}`);
-        //this.cassette.cassetteGroup.heartGroup.remove(this.cassette.cassetteGroup.heartGroup.children.splice(- 1, 2));
         this.audio.hitSound.play();
-        this.cassette.heartGroup.remove(this.cassette.heartGroup.children.splice(- 1, 1));
-        console.log(this.cassette.heartGroup);
-        console.log(`Levens: ${this.mouse.lives}`);
+        this.decreaseLives();
       }
     });
+  }
+
+  decreaseLives() {
+    this.mouse.lives --;
+    this.cassette.heartGroup.remove(this.cassette.heartGroup.children.splice(- 1, 1));
+  }
+
+  saveScore() {
+    (localStorage.length === 0) ? localStorage.setItem(`player1`, Math.floor(this.mouse.score)) : localStorage.setItem(`player2`, Math.floor(this.mouse.score));
+    console.log(localStorage);
   }
 
   checkGameOver() {
@@ -140,26 +155,29 @@ class Game {
   }
 
   quit() {
-    const $canvas = document.querySelector(`.game-canvas`);
+    if (this.events) {
+      Arduino.off(`btnPressed`, this.onButtonPressed);
+      BalanceBoardReader.off(`oscMessage`, this.onMove);
+    }
+
+    const $canvas = document.querySelector(`.${this.cn}`);
     if ($canvas) $canvas.remove();
   }
 
   loop() {
+    if (this.isActive) {
+      requestAnimationFrame(() => this.loop());
+    } else {
+      return;
+    }
+
     Background.update();
     Dancefloor.update();
     this.cassette.updateHoles();
     this.mouse.increaseScore();
-    //this.mouse.updateRunning();
+    this.mouse.updateRunning();
     this.cassette.updateScoreText(this.mouse.score);
     this.checkCollisions();
-
-    // if (this.mouse.checkLives()) {
-    //   // footBoxes = [];
-    //   // feet = [];
-
-
-    //   // eventemitter aanspreken om naar wissel state te gaan indien de data in local storage op 1 staat, op 2 = winner state + local storage wissen
-    // }
 
     feet.forEach(f => {
       f.update();
@@ -172,7 +190,15 @@ class Game {
       }
     });
 
-    //particles.forEach(p => console.log(p));
+    if (!this.savedScore) {
+      if (this.mouse.checkLives()) {
+        feet = [];
+        footBoxes = [];
+        this.saveScore();
+        this.savedScore = true;
+      }
+    }
+
     particles.forEach(p => p.moveParticle());
 
     feet = feet.filter(f => !f.outOfSight);
@@ -180,8 +206,8 @@ class Game {
     this.updateFootBoxes();
 
     Scene.renderer.render(Scene.scene, Scene.camera);
-    requestAnimationFrame(() => this.loop());
+    
   }
 }
 
-module.exports = new Game();
+module.exports = Game;

@@ -7,17 +7,28 @@ class Change {
     this.name = `changeState`;
     this.danceboothChange = false;
     this.boardChange = false;
+    this.events = false;
   }
 
   setActive(bool) {
     this.container = document.querySelector(`.container`);
     bool ? this.addContent(this.container) : this.removeContent(this.container);
+  }
 
-    Arduino.on(`start`, v => this.danceBoothChangeReady(v));
-    BalanceBoardReader.on(`start`, v => this.boardChangeReady(v));
+  addEvents() {
+    this.events = true;
+    this.onBoothChangeReady = v => this.danceBoothChangeReady(v);
+    this.onBalanceChangeReady = v => this.boardChangeReady(v);
+
+    Arduino.on(`changeStart`, this.onBoothChangeReady);
+    BalanceBoardReader.on(`changeStart`, this.onBalanceChangeReady);
   }
 
   addContent(container) {
+    this.addEvents();
+
+    Arduino.ledPower.blink(500);
+
     const $section = document.createElement(`section`);
     $section.classList.add(`menu-change`);
 
@@ -83,6 +94,11 @@ class Change {
   }
 
   removeContent(container) {
+    if (this.events) {
+      Arduino.off(`changeStart`, this.onBoothChangeReady);
+      BalanceBoardReader.off(`changeStart`, this.onBalanceChangeReady);
+    }
+
     const $section = container.querySelector(`.menu-change`);
     if ($section) $section.remove();
 
@@ -92,7 +108,7 @@ class Change {
 
   checkPlayers() {
     return new Promise(resolve => {
-      if (this.dancebooth && this.board) {
+      if (this.danceboothChange && this.boardChange) {
         resolve();
       } else {
         timeout(500)
@@ -102,20 +118,21 @@ class Change {
     });
   }
 
-  styleActive(player) {
+  styleChangeActive(player) {
     const $playerContainer = document.querySelectorAll(`.player-container`)[player];
     $playerContainer.style.backgroundColor = `#b2f7d9`;
     $playerContainer.querySelector(`.arrow`).style.opacity = `0`;
   }
 
   danceBoothChangeReady() {
-    if (!this.danceboothChange) this.styleActive(1);
+    if (!this.danceboothChange) this.styleChangeActive(1);
     this.danceboothChange = true;
+    Arduino.ledPower.stop().off();
   }
 
   boardChangeReady(v) {
     if (v !== `0.50`) {
-      if (!this.boardChange) this.styleActive(0);
+      if (!this.boardChange) this.styleChangeActive(0);
       this.boardChange = true;
     }
     this.checkPlayers();

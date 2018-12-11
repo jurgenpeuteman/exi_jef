@@ -1,6 +1,5 @@
 const THREE = require(`three`);
 const Colors = require(`./../objects/Colors.js`);
-const OrbitControls = require(`three-orbitcontrols`);
 
 class Scene {
   constructor() {
@@ -45,13 +44,11 @@ class Scene {
     const hemisphereLight = new THREE.HemisphereLight(0xfffafa, 0x000000, .5);
     hemisphereLight.position.set(100, 350, 20);
     this.scene.add(hemisphereLight);
-
     
     // const sun = new THREE.DirectionalLight(0xcdc1c5, 0.4);
     // sun.position.set(20, 302, - 7);
     // sun.castShadow = true;
     // this.scene.add(sun);
-    
 
     const spotLight = new THREE.SpotLight(0xffffff, .8);
     spotLight.position.set(100, 350, 90);
@@ -65,7 +62,6 @@ class Scene {
     spotLight.shadow.camera.near = 500;
     spotLight.shadow.camera.far = 4000;
     spotLight.shadow.camera.fov = 30;
-    console.log(spotLight);
     
     this.scene.add(spotLight);
 
@@ -90,11 +86,6 @@ class Scene {
     this.scene.add(axesHelper);
 
     document.querySelector(`canvas`).classList.add(className);
-
-    // const controls = new OrbitControls(this.camera, this.renderer.domElement);
-    // controls.enableDamping = true;
-    // controls.dampingFactor = 0.25;
-    // controls.enableZoom = true;
   }
 
   handleWindowResize() {

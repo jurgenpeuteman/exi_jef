@@ -8,15 +8,23 @@ class End {
   }
 
   setActive(bool) {
-    this.container = document.querySelector(`.container`);
-    bool ? this.setup() : this.removeContent(this.container);
+    this.isActive = bool;
+    bool ? this.setup() : this.quit();
   }
 
   setup() {
     Scene.create(`end-canvas`);
     this.createBackground();
     this.createTrophy();
+    this.checkWinner();
     this.loop();
+  }
+
+  checkWinner() {
+    const p1 = localStorage.getItem(`player1`);
+    const p2 = localStorage.getItem(`player2`);
+
+    (p1 > p2) ? console.log(`player 1 won`) : console.log(`player 2`);
   }
 
   createBackground() {
@@ -29,15 +37,20 @@ class End {
   }
 
   loop() {
+    if (this.isActive) {
+      requestAnimationFrame(() => this.loop());
+    } else {
+      return;
+    }
+    
     Background.update();
     this.trophy.update();
 
     Scene.renderer.render(Scene.scene, Scene.camera);
-    requestAnimationFrame(() => this.loop());
   }
 
-  removeContent(container) {
-    const $canvas = container.querySelector(`.end-canvas`);
+  quit() {
+    const $canvas = document.querySelector(`.end-canvas`);
     if ($canvas) $canvas.remove();
   }
 }
