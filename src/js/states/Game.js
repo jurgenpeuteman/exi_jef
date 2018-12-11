@@ -114,7 +114,6 @@ class Game {
 
   saveScore() {
     (localStorage.length === 0) ? localStorage.setItem(`player1`, Math.floor(this.mouse.score)) : localStorage.setItem(`player2`, Math.floor(this.mouse.score));
-    console.log(localStorage);
   }
 
   checkGameOver() {

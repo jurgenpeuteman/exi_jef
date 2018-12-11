@@ -24,7 +24,7 @@ class End {
     const p1 = localStorage.getItem(`player1`);
     const p2 = localStorage.getItem(`player2`);
 
-    (p1 > p2) ? console.log(`player 1 won`) : console.log(`player 2`);
+    (p1 > p2) ? console.log(`player 1 won`) : console.log(`player 2 won`);
   }
 
   createBackground() {
