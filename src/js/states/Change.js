@@ -25,8 +25,8 @@ class Change {
   }
 
   addContent(container) {
-    this.addEvents();
-
+    setTimeout(() => this.addEvents(), 5000);
+    
     Arduino.ledPower.blink(500);
 
     const $section = document.createElement(`section`);

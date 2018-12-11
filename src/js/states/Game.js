@@ -73,7 +73,6 @@ class Game {
     this.audio = new Audio();
     Scene.camera.add(this.audio.listener);
     Scene.camera.add(this.audio.listener2);
-    //this.audio.hitSound.play();
   }
 
   createFoot(selectedBlock) {
@@ -127,7 +126,6 @@ class Game {
 
   saveScore() {
     (localStorage.length === 0) ? localStorage.setItem(`player1`, Math.floor(this.mouse.score)) : localStorage.setItem(`player2`, Math.floor(this.mouse.score));
-    console.log(localStorage);
   }
 
   checkGameOver() {
