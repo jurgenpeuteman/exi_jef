@@ -10,11 +10,16 @@ class Dancefloor {
     mat.wrapS = THREE.RepeatWrapping;
     mat.wrapT = THREE.RepeatWrapping;
 
+
+    mat.repeat.set(200, 2);
+
     const material = new THREE.MeshPhongMaterial({
       color: 0xfffbf0,
       map: mat,
       flatShading: false,
-      visible: true
+      visible: true,
+      transparent: true,
+      opacity: .8
     });
     
 

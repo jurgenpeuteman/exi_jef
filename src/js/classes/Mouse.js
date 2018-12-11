@@ -29,7 +29,7 @@ class Mouse {
     this.mesh.scale.set(.5, .8, .8);
     this.mesh.rotation.y = 180 * Math.PI / 180;
     this.mesh.geometry.mergeVertices();
-    this.mesh.traverse(function (object) { object.visible = false; });
+    this.mesh.traverse(object => { object.visible = false; });
     
     // Animation Running
     this.geom = data.runningMouse;

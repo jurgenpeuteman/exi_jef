@@ -19,7 +19,7 @@ class Foot {
       color: 0xffffff,
       map: mat,
       metalness: .2,
-      roughness: .2,
+      roughness: .6,
       wireframe: false,
       flatShading: false
     });

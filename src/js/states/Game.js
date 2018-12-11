@@ -73,8 +73,7 @@ class Game {
     this.audio = new Audio();
     Scene.camera.add(this.audio.listener);
     Scene.camera.add(this.audio.listener2);
-    //this.audio.themeSong.play();
-    console.log(this.audio);
+    //this.audio.hitSound.play();
   }
 
   createFoot(selectedBlock) {
@@ -115,6 +114,7 @@ class Game {
           if (f.id === box.id) f.hitTarget = true;
         });
         this.audio.hitSound.play();
+        console.log(`hit`);
         this.decreaseLives();
       }
     });
@@ -174,6 +174,7 @@ class Game {
     Background.update();
     Dancefloor.update();
     this.cassette.updateHoles();
+    //Scene.updateSpotLights();
     this.mouse.increaseScore();
     this.mouse.updateRunning();
     this.cassette.updateScoreText(this.mouse.score);
@@ -185,7 +186,7 @@ class Game {
       if (f.outOfSight) this.removeMesh(f);
 
       if (f.hitTarget) {
-        // this.createParticles(this.mouse.mesh.position.x);
+        //this.createParticles(this.mouse.mesh.position.x);
         this.removeMesh(f);
       }
     });

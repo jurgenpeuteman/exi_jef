@@ -1,16 +1,24 @@
 const THREE = require(`three`);
 const Lib = require(`./../functions/lib.js`);
-const Colors = require(`./../objects/Colors.js`);
+//const Colors = require(`./../objects/Colors.js`);
 
+const colors = [0xff6974, 0xfffbf0, 0x95e1ff, 0xf8d472, 0x1d1d1d];
+/*
+  red: 0xff6974,
+  white: 0xfffbf0,
+  blue: 0x95e1ff,
+  yellow: 0xf8d472,
+  black: 0x1d1d1d
+*/
 class Background {
   constructor() {
     this.particles = new THREE.Group();
     
     const geom = new THREE.TetrahedronGeometry(Lib.random(0, 3), 0);
-
     for (let i = 0;i < 400;i ++) {
+      const color = colors[Math.floor(Math.random() * colors.length)];      
       const material = new THREE.MeshPhongMaterial({
-        color: Colors.blue,
+        color: color,
         flatShading: true
       });
 
