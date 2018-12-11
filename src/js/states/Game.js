@@ -73,8 +73,6 @@ class Game {
     this.audio = new Audio();
     Scene.camera.add(this.audio.listener);
     Scene.camera.add(this.audio.listener2);
-    //this.audio.themeSong.play();
-    console.log(this.audio);
   }
 
   createFoot(selectedBlock) {
