@@ -6,6 +6,7 @@ const Foot = require(`./../classes/Foot.js`);
 const Dancefloor = require(`./../classes/Dancefloor.js`);
 const Cassette = require(`./../classes/Cassette.js`);
 const Background = require(`./../classes/Background.js`);
+const Audio = require(`./../classes/Audio.js`);
 const Particle = require(`./../classes/Particle.js`);
 const timeout = require(`../functions/lib.js`).timeout;
 
@@ -30,6 +31,9 @@ class Game {
     this.createBackground();
     this.createDancefloor();
     this.createMouse();
+    this.setupAudio();
+
+    this.createFoot(3);
 
     Arduino.on(`btnPressed`, v => this.createFoot(this.checkedPressedButton(v)));
     BalanceBoardReader.on(`oscMessage`, v => this.mouse.moveMouse(v));
@@ -52,6 +56,14 @@ class Game {
     this.mouse = new Mouse();
     Scene.scene.add(this.mouse.mesh);
     //Scene.scene.add(this.mouse.geom);
+  }
+  
+  setupAudio() {
+    this.audio = new Audio();
+    Scene.camera.add(this.audio.listener);
+    Scene.camera.add(this.audio.listener2);
+    //this.audio.themeSong.play();
+    console.log(this.audio);
   }
 
   createFoot(selectedBlock) {
@@ -95,6 +107,7 @@ class Game {
         
         //this.cassette.cassetteGroup.remove(`${this.heart}${this.mouse.lives}`);
         //this.cassette.cassetteGroup.heartGroup.remove(this.cassette.cassetteGroup.heartGroup.children.splice(- 1, 2));
+        this.audio.hitSound.play();
         this.cassette.heartGroup.remove(this.cassette.heartGroup.children.splice(- 1, 1));
         console.log(this.cassette.heartGroup);
         console.log(`Levens: ${this.mouse.lives}`);
