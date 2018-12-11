@@ -56,7 +56,7 @@
           geometry.name = `trophy`;
           data.trophyGeom = geometry;
         }))
-      .then(loadWithJSONLoader(`./assets/models/cassette4.json`)
+      .then(loadWithJSONLoader(`./assets/models/cassette.json`)
         .then(geometry => {
           geometry.name = `cassette`;
           data.cassetteGeom = geometry;

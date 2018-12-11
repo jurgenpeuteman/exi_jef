@@ -6,8 +6,8 @@ class Menu {
 
   constructor() {
     this.name = `menuState`;
-    this.dancebooth = true;
-    this.board = true;
+    this.dancebooth = false;
+    this.board = false;
     this.events = false;
   }
 
