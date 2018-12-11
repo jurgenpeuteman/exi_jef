@@ -16,6 +16,7 @@ class BalanceBoardReader extends EventEmitter2 {
 
       udpPort.on(`message`, oscMessage => this.getWiiValue(oscMessage));
       udpPort.on(`message`, oscMessage => this.playerReady(oscMessage));
+      udpPort.on(`message`, oscMessage => this.playerChangeReady(oscMessage));
       udpPort.on(`error`, err => console.log(err));
       udpPort.open();
     });
@@ -27,6 +28,10 @@ class BalanceBoardReader extends EventEmitter2 {
 
   playerReady(oscMessage) {
     this.emit(`start`, oscMessage.args[0].toFixed(2));
+  }
+
+  playerChangeReady(oscMessage) {
+    this.emit(`changeStart`, oscMessage.args[0].toFixed(2));
   }
 }
 

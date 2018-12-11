@@ -8,6 +8,7 @@ class End {
   }
 
   setActive(bool) {
+    this.isActive = bool;
     bool ? this.setup() : this.quit();
   }
 
@@ -28,11 +29,16 @@ class End {
   }
 
   loop() {
+    if (this.isActive) {
+      requestAnimationFrame(() => this.loop());
+    } else {
+      return;
+    }
+    
     Background.update();
     this.trophy.update();
 
     Scene.renderer.render(Scene.scene, Scene.camera);
-    requestAnimationFrame(() => this.loop());
   }
 
   quit() {

@@ -9,13 +9,17 @@ class Cassette {
   constructor() {
     this.id = uniqid();
     this.cassetteGroup = new THREE.Group();
+    this.heartGroup = new THREE.Group();
+    this.heart1;
+    this.heart2;
+    this.heart3;
 
     const mat = new THREE.TextureLoader().load(`./assets/textures/cassette.png`);
     const material = new THREE.MeshStandardMaterial({
       color: 0xffffff,
       map: mat,
-      metalness: .2,
-      roughness: 10,
+      metalness: .4,
+      roughness: .8,
       wireframe: false,
       flatShading: true
     });
@@ -38,6 +42,50 @@ class Cassette {
     this.cassetteHole2.position.set(- 10.5, 306.5, - 50);
     this.cassetteHole2.scale.set(.11, .11, .11);
     this.cassetteGroup.add(this.cassetteHole2);
+
+    const x = 0, y = 0;
+
+    const heartShape = new THREE.Shape();
+
+    heartShape.moveTo(x + 5, y + 5);
+    heartShape.bezierCurveTo(x + 5, y + 5, x + 4, y, x, y);
+    heartShape.bezierCurveTo(x - 6, y, x - 6, y + 7, x - 6, y + 7);
+    heartShape.bezierCurveTo(x - 6, y + 11, x - 3, y + 15.4, x + 5, y + 19);
+    heartShape.bezierCurveTo(x + 12, y + 15.4, x + 16, y + 11, x + 16, y + 7);
+    heartShape.bezierCurveTo(x + 16, y + 7, x + 16, y, x + 10, y);
+    heartShape.bezierCurveTo(x + 7, y, x + 5, y + 5, x + 5, y + 5);
+
+    const extrudeSettings = {amount: 10, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1};
+    const geometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
+
+
+    
+    this.heart = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: 0xd43434}));
+    this.heart.name = `heart`;
+    this.heart.position.set(8.5, 301, - 48);
+    this.heart.rotation.x = 180 * Math.PI / 180;
+    this.heart.scale.set(.08, .08, .08);
+    this.heartGroup.add(this.heart);
+
+
+
+    this.heart2 = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: 0xd43434}));
+    this.heart2.name = `heart2`;
+    this.heart2.position.set(10.5, 299.5, - 48);
+    this.heart2.rotation.x = 180 * Math.PI / 180;
+    this.heart2.scale.set(.08, .08, .08);
+    this.heartGroup.add(this.heart2);
+
+
+    this.heart3 = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: 0xd43434}));
+    this.heart3.name = `heart3`;
+    this.heart3.position.set(12.5, 301, - 48);
+    this.heart3.rotation.x = 180 * Math.PI / 180;
+    this.heart3.scale.set(.08, .08, .08);
+    this.heartGroup.add(this.heart3);
+
+    this.cassetteGroup.add(this.heartGroup);
+
     this.createText();
   }
 
@@ -54,6 +102,9 @@ class Cassette {
     this.scoreText.name = `score`;
     this.scoreText.position.set(- 20, 312.5, - 53.1);
     this.cassetteGroup.add(this.scoreText);
+
+    //this.cassetteGroup.rotation.x = - 2 * Math.PI / 180;
+
   }
 
   updateScoreText(score) {

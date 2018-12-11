@@ -21,20 +21,30 @@ class Game {
     this.savedScore = false;
     this.mouse;
     this.cassette;
+    this.events = false;
   }
 
   setActive(bool) {
+    this.isActive = bool;
     bool ? this.setup() : this.quit();
   }
 
+  addEvents() {
+    this.events = true;
+    this.onButtonPressed = v => this.createFoot(this.checkButtonPressed(v));
+    this.onMove = v => this.mouse.moveMouse(v);
+
+    Arduino.on(`btnPressed`, this.onButtonPressed);
+    BalanceBoardReader.on(`oscMessage`, this.onMove);
+  } 
+
   setup() {
+    this.addEvents();
+
     Scene.create(this.cn);
     this.createBackground();
     this.createDancefloor();
     this.createMouse();
-
-    Arduino.on(`btnPressed`, v => this.createFoot(this.checkButtonPressed(v)));
-    BalanceBoardReader.on(`oscMessage`, v => this.mouse.moveMouse(v));
 
     this.checkGameOver();
     this.loop();
@@ -52,7 +62,7 @@ class Game {
 
   createMouse() {
     this.mouse = new Mouse();
-    Scene.scene.add(this.mouse.mesh);
+    Scene.scene.add(this.mouse.mouseGroup);
   }
 
   createFoot(selectedBlock) {
@@ -93,7 +103,9 @@ class Game {
           if (f.id === box.id) f.hitTarget = true;
         });
         this.mouse.lives --;
-        console.log(`Levens: ${this.name} ${this.mouse.lives}`);
+        
+        this.cassette.heartGroup.remove(this.cassette.heartGroup.children.splice(- 1, 1));
+        console.log(`Levens: ${this.mouse.lives}`);
       }
     });
   }
@@ -128,15 +140,27 @@ class Game {
   }
 
   quit() {
+    if (this.events) {
+      Arduino.off(`btnPressed`, this.onButtonPressed);
+      BalanceBoardReader.off(`oscMessage`, this.onMove);
+    }
+
     const $canvas = document.querySelector(`.${this.cn}`);
     if ($canvas) $canvas.remove();
   }
 
   loop() {
+    if (this.isActive) {
+      requestAnimationFrame(() => this.loop());
+    } else {
+      return;
+    }
+
     Background.update();
     Dancefloor.update();
     this.cassette.updateHoles();
     this.mouse.increaseScore();
+    this.mouse.updateRunning();
     this.cassette.updateScoreText(this.mouse.score);
     this.checkCollisions();
 
@@ -160,7 +184,6 @@ class Game {
       }
     }
 
-    particles.forEach(p => console.log(p));
     particles.forEach(p => p.moveParticle());
 
     feet = feet.filter(f => !f.outOfSight);
@@ -168,9 +191,8 @@ class Game {
     this.updateFootBoxes();
 
     Scene.renderer.render(Scene.scene, Scene.camera);
-    requestAnimationFrame(() => this.loop());
+    
   }
 }
 
-// module.exports = new Game();
 module.exports = Game;

@@ -9,6 +9,8 @@
   const data = require(`./objects/Data.js`);
   const THREE = require(`three`);
   const fontLoader = new THREE.FontLoader();
+  const FBXL = require(`three-fbxloader-offical`);
+  const fbxLoader = new FBXL();
 
   const gameState1 = new Game(`gameState1`, `game-canvas1`);
   const gameState2 = new Game(`gameState2`, `game-canvas2`);
@@ -66,6 +68,10 @@
       .then(fontLoader.load(`./assets/fonts/helvitker.json`, font => {
         data.font = font;
       }))
+      .then(fbxLoader.load(`./assets/models/running.fbx`, geometry => {
+        geometry.name = `runningMouse`;
+        data.runningMouse = geometry;
+      }))
       .then(loadWithJSONLoader(`./assets/models/lowpolyMouse.json`)
         .then(geometry => {
           geometry.name = `mouseGeom`;
@@ -77,8 +83,8 @@
       .then(() => menuState.checkPlayers())
       .then(() => setState(`gameState1`))
       .then(() => gameState1.checkGameOver())
-      // .then(() => setState(`changeState`))
-      // .then(() => changeState.checkPlayers())
+      .then(() => setState(`changeState`))
+      .then(() => changeState.checkPlayers())
       .then(() => setState(`gameState2`))
       .then(() => gameState2.checkGameOver())
       .then(() => setState(`endState`));
