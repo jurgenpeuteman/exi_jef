@@ -1,15 +1,13 @@
 const EventEmitter2 = require(`eventemitter2`).EventEmitter2;
 const Readable = require(`stream`).Readable;
 const five = require(`johnny-five`);
-const board = new five.Board({
-
-}); 
+const boards = new five.Boards([`BUTTONS`, `LIGHTS`]);
 
 class MyStream extends Readable {
   constructor(opts) {
     super(opts);
   }
-  _read() {}
+  _read() { }
 }
 
 process.__defineGetter__(`stdin`, () => {
@@ -21,79 +19,214 @@ process.__defineGetter__(`stdin`, () => {
 class Arduino extends EventEmitter2 {
   constructor() {
     super({});
-    this.RGBLed;
+    this.rgbLed;
     this.ledPower;
   }
 
   setupArduino() {
-    const self = this;
     return new Promise(resolve => {
-      board.on(`ready`, () => {
-        self.btnRight = new five.Button(3);
-        self.btnSemiRight = new five.Button(4);
-        self.btnSemiLeft = new five.Button(5);
-        self.btnLeft = new five.Button(6);
-        
-        self.RGBLed = new five.Led.RGB([11, 10, 12]);
+      boards.on(`ready`, () => {
+        Object.keys(boards).forEach(() => {
+          if (boards[1].id === `LIGHTS`) {
+            this.rgbLed = new five.Led.RGB({
+              pins: {
+                red: 11,
+                green: 10,
+                blue: 12
+              },
+              board: boards[1]
+            });
+            this.ledPower = new five.Led({
+              id: `ledPower`,
+              pin: 7,
+              board: boards[1]
+            });
+            // this.ledPower.on();
+            // this.rgbLed.on();
+          }
 
-        self.ledPower = new five.Led(7);
-        self.btnPower = new five.Button(8);
+          // this.ledPower.on();
+          // this.rgbLed.on();
 
-        self.btnLeft.custom = {
-          name: `L`
-        };
-        self.btnSemiLeft.custom = {
-          name: `SL`
-        };
-        self.btnRight.custom = {
-          name: `R`
-        },
-        self.btnSemiRight.custom = {
-          name: `SR`
-        },
-        self.btnPower.custom = {
-          name: `P`
-        };
+          
 
-        self.btnPower.on(`press`, () => self.powerButtonPressed());
 
-        self.RGBLed.on();
-        self.RGBLed.color(`#ff6973`);
-    
-        self.btnLeft.on(`press`, () => self.getArduinoInput(self.btnLeft.custom.name));
-        self.btnSemiLeft.on(`press`, () => self.getArduinoInput(self.btnSemiLeft.custom.name));
-        self.btnRight.on(`press`, () => self.getArduinoInput(self.btnRight.custom.name));
-        self.btnSemiRight.on(`press`, () => self.getArduinoInput(self.btnSemiRight.custom.name));
+          // this.rgbLed.color(`#ffff00`);
 
+          if (boards[0].id === `BUTTONS`) {
+            this.btnRight = new five.Button({
+              pin: 3
+            });
+            this.btnSemiRight = new five.Button({
+              pin: 4
+            });
+            this.btnSemiLeft = new five.Button({
+              pin: 5
+            });
+            this.btnLeft = new five.Button({
+              pin: 6
+            });
+
+            this.btnPower = new five.Button({
+              pin: 8
+            });
+            this.btnLeft.custom = {
+              name: `L`
+            };
+            this.btnSemiLeft.custom = {
+              name: `SL`
+            };
+            this.btnRight.custom = {
+              name: `R`
+            };
+            this.btnSemiRight.custom = {
+              name: `SR`
+            };
+            this.btnPower.custom = {
+              name: `P`
+            };
+            console.log(this.btnPower);
+            this.btnPower.on(`press`, () => this.emit(`powerButtonPressed`, this.btnLeft.custom.name));
+            this.btnLeft.on(`press`, () => {
+              this.emit(`btnPressed`, this.btnLeft.custom.name);
+              console.log(`btn`);
+            });
+            this.btnSemiLeft.on(`press`, () => this.emit(`btnPressed`, this.btnSemiLeft.custom.name));
+            this.btnRight.on(`press`, () => this.emit(`btnPressed`, this.btnRight.custom.name));
+            this.btnSemiRight.on(`press`, () => this.emit(`btnPressed`, this.btnSemiRight.custom.name));
+          }          
+        });
+
+
+        // this.rgbLed = new five.Led.RGB({
+        //   pins: {
+        //     red: 11,
+        //     green: 10,
+        //     blue: 12
+        //   },
+        //   board: this.byId(`LIGHTS`)
+        // });
+        // this.ledPower = new five.Led({
+        //   id: `ledPower`,
+        //   pin: 7,
+        //   board: this.byId(`LIGHTS`)
+        // });
+
+        // this.ledPower.on();
+        // this.rgbLed.color(`#ffff00`);
+
+        // this.btnRight = new five.Button({
+        //   pin: 3
+        // });
+        // this.btnSemiRight = new five.Button({
+        //   pin: 4
+        // });
+        // this.btnSemiLeft = new five.Button({
+        //   pin: 5
+        // });
+        // this.btnLeft = new five.Button({
+        //   pin: 6
+        // });
+
+        // this.btnPower = new five.Button({
+        //   pin: 8
+        // });
+        // this.btnLeft.custom = {
+        //   name: `L`
+        // };
+        // this.btnSemiLeft.custom = {
+        //   name: `SL`
+        // };
+        // this.btnRight.custom = {
+        //   name: `R`
+        // },
+        // this.btnSemiRight.custom = {
+        //   name: `SR`
+        // },
+        // this.btnPower.custom = {
+        //   name: `P`
+        // };
         resolve();
       });
     });
+
+
+    // boards.on(`ready`, function () {
+    //   this.rgbLed = new five.Led.RGB({
+    //     pins: {
+    //       red: 11,
+    //       green: 10,
+    //       blue: 12
+    //     },
+    //     board: this.byId(`LIGHTS`)
+    //   });
+    //   this.ledPower = new five.Led({
+    //     id: `ledPower`,
+    //     pin: 7,
+    //     board: this.byId(`LIGHTS`)
+    //   });
+
+    //   this.ledPower.on();
+    //   this.rgbLed.color(`#ffff00`);
+
+    //   this.btnRight = new five.Button({
+    //     pin: 3
+    //   });
+    //   this.btnSemiRight = new five.Button({
+    //     pin: 4
+    //   });
+    //   this.btnSemiLeft = new five.Button({
+    //     pin: 5
+    //   });
+    //   this.btnLeft = new five.Button({
+    //     pin: 6
+    //   });
+
+    //   this.btnPower = new five.Button({
+    //     pin: 8
+    //   });
+    //   this.btnLeft.custom = {
+    //     name: `L`
+    //   };
+    //   this.btnSemiLeft.custom = {
+    //     name: `SL`
+    //   };
+    //   this.btnRight.custom = {
+    //     name: `R`
+    //   },
+    //   this.btnSemiRight.custom = {
+    //     name: `SR`
+    //   },
+    //   this.btnPower.custom = {
+    //     name: `P`
+    //   };
+
+    //   this.btnPower.on(`press`, () => this.emit(`powerButtonPressed`, this.btnLeft.custom.name));
+    //   this.btnLeft.on(`press`, () => this.emit(`btnPressed`, this.btnLeft.custom.name));
+    //   this.btnSemiLeft.on(`press`, () => this.emit(`btnPressed`, this.btnSemiLeft.custom.name));
+    //   this.btnRight.on(`press`, () => this.emit(`btnPressed`, this.btnRight.custom.name));
+    //   this.btnSemiRight.on(`press`, () => this.emit(`btnPressed`, this.btnSemiRight.custom.name));
+
+    //   resolve();
+    // });
+    // });
   }
 
-  blinkPower(value = 200) {
-    // this.ledPower.on();
+  blinkPower() {
+    this.ledPower.blink(200);
   }
 
   stopPowerBlink() {
-    // this.ledPower.off();
+    this.ledPower.off();
   }
 
-  powerButtonPressed() {
-    this.emit(`powerButtonPressed`);
-  }
-
-  // powerUp(btn) {
-  //   this.emit(`powerup`, btn);
+  // powerButtonPressed() {
+  //   this.emit(`powerButtonPressed`);
   // }
 
-  // restartGame(btn) {
-  //   this.emit(`restartGame`, btn);
+  // getArduinoInput(name) {
+  //   this.emit(`btnPressed`, name);
   // }
-
-  getArduinoInput(name) {
-    console.log(name);
-    this.emit(`btnPressed`, name);
-  }
 }
 
 module.exports = new Arduino();

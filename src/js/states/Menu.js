@@ -119,6 +119,8 @@ class Menu {
   }
 
   danceBoothReady() {
+    console.log(`ok`);
+    
     if (!this.dancebooth) this.styleActive(1);
     this.dancebooth = true;
     Arduino.stopPowerBlink();
