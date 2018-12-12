@@ -27,7 +27,6 @@ class End {
   }
 
   createWinnerScreen(selectedBlock) {
-    console.log(selectedBlock);
     const w = 16;
     const block = w / 2;
     const blockHalf = block / 2;
