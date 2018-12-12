@@ -116,7 +116,6 @@ class Game {
         feet.forEach(f => {
           if (f.id === box.id) f.hitTarget = true;
         });
-        Scene.removeFog();
         this.audio.hitSound.play();
         this.decreaseLives();
       }
