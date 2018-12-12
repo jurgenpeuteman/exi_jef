@@ -3,11 +3,10 @@ const BalanceBoardReader = require(`./../classes/BalanceBoardReader.js`);
 const timeout = require(`../functions/lib.js`).timeout;
 
 class Menu {
-
   constructor() {
     this.name = `menuState`;
     this.dancebooth = false;
-    this.board = false;
+    this.board = true;
     this.events = false;
   }
 
@@ -23,14 +22,14 @@ class Menu {
     this.onBoothReady = v => this.danceBoothReady(v);
     this.onBalanceReady = v => this.boardReady(v);
 
-    Arduino.on(`start`, this.onBoothReady);
+    Arduino.on(`powerButtonPressed`, this.onBoothReady);
     BalanceBoardReader.on(`start`, this.onBalanceReady);
   }
 
   addContent(container) {
     this.addEvents();
 
-    Arduino.ledPower.blink(200);
+    Arduino.blinkPower();
 
     const $section = document.createElement(`section`);
     $section.classList.add(`menu`);
@@ -93,7 +92,7 @@ class Menu {
 
   removeContent(container) {
     if (this.events) {
-      Arduino.off(`start`, this.onBoothReady);
+      Arduino.off(`powerButtonPressed`, this.onBoothReady);
       BalanceBoardReader.off(`start`, this.onBalanceReady);
     }
     
@@ -122,7 +121,7 @@ class Menu {
   danceBoothReady() {
     if (!this.dancebooth) this.styleActive(1);
     this.dancebooth = true;
-    Arduino.ledPower.stop().off();
+    Arduino.stopPowerBlink();
   }
 
   boardReady(v) {

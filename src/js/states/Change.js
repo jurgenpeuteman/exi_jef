@@ -20,14 +20,14 @@ class Change {
     this.onBoothChangeReady = v => this.danceBoothChangeReady(v);
     this.onBalanceChangeReady = v => this.boardChangeReady(v);
 
-    Arduino.on(`changeStart`, this.onBoothChangeReady);
+    Arduino.on(`powerButtonPressed`, this.onBoothChangeReady);
     BalanceBoardReader.on(`changeStart`, this.onBalanceChangeReady);
   }
 
   addContent(container) {
     setTimeout(() => this.addEvents(), 3000);
     
-    Arduino.ledPower.blink(200);
+    Arduino.blinkPower();
 
     const $section = document.createElement(`section`);
     $section.classList.add(`menu-change`);
@@ -95,7 +95,7 @@ class Change {
 
   removeContent(container) {
     if (this.events) {
-      Arduino.off(`changeStart`, this.onBoothChangeReady);
+      Arduino.off(`powerButtonPressed`, this.onBoothChangeReady);
       BalanceBoardReader.off(`changeStart`, this.onBalanceChangeReady);
     }
 
@@ -127,7 +127,7 @@ class Change {
   danceBoothChangeReady() {
     if (!this.danceboothChange) this.styleChangeActive(1);
     this.danceboothChange = true;
-    Arduino.ledPower.stop().off();
+    Arduino.stopPowerBlink();
   }
 
   boardChangeReady(v) {

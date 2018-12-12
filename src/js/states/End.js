@@ -19,7 +19,7 @@ class End {
     this.events = true;
     this.onRestart = () => location.reload();
 
-    Arduino.on(`restartGame`, this.onRestart);
+    Arduino.on(`powerButtonPressed`, this.onRestart);
   }
 
   setup() {
@@ -28,7 +28,7 @@ class End {
     this.createBackground();
     this.checkWinner();
 
-    Arduino.ledPower.blink();
+    Arduino.blinkPower();
     
     this.loop();
   }

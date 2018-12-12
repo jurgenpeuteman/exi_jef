@@ -38,7 +38,7 @@ class Foot {
   }
 
   update() {
-    const r = 300.7;
+    const r = 300.7; 
     const h = Math.atan(this.mesh.position.y / this.mesh.position.z);
     this.mesh.position.z = Math.cos(h - this.i) * r;
     this.mesh.position.y = Math.sin(h - this.i) * r;

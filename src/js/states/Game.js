@@ -39,7 +39,7 @@ class Game {
     this.onPowerUp = v => this.activatePower(v);
 
     Arduino.on(`btnPressed`, this.onButtonPressed);
-    Arduino.on(`powerup`, this.onPowerUp);
+    Arduino.on(`powerButtonPressed`, this.onPowerUp);
     BalanceBoardReader.on(`oscMessage`, this.onMove);
   } 
 
@@ -79,6 +79,8 @@ class Game {
 
   createFoot(selectedBlock) {
     this.powerUpCounter ++;
+
+    // console.log(`foot`);
   
     const w = 12;
     const block = w / 4;
@@ -89,7 +91,7 @@ class Game {
   }
 
   checkButtonPressed(name) {
-    console.log(name);
+    // console.log(name);
     switch (name) {
     case `L`:
       return 1;
@@ -164,13 +166,13 @@ class Game {
   checkPowerUp() {
     if (this.powerUpCounter === this.powerUp) {
       this.activatePowerUp = true;
-      Arduino.ledPower.blink(200);
+      Arduino.blinkPower();
     }
   }
 
   activatePower() {
     if (this.activatePowerUp) {
-      Arduino.ledPower.stop().off();
+      Arduino.stopPowerBlink();
       this.activatePowerUp = false;
       Scene.addFog();
       setTimeout(() => this.deactivatePowerUp(), 4000);
@@ -187,7 +189,7 @@ class Game {
       this.audio.themeSong.stop();
       this.audio.themeSong.pause();
       Arduino.off(`btnPressed`, this.onButtonPressed);
-      Arduino.off(`powerUp`, this.activatePower);
+      Arduino.off(`powerButtonPressed`, this.activatePower);
       BalanceBoardReader.off(`oscMessage`, this.onMove);
     }
 
@@ -201,7 +203,7 @@ class Game {
     } else {
       return;
     }
-
+    
     Background.update();
     Dancefloor.update();
     this.cassette.updateHoles();
@@ -210,6 +212,7 @@ class Game {
     this.cassette.updateScoreText(this.mouse.score);
     this.checkCollisions();
     this.checkPowerUp();
+
 
     feet.forEach(f => {
       f.update();
