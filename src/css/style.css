@@ -164,8 +164,12 @@ canvas {
   text-align: center;
 }
 
-.winner {
-  color: #beb504;
+.end-p1, .end-p2 {
+  opacity: .7;
+}
+
+.win {
+  opacity: 1;
 }
 
 @keyframes loader {

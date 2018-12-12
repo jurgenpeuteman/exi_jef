@@ -20,9 +20,8 @@ class End {
   }
 
   checkWinner() {
-    console.log(localStorage);
-    const p1 = localStorage.getItem(`player1`);
-    const p2 = localStorage.getItem(`player2`);
+    const p1 = parseInt(localStorage.getItem(`player1`));
+    const p2 = parseInt(localStorage.getItem(`player2`));
 
     (p1 > p2) ? this.createWinnerScreen(1) : this.createWinnerScreen(2);
   }
@@ -36,10 +35,10 @@ class End {
     this.trophy = new Trophy(((block * selectedBlock) - blockHalf) - (w / 2));
     Scene.scene.add(this.trophy.mesh);
 
-    this.createText();
+    this.createText(selectedBlock);
   }
 
-  createText() {
+  createText(winner) {
     const p1 = localStorage.getItem(`player1`);
     const p2 = localStorage.getItem(`player2`);
 
@@ -73,6 +72,8 @@ class End {
     $p1Container.appendChild($p1Title);
     $p2Container.appendChild($p2Score);
     $p2Container.appendChild($p2Title);
+    
+    winner === 1 ? $p1Container.classList.add(`win`) : $p2Container.classList.add(`win`);
   }
 
   createBackground() {

@@ -65,7 +65,7 @@ class Mouse {
   }
 
   moveMouse(v) {
-    this.mouseGroup.position.x = Lib.map(v, 0.35, 0.70, - 4.3, 4.3);
+    this.mouseGroup.position.x = Lib.map(v, 0.35, 0.70, - 5.3, 4.5);
     this.mouseBox.setFromObject(this.mesh);
   }
   
