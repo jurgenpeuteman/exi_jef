@@ -187,6 +187,7 @@ class Game {
 
   quit() {
     if (this.events) {
+      Scene.camera.remove(this.audio.listener);
       Arduino.off(`btnPressed`, this.onButtonPressed);
       Arduino.off(`powerUp`, this.activatePower);
       BalanceBoardReader.off(`oscMessage`, this.onMove);

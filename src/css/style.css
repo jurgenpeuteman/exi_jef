@@ -11,7 +11,7 @@ html {
   box-sizing: inherit;
 }
 
-body { 
+body {
   background-color: #ff6974;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 2rem;
@@ -83,16 +83,17 @@ canvas {
   justify-self: flex-end;
 }
 
-.menu-change, .menu {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 70vw;
-    max-width: 100rem;
+.menu-change,
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 70vw;
+  max-width: 100rem;
 }
 
 .menu {
-flex-direction: row;
+  flex-direction: row;
 }
 
 .player-title {
@@ -100,13 +101,25 @@ flex-direction: row;
   margin-bottom: 2rem;
 }
 
-.vs {
+.vs,
+.end-p1,
+.end-p2 {
+  text-transform: uppercase;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.player-score {
+  font-size: 20rem;
+}
+
+.vs,
+.player-end-title {
   font-size: 11rem;
+  text-align: center;
 }
 
 .player-title,
-.vs {
+.vs, .player-end-title, .player-score {
   color: #393939;
   text-align: center;
   text-shadow: -1px -1px 0 #1D1D1D;
@@ -133,6 +146,26 @@ flex-direction: row;
 
 .switch {
   transform: scaleX(-1);
+}
+
+.end-container {
+  position: absolute;
+  top: 50vh;
+  left: 0;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.end-p1,
+.end-p2 {
+  width: 50vw;
+  text-align: center;
+}
+
+.winner {
+  color: #beb504;
 }
 
 @keyframes loader {

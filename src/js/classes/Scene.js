@@ -35,16 +35,14 @@ class Scene {
 
     this.renderer.shadowMap.enabled = true;
     this.renderer.setSize(this.WIDTH, this.HEIGHT);
+
+    this.addLights();
    
     document.querySelector(`.container`).appendChild(this.renderer.domElement);
     window.addEventListener(`resize`, () => this.handleWindowResize(), false);
 
     window.scene = this.scene;
     window.camera = this.camera;
-
-    this.scene.add(new THREE.AxesHelper(310));
-
-    this.addLights();
 
     document.querySelector(`canvas`).classList.add(className);
   }
@@ -77,11 +75,12 @@ class Scene {
   }
 
   addFog() {
-    this.scene.fog = new THREE.Fog(0x1d1d1d, 10, 5);
+    // this.scene.fog = new THREE.Fog(0x1d1d1d, 10, 5);
+    console.log(`add fog`);
   }
 
   removeFog() {
-    this.scene.fog.intensity = 0;
+    console.log(`remove fog`);
   }
 
   handleWindowResize() {
