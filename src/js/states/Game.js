@@ -89,6 +89,7 @@ class Game {
   }
 
   checkButtonPressed(name) {
+    console.log(name);
     switch (name) {
     case `L`:
       return 1;
@@ -156,7 +157,7 @@ class Game {
   }
 
   setupPowerUp() {
-    this.powerUp = random(5, 13);
+    this.powerUp = random(5, 18);
     this.powerUpCounter = 0;
   }
 
@@ -171,8 +172,6 @@ class Game {
     if (this.activatePowerUp) {
       Arduino.ledPower.stop().off();
       this.activatePowerUp = false;
-
-      console.log(`add fogg`);
       Scene.addFog();
       setTimeout(() => this.deactivatePowerUp(), 4000);
     }
@@ -180,7 +179,6 @@ class Game {
 
   deactivatePowerUp() {
     Scene.removeFog();
-    console.log(`remove fog`);
     this.setupPowerUp();
   }
 

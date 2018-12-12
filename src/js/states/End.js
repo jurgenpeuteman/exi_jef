@@ -1,10 +1,13 @@
 const Scene = require(`./../classes/Scene.js`);
 const Trophy = require(`./../classes/Trophy.js`);
 const Background = require(`./../classes/Background.js`);
+const Arduino = require(`./../classes/Arduino.js`);
 
 class End {
   constructor() {
     this.name = `endState`;
+
+    this.events = false;
   }
 
   setActive(bool) {
@@ -12,10 +15,21 @@ class End {
     bool ? this.setup() : this.quit();
   }
 
+  addEvents() {
+    this.events = true;
+    this.onRestart = () => location.reload();
+
+    Arduino.on(`restartGame`, this.onRestart);
+  }
+
   setup() {
+    this.addEvents();
     Scene.create(`end-canvas`);
     this.createBackground();
     this.checkWinner();
+
+    Arduino.ledPower.blink();
+    
     this.loop();
   }
 
