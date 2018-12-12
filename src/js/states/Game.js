@@ -52,7 +52,6 @@ class Game {
     this.createMouse();
     this.setupAudio();
     this.setupPowerUp();
-
     this.checkGameOver();
     this.loop();
   }
@@ -117,6 +116,7 @@ class Game {
         feet.forEach(f => {
           if (f.id === box.id) f.hitTarget = true;
         });
+        Scene.removeFog();
         this.audio.hitSound.play();
         this.decreaseLives();
       }
