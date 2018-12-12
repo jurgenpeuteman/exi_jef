@@ -6,7 +6,7 @@ class Menu {
   constructor() {
     this.name = `menuState`;
     this.dancebooth = false;
-    this.board = true;
+    this.board = false;
     this.events = false;
   }
 
@@ -119,8 +119,6 @@ class Menu {
   }
 
   danceBoothReady() {
-    console.log(`ok`);
-    
     if (!this.dancebooth) this.styleActive(1);
     this.dancebooth = true;
     Arduino.stopPowerBlink();

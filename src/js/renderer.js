@@ -5,6 +5,7 @@
   const menuState = require(`./states/Menu.js`);
   const Game = require(`./states/Game.js`);
   const endState = require(`./states/End.js`);
+  const startState = require(`./states/Start.js`);
   const changeState = require(`./states/Change.js`);
   const data = require(`./objects/Data.js`);
   const THREE = require(`three`);
@@ -22,7 +23,8 @@
     gameState2,
     menuState,
     endState,
-    changeState
+    changeState,
+    startState
   ];
 
   const setState = name => {
@@ -84,6 +86,8 @@
       }))
       .then(() => Arduino.setupArduino())
       .then(() => BalanceBoardReader.setupOSC())
+      .then(() => setState(`startState`))
+      .then(() => startState.checkStart())
       .then(() => setState(`menuState`))
       .then(() => menuState.checkPlayers())
       .then(() => setState(`gameState1`))

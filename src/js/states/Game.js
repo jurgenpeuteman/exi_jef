@@ -79,8 +79,6 @@ class Game {
 
   createFoot(selectedBlock) {
     this.powerUpCounter ++;
-
-    // console.log(`foot`);
   
     const w = 12;
     const block = w / 4;
@@ -91,7 +89,6 @@ class Game {
   }
 
   checkButtonPressed(name) {
-    // console.log(name);
     switch (name) {
     case `L`:
       return 1;
@@ -165,12 +162,14 @@ class Game {
 
   checkPowerUp() {
     if (this.powerUpCounter === this.powerUp) {
+      console.log(`powerup`);
       this.activatePowerUp = true;
       Arduino.blinkPower();
     }
   }
 
   activatePower() {
+    console.log(`activate`);
     if (this.activatePowerUp) {
       Arduino.stopPowerBlink();
       this.activatePowerUp = false;
@@ -213,6 +212,7 @@ class Game {
     this.checkCollisions();
     this.checkPowerUp();
 
+    console.log(feet.length);
 
     feet.forEach(f => {
       f.update();
