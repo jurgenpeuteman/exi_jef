@@ -32,6 +32,10 @@ class Game {
     bool ? this.setup() : this.quit();
   }
 
+  makeAvailable(f) {
+    console.log(f);
+  }
+
   addEvents() {
     this.events = true;
     this.onButtonPressed = v => this.createFoot(this.checkButtonPressed(v));
@@ -77,7 +81,7 @@ class Game {
     Scene.camera.add(this.audio.listener2);
   }
 
-  createFoot(selectedBlock) {
+  createFoot(selectedBlock) {  
     this.powerUpCounter ++;
   
     const w = 12;
@@ -85,6 +89,9 @@ class Game {
     const blockHalf = block / 2;
 
     feet.push(new Foot(((block * selectedBlock) - blockHalf) - (w / 2)));
+    feet.slice(- 6);
+
+    console.log(feet.length);
     Scene.scene.add(feet[feet.length - 1].mesh);
   }
 
@@ -211,8 +218,6 @@ class Game {
     this.cassette.updateScoreText(this.mouse.score);
     this.checkCollisions();
     this.checkPowerUp();
-
-    console.log(feet.length);
 
     feet.forEach(f => {
       f.update();
