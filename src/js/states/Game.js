@@ -219,11 +219,6 @@ class Game {
       f.update();
       f.checkLocation();
       if (f.outOfSight) this.removeMesh(f);
-
-      if (f.hitTarget) {
-        //this.createParticles(this.mouse.mesh.position.x);
-        this.removeMesh(f);
-      }
     });
 
     if (!this.savedScore) {
@@ -238,6 +233,13 @@ class Game {
     particles.forEach(p => p.moveParticle());
 
     feet = feet.filter(f => !f.outOfSight);
+
+    feet.forEach(f => {
+      if (f.hitTarget) {
+        this.createParticles(this.mouse.mesh.position.x);
+        this.removeMesh(f);
+      }
+    });
     feet = feet.filter(f => !f.hitTarget);
     this.updateFootBoxes();
 

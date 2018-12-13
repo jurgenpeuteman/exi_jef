@@ -69,7 +69,9 @@ canvas {
 
 .function {
   font-size: 3rem;
-  color: #FFFBF2;
+  color: #1d1d1d;
+  text-shadow: -1px -1px 0 #1D1D1D;
+  opacity: .7;
   text-align: center;
   text-transform: uppercase;
 }
@@ -239,9 +241,9 @@ canvas {
 .description-txt {
   color: #1d1d1d;
   text-align: center;
-  height: 4rem;
-  font-size: 2rem;
-  line-height: 2.5rem;
+  font-size: 2.7rem;
+  line-height: 3.3rem;
+  opacity: .7;
 }
 
 @keyframes loader {

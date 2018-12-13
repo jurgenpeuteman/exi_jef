@@ -38,15 +38,17 @@ class Foot {
   }
 
   update() {
-    const r = 300.7; 
-    const h = Math.atan(this.mesh.position.y / this.mesh.position.z);
-    this.mesh.position.z = Math.cos(h - this.i) * r;
-    this.mesh.position.y = Math.sin(h - this.i) * r;
-    this.mesh.rotation.x = - (Math.atan(this.mesh.position.y / this.mesh.position.z) + (Math.PI / 2));
+    if (this.mesh) {
+      const r = 300.7;
+      const h = Math.atan(this.mesh.position.y / this.mesh.position.z);
+      this.mesh.position.z = Math.cos(h - this.i) * r;
+      this.mesh.position.y = Math.sin(h - this.i) * r;
+      this.mesh.rotation.x = - (Math.atan(this.mesh.position.y / this.mesh.position.z) + (Math.PI / 2));
 
-    this.i += 0.00001;
+      this.i += 0.00001;
 
-    this.footBox.setFromObject(this.mesh);
+      this.footBox.setFromObject(this.mesh);
+    }
   }
 
   checkLocation() {

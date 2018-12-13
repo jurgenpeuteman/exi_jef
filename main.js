@@ -12,7 +12,7 @@ const createWindow = () => {
     height: 800
   });
 
-  // mainWindow.setFullScreen(true);
+  mainWindow.setFullScreen(true);
 
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, `./src/index.html`),

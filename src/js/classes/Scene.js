@@ -44,8 +44,6 @@ class Scene {
     window.scene = this.scene;
     window.camera = this.camera;
 
-    console.log(className);
-    console.log(document.querySelector(`canvas`));
     document.querySelector(`canvas`).classList.add(className);
   }
 
