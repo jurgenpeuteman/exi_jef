@@ -23,7 +23,7 @@ class Change {
     Scene.create(`change-canvas`);
     this.createBackground();
     this.addContent();
-    setTimeout(() => this.addEvents(), 3000);
+    setTimeout(() => this.addEvents(), 5000);
 
     this.loop();
   }
@@ -45,6 +45,7 @@ class Change {
   }
 
   addEvents() {
+    Arduino.blinkPower();
     this.events = true;
     this.onBoothChangeReady = v => this.danceBoothChangeReady(v);
     this.onBalanceChangeReady = v => this.boardChangeReady(v);
@@ -54,8 +55,6 @@ class Change {
   }
 
   addContent() {    
-    Arduino.blinkPower();
-
     const $section = document.createElement(`section`);
     $section.classList.add(`menu-change`);
 
@@ -63,7 +62,7 @@ class Change {
     $sectionTxt.classList.add(`switch-container`);
 
     const $switch = document.createElement(`p`);
-    $switch.textContent = `Wissel van plaats`;
+    $switch.textContent = `Wissel`;
     $switch.classList.add(`vs`);
 
     const $div1 = document.createElement(`div`);

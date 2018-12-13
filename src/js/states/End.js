@@ -40,7 +40,7 @@ class End {
   }
 
   createWinnerScreen(selectedBlock) {
-    const w = 16;
+    const w = 22;
     const block = w / 2;
     const blockHalf = block / 2;
 
