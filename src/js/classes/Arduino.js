@@ -26,13 +26,13 @@ class Arduino extends EventEmitter2 {
   setupArduino() {
     return new Promise(resolve => {
       boards.on(`ready`, () => {
-        Object.keys(boards).forEach(() => {
-          if (boards[1].id === `LIGHTS`) {
+        Object.keys(boards).forEach(b => {
+          if (boards[b].id === `LIGHTS`) {
             this.rgbLed = new five.Led.RGB({
               pins: {
-                red: 11,
-                green: 10,
-                blue: 12
+                red: 10,
+                green: 9,
+                blue: 11
               },
               board: boards[1]
             });
@@ -43,26 +43,33 @@ class Arduino extends EventEmitter2 {
             });
 
             this.rgbLed.on();
-            this.rgbLed.color(`#ff0000`);
+            this.rgbLed.color(`#ffd2bf`);
           }
 
-          if (boards[0].id === `BUTTONS`) {
+          if (boards[b].id === `BUTTONS`) {
             this.btnRight = new five.Button({
-              pin: 3
+              pin: 3,
+              isPulldown: true
             });
             this.btnSemiRight = new five.Button({
-              pin: 4
+              pin: 4,
+              isPulldown: true
             });
             this.btnSemiLeft = new five.Button({
-              pin: 5
+              pin: 5,
+              isPulldown: true
             });
             this.btnLeft = new five.Button({
-              pin: 6
+              pin: 6,
+              isPulldown: true
             });
 
             this.btnPower = new five.Button({
-              pin: 8
+              pin: 8,
+              isPulldown: true,
+              holdtime: 1000
             });
+            
             this.btnLeft.custom = {
               name: `L`
             };
@@ -79,11 +86,11 @@ class Arduino extends EventEmitter2 {
               name: `P`
             };
 
-            this.btnPower.on(`press`, () => this.emit(`powerButtonPressed`, this.btnLeft.custom.name));
-            this.btnLeft.on(`press`, () => this.emit(`btnPressed`, this.btnLeft.custom.name));
-            this.btnSemiLeft.on(`press`, () => this.emit(`btnPressed`, this.btnSemiLeft.custom.name));
-            this.btnRight.on(`press`, () => this.emit(`btnPressed`, this.btnRight.custom.name));
-            this.btnSemiRight.on(`press`, () => this.emit(`btnPressed`, this.btnSemiRight.custom.name));
+            this.btnPower.on(`press`, () => this.powerButtonPressed(this.btnPower.custom.name));
+            this.btnLeft.on(`press`, () => this.getArduinoInput(this.btnLeft.custom.name));
+            this.btnSemiLeft.on(`press`, () => this.getArduinoInput(this.btnSemiLeft.custom.name));
+            this.btnRight.on(`press`, () => this.getArduinoInput(this.btnRight.custom.name));
+            this.btnSemiRight.on(`press`, () => this.getArduinoInput(this.btnSemiRight.custom.name));
           }          
         });
         resolve();
@@ -93,6 +100,26 @@ class Arduino extends EventEmitter2 {
 
   blinkPower() {
     this.ledPower.blink(200);
+  }
+
+  blinkRgb(color) {
+    this.rgbLed.color(color);
+    this.rgbLed.blink(200);
+  }
+
+  rgbDead() {
+    this.rgbLed.color(`#ff0000`);
+    setTimeout(() => this.rgbAlive(), 1000);
+  }
+
+  rgbAlive() {
+    this.rgbLed.color(`#ffd2bf`);
+  }
+ 
+  stopBlinkRgb() {
+    this.rgbLed.stop();
+    this.rgbLed.on();
+    this.rgbLed.color(`#ffd2bf`);
   }
 
   stopPowerBlink() {

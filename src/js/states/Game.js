@@ -77,7 +77,7 @@ class Game {
     Scene.camera.add(this.audio.listener2);
   }
 
-  createFoot(selectedBlock) {
+  createFoot(selectedBlock) {  
     this.powerUpCounter ++;
   
     const w = 12;
@@ -117,6 +117,7 @@ class Game {
           if (f.id === box.id) f.hitTarget = true;
         });
         this.audio.hitSound.play();
+        Arduino.rgbDead();
         this.decreaseLives();
       }
     });
@@ -162,16 +163,16 @@ class Game {
 
   checkPowerUp() {
     if (this.powerUpCounter === this.powerUp) {
-      console.log(`powerup`);
       this.activatePowerUp = true;
       Arduino.blinkPower();
+      Arduino.blinkRgb(`#ffff00`);
     }
   }
 
   activatePower() {
-    console.log(`activate`);
     if (this.activatePowerUp) {
       Arduino.stopPowerBlink();
+      Arduino.stopBlinkRgb();
       this.activatePowerUp = false;
       Scene.addFog();
       setTimeout(() => this.deactivatePowerUp(), 4000);
@@ -187,6 +188,8 @@ class Game {
     if (this.events) {
       this.audio.themeSong.stop();
       this.audio.themeSong.pause();
+      Arduino.rgbAlive();
+      Arduino.stopBlinkRgb();
       Arduino.off(`btnPressed`, this.onButtonPressed);
       Arduino.off(`powerButtonPressed`, this.activatePower);
       BalanceBoardReader.off(`oscMessage`, this.onMove);
@@ -211,8 +214,6 @@ class Game {
     this.cassette.updateScoreText(this.mouse.score);
     this.checkCollisions();
     this.checkPowerUp();
-
-    console.log(feet.length);
 
     feet.forEach(f => {
       f.update();

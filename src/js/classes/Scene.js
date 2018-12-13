@@ -77,7 +77,6 @@ class Scene {
   addFog() {
     this.scene.fog = new THREE.Fog(0x1d1d1d, - 15, 35);
     this.renderer.setClearColor(0x393939, 1);
-    console.log(`add fog`);
   }
 
 
@@ -87,7 +86,6 @@ class Scene {
       this.scene.fog.near = 0.1;
       this.scene.fog.far = 0;
       this.renderer.setClearColor(0x393939, 0);
-      console.log(`remove fog`);
     }
    
   }
