@@ -102,8 +102,8 @@ class Menu {
 
     const $buttonImage = document.createElement(`img`);
     $buttonImage.src = `./assets/img/button.png`;
-    $buttonImage.width = `272`;
-    $buttonImage.height = `127`;
+    $buttonImage.width = `372`;
+    $buttonImage.height = `227`;
     $section2.appendChild($pressButtonText);
     $section2.appendChild($buttonImage);
 
