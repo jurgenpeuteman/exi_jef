@@ -32,10 +32,6 @@ class Game {
     bool ? this.setup() : this.quit();
   }
 
-  makeAvailable(f) {
-    console.log(f);
-  }
-
   addEvents() {
     this.events = true;
     this.onButtonPressed = v => this.createFoot(this.checkButtonPressed(v));
@@ -89,9 +85,6 @@ class Game {
     const blockHalf = block / 2;
 
     feet.push(new Foot(((block * selectedBlock) - blockHalf) - (w / 2)));
-    feet.slice(- 6);
-
-    console.log(feet.length);
     Scene.scene.add(feet[feet.length - 1].mesh);
   }
 
@@ -169,14 +162,12 @@ class Game {
 
   checkPowerUp() {
     if (this.powerUpCounter === this.powerUp) {
-      console.log(`powerup`);
       this.activatePowerUp = true;
       Arduino.blinkPower();
     }
   }
 
   activatePower() {
-    console.log(`activate`);
     if (this.activatePowerUp) {
       Arduino.stopPowerBlink();
       this.activatePowerUp = false;
