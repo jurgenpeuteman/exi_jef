@@ -12,8 +12,8 @@ class Mouse {
     this.id = uniqid();
     this.mouseGroup = new THREE.Group();
     this.clock = new THREE.Clock();
-    this.mixers  = [];
-    
+    this.mixers = [];
+
     const Mgeom = data.mouseGeom;
     const mat = new THREE.MeshPhongMaterial({
       color: 0x808080,
@@ -29,8 +29,10 @@ class Mouse {
     this.mesh.scale.set(.5, .8, .8);
     this.mesh.rotation.y = 180 * Math.PI / 180;
     this.mesh.geometry.mergeVertices();
-    this.mesh.traverse(object => { object.visible = false; });
-    
+    this.mesh.traverse(object => {
+      object.visible = false;
+    });
+
     // Animation Running
     this.geom = data.runningMouse;
     this.geom.mixer = new THREE.AnimationMixer(this.geom);
@@ -64,11 +66,22 @@ class Mouse {
     }
   }
 
+  blinkMouse() {
+    this.mouseGroup.visible = false;
+    setTimeout(() => {
+      this.stopBlink();
+    }, 200);
+  }
+
+  stopBlink() {
+    this.mouseGroup.visible = true;
+  }
+
   moveMouse(v) {
     this.mouseGroup.position.x = Lib.map(v, 0.35, 0.65, - 5.3, 5.3);
     this.mouseBox.setFromObject(this.mesh);
   }
-  
+
   increaseScore() {
     this.score += .18;
   }

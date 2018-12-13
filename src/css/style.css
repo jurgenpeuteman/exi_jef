@@ -72,7 +72,7 @@ canvas {
   font-size: 3rem;
   color: #1d1d1d;
   text-shadow: -1px -1px 0 #1D1D1D;
-  opacity: .7;
+  opacity: .8;
   text-align: center;
   text-transform: uppercase;
 }
@@ -118,7 +118,8 @@ canvas {
 .end-p1,
 .end-p2,
 .btn-start,
-.description-title {
+.description-title,
+.powerup-title {
   text-transform: uppercase;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
@@ -186,7 +187,7 @@ canvas {
 
 .end-p1,
 .end-p2 {
-  opacity: .7;
+  opacity: .8;
 }
 
 .win {
@@ -245,6 +246,31 @@ canvas {
   font-size: 2.7rem;
   line-height: 3.3rem;
   opacity: .7;
+}
+
+.powerup-section {
+  position: absolute;
+  left: 0;
+  top: 10rem;
+  width: 100vw;
+  height: 18rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.powerup-title {
+  color: #393939;
+  text-align: center;
+  text-shadow: -1px -1px 0 #1D1D1D;
+  margin-bottom: 1rem;
+  font-size: 4rem;
+}
+
+.powerup-section img {
+  transform: scale(.7)
 }
 
 @keyframes loader {

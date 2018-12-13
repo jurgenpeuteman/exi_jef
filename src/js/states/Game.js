@@ -7,13 +7,11 @@ const Dancefloor = require(`./../classes/Dancefloor.js`);
 const Cassette = require(`./../classes/Cassette.js`);
 const Background = require(`./../classes/Background.js`);
 const Audio = require(`./../classes/Audio.js`);
-const Particle = require(`./../classes/Particle.js`);
 const timeout = require(`../functions/lib.js`).timeout;
 const random = require(`../functions/lib.js`).random;
 
 let feet = [];
 let footBoxes = [];
-const particles = [];
 const particleCount = 10;
 
 class Game {
@@ -25,6 +23,7 @@ class Game {
     this.cassette;
     this.events = false;
     this.activatePowerUp = false;
+    this.showPowerVisual = false;
   }
 
   setActive(bool) {
@@ -135,6 +134,9 @@ class Game {
   checkGameOver() {
     return new Promise(resolve => {
       if (this.mouse.checkLives()) {
+        if (this.activatePowerUp) {
+          Scene.removeFog();
+        }
         resolve();
       } else {
         timeout(500)
@@ -149,13 +151,6 @@ class Game {
     feet.forEach(f => footBoxes.push(f.footBox));
   }
 
-  createParticles(x) {
-    for (let i = 0;i < particleCount;i ++) {
-      particles.push(new Particle(x));
-      Scene.scene.add(particles[particles.length - 1].mesh);
-    }
-  }
-
   setupPowerUp() {
     this.powerUp = random(5, 18);
     this.powerUpCounter = 0;
@@ -164,16 +159,63 @@ class Game {
   checkPowerUp() {
     if (this.powerUpCounter === this.powerUp) {
       this.activatePowerUp = true;
+      this.showPowerVisual = true;
+      if (this.showPowerVisual) {
+        if (document.querySelector(`.powerup-section`)) {
+          console.log(`neuj`);
+        } else {
+          this.powerUpOnScreen();
+        }
+      }
+
       Arduino.blinkPower();
       Arduino.blinkRgb(`#ffff00`);
     }
   }
 
+  powerUpOnScreen() {
+    this.showPowerVisual = false;
+
+    const $section = document.createElement(`section`);
+    $section.classList.add(`powerup-section`);
+
+    const $power = document.createElement(`h1`);
+    $power.classList.add(`powerup-title`);
+    $power.textContent = `Power up`;
+
+    const $img = document.createElement(`img`);
+    $img.src = `./assets/img/button.png`;
+    $img.width = `472`;
+    $img.height = `327`;
+    $img.classList.add(`button`);
+
+    const $arrow = document.createElement(`img`);
+    $arrow.src = `./assets/img/arrow.svg`;
+    $arrow.width = `35`;
+    $arrow.height = `35`;
+    $arrow.classList.add(`arrow`);
+
+    $section.appendChild($power);
+    $section.appendChild($arrow);
+    $section.appendChild($img);
+
+    document.querySelector(`.container`).appendChild($section);
+  }
+
+  removePowerOnScreen() {
+    const $powerSection = document.querySelector(`.powerup-section`);
+    if ($powerSection) $powerSection.remove();
+  }
+
   activatePower() {
     if (this.activatePowerUp) {
+      this.removePowerOnScreen();
+
       Arduino.stopPowerBlink();
       Arduino.stopBlinkRgb();
+
       this.activatePowerUp = false;
+      
       Scene.addFog();
       setTimeout(() => this.deactivatePowerUp(), 4000);
     }
@@ -230,16 +272,15 @@ class Game {
       }
     }
 
-    particles.forEach(p => p.moveParticle());
-
     feet = feet.filter(f => !f.outOfSight);
 
     feet.forEach(f => {
       if (f.hitTarget) {
-        this.createParticles(this.mouse.mesh.position.x);
+        this.mouse.blinkMouse();
         this.removeMesh(f);
       }
     });
+
     feet = feet.filter(f => !f.hitTarget);
     this.updateFootBoxes();
 

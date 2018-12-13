@@ -67,8 +67,6 @@ class Cassette {
     this.heart.scale.set(.15, .15, .15);
     this.heartGroup.add(this.heart);
 
-
-
     this.heart2 = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: 0xd43434}));
     this.heart2.name = `heart2`;
     this.heart2.position.set(10, 315, - 48);
@@ -85,6 +83,7 @@ class Cassette {
     this.heartGroup.add(this.heart3);
 
     this.cassetteGroup.add(this.heartGroup);
+    this.heartGroup.position.set(3.5, .3, 0);
     this.createText();
   }
 
