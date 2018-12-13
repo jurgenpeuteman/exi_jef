@@ -117,6 +117,7 @@ class Game {
           if (f.id === box.id) f.hitTarget = true;
         });
         this.audio.hitSound.play();
+        Arduino.rgbDead();
         this.decreaseLives();
       }
     });
@@ -164,12 +165,14 @@ class Game {
     if (this.powerUpCounter === this.powerUp) {
       this.activatePowerUp = true;
       Arduino.blinkPower();
+      Arduino.blinkRgb(`#f8d472`);
     }
   }
 
   activatePower() {
     if (this.activatePowerUp) {
       Arduino.stopPowerBlink();
+      Arduino.stopBlinkRgb();
       this.activatePowerUp = false;
       Scene.addFog();
       setTimeout(() => this.deactivatePowerUp(), 4000);
@@ -185,6 +188,8 @@ class Game {
     if (this.events) {
       this.audio.themeSong.stop();
       this.audio.themeSong.pause();
+      Arduino.rgbAlive();
+      Arduino.stopBlinkRgb();
       Arduino.off(`btnPressed`, this.onButtonPressed);
       Arduino.off(`powerButtonPressed`, this.activatePower);
       BalanceBoardReader.off(`oscMessage`, this.onMove);

@@ -21,7 +21,6 @@ class Arduino extends EventEmitter2 {
     super({});
     this.rgbLed;
     this.ledPower;
-    this;
   }
 
   setupArduino() {
@@ -31,9 +30,9 @@ class Arduino extends EventEmitter2 {
           if (boards[b].id === `LIGHTS`) {
             this.rgbLed = new five.Led.RGB({
               pins: {
-                red: 11,
-                green: 10,
-                blue: 12
+                red: 10,
+                green: 9,
+                blue: 11
               },
               board: boards[1]
             });
@@ -44,7 +43,7 @@ class Arduino extends EventEmitter2 {
             });
 
             this.rgbLed.on();
-            this.rgbLed.color(`#ff0000`);
+            this.rgbLed.color(`#ffd2bf`);
           }
 
           if (boards[b].id === `BUTTONS`) {
@@ -101,6 +100,26 @@ class Arduino extends EventEmitter2 {
 
   blinkPower() {
     this.ledPower.blink(200);
+  }
+
+  blinkRgb(color) {
+    this.rgbLed.blink(200);
+    this.rgbLed.color(color);
+  }
+
+  rgbDead() {
+    this.rgbLed.color(`#ff0000`);
+    setTimeout(() => this.rgbAlive(), 1000);
+  }
+
+  rgbAlive() {
+    this.rgbLed.color(`#ffd2bf`);
+  }
+ 
+  stopBlinkRgb() {
+    this.rgbLed.stop();
+    this.rgbLed.on();
+    this.rgbLed.color(`#ffd2bf`);
   }
 
   stopPowerBlink() {
