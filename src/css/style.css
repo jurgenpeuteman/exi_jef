@@ -38,7 +38,59 @@ canvas {
 }
 
 .container-img {
-  position: relative;
+  position: relative; 
+}
+
+.startContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.startContent {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100vw;
+  height: inherit;
+}
+
+.start1,
+.start2,
+.start3 {
+  width: 30vw;
+  height: 70vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.startd1 ,
+.startd2 ,
+.startd3 {
+  font-size: 5rem;
+  text-transform: uppercase;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.start1 p,
+.start2 p,
+.start3 p{
+  text-align: center;
+  padding: 1rem;
+}
+
+
+
+.startImageContainer {
+  width: 30rem;
+  height: 30rem;
+}
+
+.logo {
+  position: absolute;
+  display: none;
 }
 
 .shadow {
