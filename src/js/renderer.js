@@ -84,8 +84,8 @@
         audio.name = `song`;
         data.song = audio;
       }))
-      //.then(() => Arduino.setupArduino())
-      //.then(() => BalanceBoardReader.setupOSC())
+      .then(() => Arduino.setupArduino())
+      .then(() => BalanceBoardReader.setupOSC())
       .then(() => setState(`startState`))
       .then(() => startState.checkStart())
       .then(() => setState(`menuState`))
