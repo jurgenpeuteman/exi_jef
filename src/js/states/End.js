@@ -6,7 +6,6 @@ const Arduino = require(`./../classes/Arduino.js`);
 class End {
   constructor() {
     this.name = `endState`;
-
     this.events = false;
   }
 

@@ -12,9 +12,9 @@ html {
 }
 
 body {
-  /* background: linear-gradient(to bottom, #fabfad 0%, #f2d2c5 100%); */
-  background-color: #ff6974;
+  background: linear-gradient(to bottom, #fabfad 0%, #f2d2c5 100%);
   font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
   font-size: 1.8rem;
 }
 
@@ -62,7 +62,7 @@ canvas {
   align-items: center;
   padding: 3rem;
   text-align: center;
-  background-color: #95e1ff;
+  background-color: #ffb6b6;
   width: 40rem;
   height: 55rem;
 }
@@ -91,11 +91,15 @@ canvas {
 
 .menu-change,
 .menu {
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 70vw;
-  max-width: 100rem;
+  width: 100vw;
+  height: 100vh;
+  padding: 20rem;
 }
 
 .menu {
@@ -149,7 +153,8 @@ canvas {
 }
 
 .switch-container {
-  margin-bottom: 5rem;
+  position: absolute;
+  top: 10vw;
 }
 
 .menu-change {
@@ -195,6 +200,9 @@ canvas {
 }
 
 .start-container {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -218,7 +226,7 @@ canvas {
 }
 
 .description-item {
-  background-color: #95e2ff;
+  background-color: #ffb6b6;
   width: 25vw;
   height: 55vh;
   padding: 3rem;
@@ -229,9 +237,11 @@ canvas {
 }
 
 .description-txt {
+  color: #1d1d1d;
   text-align: center;
   height: 4rem;
-  line-height: 2rem;
+  font-size: 2rem;
+  line-height: 2.5rem;
 }
 
 @keyframes loader {

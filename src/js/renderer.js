@@ -19,12 +19,12 @@
 
   const states = [
     loadingState,
-    gameState1,
-    gameState2,
+    startState,
     menuState,
-    endState,
+    gameState1,
     changeState,
-    startState
+    gameState2,
+    endState
   ];
 
   const setState = name => {

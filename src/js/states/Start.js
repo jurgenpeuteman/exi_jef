@@ -1,5 +1,7 @@
 const Arduino = require(`./../classes/Arduino.js`);
 const timeout = require(`../functions/lib.js`).timeout;
+const Scene = require(`./../classes/Scene.js`);
+const Background = require(`./../classes/Background.js`);
 
 class Menu {
   constructor() {
@@ -12,7 +14,16 @@ class Menu {
     this.isActive = bool;
 
     this.container = document.querySelector(`.container`);
-    bool ? this.addContent(this.container) : this.removeContent(this.container);
+    bool ? this.setup(this.container) : this.removeContent(this.container);
+  }
+
+  setup(c) {
+    this.addEvents();
+    Scene.create(`start-canvas`);
+    this.createBackground();
+    this.addContent(c);
+
+    this.loop();
   }
 
   addEvents() {
@@ -22,9 +33,23 @@ class Menu {
     Arduino.on(`powerButtonPressed`, this.onStart);
   }
 
-  addContent(container) {
-    this.addEvents();
+  createBackground() {
+    Scene.scene.add(Background.particles);
+  }
 
+  loop() {
+    if (this.isActive) {
+      requestAnimationFrame(() => this.loop());
+    } else {
+      return;
+    }
+
+    Background.update();
+
+    Scene.renderer.render(Scene.scene, Scene.camera);
+  }
+
+  addContent(container) {
     const $startContainer = document.createElement(`section`);
     $startContainer.classList.add(`start-container`);
 
@@ -63,7 +88,7 @@ class Menu {
     $part3.classList.add(`description-item`);
     const $part3Title = document.createElement(`h1`);
     $part3Title.classList.add(`description-title`);
-    $part3Title.textContent = `Balanceboard`;
+    $part3Title.textContent = `Wissel`;
     const $part3Img = document.createElement(`img`);
     $part3Img.classList.add(`description-img`);
     $part3Img.src = `./assets/img/start/3.png`;
@@ -94,6 +119,9 @@ class Menu {
     if (this.events) {
       Arduino.off(`start`, this.onStart);
     }
+
+    const $canvas = document.querySelector(`.start-canvas`);
+    if ($canvas) $canvas.remove();
 
     const $start = container.querySelector(`.start-container`);
     if ($start) $start.remove();

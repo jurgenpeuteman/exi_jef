@@ -1,6 +1,8 @@
 const Arduino = require(`./../classes/Arduino.js`);
 const BalanceBoardReader = require(`./../classes/BalanceBoardReader.js`);
 const timeout = require(`../functions/lib.js`).timeout;
+const Scene = require(`./../classes/Scene.js`);
+const Background = require(`./../classes/Background.js`);
 
 class Menu {
   constructor() {
@@ -14,7 +16,32 @@ class Menu {
     this.isActive = bool;
 
     this.container = document.querySelector(`.container`);
-    bool ? this.addContent(this.container) : this.removeContent(this.container);
+    bool ? this.setup() : this.removeContent(this.container);
+  }
+
+  setup() {
+    Scene.create(`menu-canvas`);
+    this.createBackground();
+    this.addContent();
+    this.addEvents();
+
+    this.loop();
+  }
+
+  createBackground() {
+    Scene.scene.add(Background.particles);
+  }
+
+  loop() {
+    if (this.isActive) {
+      requestAnimationFrame(() => this.loop());
+    } else {
+      return;
+    }
+
+    Background.update();
+
+    Scene.renderer.render(Scene.scene, Scene.camera);
   }
 
   addEvents() {
@@ -26,9 +53,7 @@ class Menu {
     BalanceBoardReader.on(`start`, this.onBalanceReady);
   }
 
-  addContent(container) {
-    this.addEvents();
-
+  addContent() {
     Arduino.blinkPower();
 
     const $section = document.createElement(`section`);
@@ -76,7 +101,7 @@ class Menu {
     $function2.classList.add(`function`);
     $function2.textContent = `Dancebooth`;
 
-    container.appendChild($section);
+    this.container.appendChild($section);
     $section.appendChild($div1);
     $section.appendChild($vs);
     $section.appendChild($div2);
@@ -95,6 +120,9 @@ class Menu {
       Arduino.off(`powerButtonPressed`, this.onBoothReady);
       BalanceBoardReader.off(`start`, this.onBalanceReady);
     }
+
+    const $canvas = document.querySelector(`.menu-canvas`);
+    if ($canvas) $canvas.remove();
     
     const $section = container.querySelector(`.menu`);
     if ($section) $section.remove();

@@ -1,6 +1,8 @@
 const Arduino = require(`./../classes/Arduino.js`);
 const BalanceBoardReader = require(`./../classes/BalanceBoardReader.js`);
 const timeout = require(`../functions/lib.js`).timeout;
+const Scene = require(`./../classes/Scene.js`);
+const Background = require(`./../classes/Background.js`);
 
 class Change {
   constructor() {
@@ -11,8 +13,35 @@ class Change {
   }
 
   setActive(bool) {
+    this.isActive = bool;
+    
     this.container = document.querySelector(`.container`);
-    bool ? this.addContent(this.container) : this.removeContent(this.container);
+    bool ? this.setup() : this.removeContent(this.container);
+  }
+
+  setup() {
+    Scene.create(`change-canvas`);
+    this.createBackground();
+    this.addContent();
+    setTimeout(() => this.addEvents(), 3000);
+
+    this.loop();
+  }
+
+  createBackground() {
+    Scene.scene.add(Background.particles);
+  }
+
+  loop() {
+    if (this.isActive) {
+      requestAnimationFrame(() => this.loop());
+    } else {
+      return;
+    }
+
+    Background.update();
+
+    Scene.renderer.render(Scene.scene, Scene.camera);
   }
 
   addEvents() {
@@ -24,9 +53,7 @@ class Change {
     BalanceBoardReader.on(`changeStart`, this.onBalanceChangeReady);
   }
 
-  addContent(container) {
-    setTimeout(() => this.addEvents(), 3000);
-    
+  addContent() {    
     Arduino.blinkPower();
 
     const $section = document.createElement(`section`);
@@ -78,9 +105,9 @@ class Change {
     $function2.classList.add(`function`);
     $function2.textContent = `Dancebooth`;
 
-    container.appendChild($sectionTxt);
+    this.container.appendChild($sectionTxt);
     $sectionTxt.appendChild($switch);
-    container.appendChild($section);
+    this.container.appendChild($section);
     $section.appendChild($div1);
     $section.appendChild($div2);
     $div1.appendChild($player1);
@@ -104,6 +131,9 @@ class Change {
 
     const $sectionTxt = container.querySelector(`.switch-container`);
     if ($sectionTxt) $sectionTxt.remove();
+
+    const $canvas = document.querySelector(`.change-canvas`);
+    if ($canvas) $canvas.remove();
   }
 
   checkPlayers() {
