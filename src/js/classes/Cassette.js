@@ -62,30 +62,29 @@ class Cassette {
     
     this.heart = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: 0xd43434}));
     this.heart.name = `heart`;
-    this.heart.position.set(8.5, 301, - 48);
+    this.heart.position.set(6, 315, - 48);
     this.heart.rotation.x = 180 * Math.PI / 180;
-    this.heart.scale.set(.08, .08, .08);
+    this.heart.scale.set(.15, .15, .15);
     this.heartGroup.add(this.heart);
 
 
 
     this.heart2 = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: 0xd43434}));
     this.heart2.name = `heart2`;
-    this.heart2.position.set(10.5, 299.5, - 48);
+    this.heart2.position.set(10, 315, - 48);
     this.heart2.rotation.x = 180 * Math.PI / 180;
-    this.heart2.scale.set(.08, .08, .08);
+    this.heart2.scale.set(.15, .15, .15);
     this.heartGroup.add(this.heart2);
 
 
     this.heart3 = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: 0xd43434}));
     this.heart3.name = `heart3`;
-    this.heart3.position.set(12.5, 301, - 48);
+    this.heart3.position.set(14, 315, - 48);
     this.heart3.rotation.x = 180 * Math.PI / 180;
-    this.heart3.scale.set(.08, .08, .08);
+    this.heart3.scale.set(.15, .15, .15);
     this.heartGroup.add(this.heart3);
 
     this.cassetteGroup.add(this.heartGroup);
-
     this.createText();
   }
 
