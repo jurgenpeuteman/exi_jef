@@ -103,8 +103,8 @@ class Arduino extends EventEmitter2 {
   }
 
   blinkRgb(color) {
-    this.rgbLed.blink(200);
     this.rgbLed.color(color);
+    this.rgbLed.blink(200);
   }
 
   rgbDead() {

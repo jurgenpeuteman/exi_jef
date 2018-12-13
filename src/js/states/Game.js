@@ -165,7 +165,7 @@ class Game {
     if (this.powerUpCounter === this.powerUp) {
       this.activatePowerUp = true;
       Arduino.blinkPower();
-      Arduino.blinkRgb(`#f8d472`);
+      Arduino.blinkRgb(`#ffff00`);
     }
   }
 
