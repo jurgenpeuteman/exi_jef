@@ -12,7 +12,6 @@ const random = require(`../functions/lib.js`).random;
 
 let feet = [];
 let footBoxes = [];
-const particleCount = 10;
 
 class Game {
   constructor(name, cn) {
@@ -235,6 +234,10 @@ class Game {
       Arduino.off(`btnPressed`, this.onButtonPressed);
       Arduino.off(`powerButtonPressed`, this.activatePower);
       BalanceBoardReader.off(`oscMessage`, this.onMove);
+
+      this.removePowerOnScreen();
+      Scene.removeFog();
+      this.activatePowerUp = false;
     }
 
     const $canvas = document.querySelector(`.${this.cn}`);

@@ -53,6 +53,10 @@
         geometry.name = `vans`;
         data.footGeom = geometry;
       })
+      .then(fbxLoader.load(`./assets/models/running.fbx`, geometry => {
+        geometry.name = `runningMouse`;
+        data.runningMouse = geometry;
+      }))
       .then(loadWithJSONLoader(`./assets/models/trophy.json`)
         .then(geometry => {
           geometry.name = `trophy`;
@@ -75,10 +79,6 @@
         }))
       .then(fontLoader.load(`./assets/fonts/helvitker.json`, font => {
         data.font = font;
-      }))
-      .then(fbxLoader.load(`./assets/models/running.fbx`, geometry => {
-        geometry.name = `runningMouse`;
-        data.runningMouse = geometry;
       }))
       .then(audioLoader.load(`./assets/audio/themesong.mp3`, audio => {
         audio.name = `song`;
