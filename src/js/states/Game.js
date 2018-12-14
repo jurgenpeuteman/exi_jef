@@ -162,7 +162,7 @@ class Game {
       this.showPowerVisual = true;
       if (this.showPowerVisual) {
         if (document.querySelector(`.powerup-section`)) {
-          console.log(`neuj`);
+          this.showPowerVisual = false;
         } else {
           this.powerUpOnScreen();
         }

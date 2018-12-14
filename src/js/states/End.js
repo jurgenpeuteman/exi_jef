@@ -36,7 +36,11 @@ class End {
     const p1 = parseInt(localStorage.getItem(`player1`));
     const p2 = parseInt(localStorage.getItem(`player2`));
 
-    (p1 > p2) ? this.createWinnerScreen(1) : this.createWinnerScreen(2);
+    if (p1 === p2) {
+      this.createWinnerScreen(1.5);
+    } else {
+      (p1 > p2) ? this.createWinnerScreen(1) : this.createWinnerScreen(2);
+    }
   }
 
   createWinnerScreen(selectedBlock) {
